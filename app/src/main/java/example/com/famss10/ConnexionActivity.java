@@ -29,5 +29,13 @@ public class ConnexionActivity extends AppCompatActivity {
                 ConnexionActivity.this.startActivity(registerIntent);
             }
         });
+        bLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent comptesIntent = new Intent(ConnexionActivity.this, Comptes.class);
+                startActivity(comptesIntent);
+                finish();
+            }
+        });
     }
 }
