@@ -1,125 +1,118 @@
 package example.com.famss10;
 
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.app.DatePickerDialog;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class RegisterActivity extends AppCompatActivity {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+
+public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+
+    String [] choixSexe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        final EditText etBirthday = (EditText) findViewById(R.id.etBirthday);
+        final Button bCalendar = (Button) findViewById(R.id.bCalendar);
+
+        bCalendar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+               datePicker(bCalendar);
+            }
+        });
+
+
+
+        //début de la partie dédiée au genre de l'utilisateur
+
+        final TextView etSexe = (TextView) findViewById(R.id.etSexe);
+        etSexe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            choixSexe = new String[]{"Homme","Femme","Non binaire" };
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(RegisterActivity.this);
+                mBuilder.setTitle("Choissez un genre :");
+                mBuilder.setIcon(R.drawable.icon);
+                mBuilder.setSingleChoiceItems(choixSexe, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       etSexe.setText("Sexe : " + choixSexe[which]);
+                       dialog.dismiss();
+                    }
+                });
+                mBuilder.setNeutralButton("Annuler", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
+        // fin de la partie dédiée au genre de l'utilisateur
     }
+
+
+
+    //début de la partie dédiée au calendrier
+    public void datePicker(View view){
+
+        DatePickerFragment fragment = new DatePickerFragment();
+        fragment.show(getSupportFragmentManager(),"date");
+    }
+
+    private void setDate(final Calendar calendar){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+       ((TextView)findViewById(R.id.etBirthday)).setText(sdf.format(calendar.getTime()));
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day){
+        Calendar cal = new GregorianCalendar(year,month,day);
+        setDate(cal);
+    }
+
+
+    public static class DatePickerFragment extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            return new DatePickerDialog(getActivity(),(DatePickerDialog.OnDateSetListener)getActivity(),year,month,day);
+        }
+    }
+
+
+    //fin de la partie dédiée au calendrier
+
+
+
+
+
+
+
 }
 
-/*    <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".RegisterActivity">
 
-
-<ScrollView
-        android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-<RelativeLayout
-            android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-<EditText
-                android:id="@+id/etName"
-                        android:layout_width="323dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:ems="10"
-                        android:hint="Nom"
-                        android:inputType="textPersonName"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.511"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-<EditText
-                android:id="@+id/etUsername"
-                        android:layout_width="321dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:ems="10"
-                        android:hint="Prénom"
-                        android:inputType="textPersonName"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.531"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etName" />
-
-<EditText
-                android:id="@+id/etPassword"
-                        android:layout_width="318dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:ems="10"
-                        android:hint="Mot de Passe"
-                        android:inputType="textPassword"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
-
-<EditText
-                android:id="@+id/etAge"
-                        android:layout_width="318dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:ems="10"
-                        android:hint="Age"
-                        android:inputType="number"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
-
-<Button
-                android:id="@+id/bRegister"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="Register"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etAge"
-                        app:layout_constraintVertical_bias="0.0" />
-
-
-</RelativeLayout>
-</ScrollView>
-
-
-</android.support.constraint.ConstraintLayout>
-*/
