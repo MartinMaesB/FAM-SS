@@ -75,7 +75,7 @@
                 android:ems="10"
                 android:hint="Sexe"
                 android:inputType="textPersonName"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/etBirthday"
