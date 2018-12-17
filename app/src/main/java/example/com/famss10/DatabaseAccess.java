@@ -10,7 +10,7 @@ public class DatabaseAccess {
     private SQLiteDatabase db;
     private static  DatabaseAccess instance;
     Cursor c = null;
-
+    Cursor d =null;
     //private contructor so that object creation from outside the class is avoided
     private DatabaseAccess(Context context){
         this.openHelper=new DatabaseOpenHelper(context);
@@ -53,5 +53,10 @@ public class DatabaseAccess {
 
         }
         return buffer.toString();
+    }
+
+    public void addCount(String name, String currency){
+
+        db.execSQL("insert into Table1 (Name, Address) VALUES ('"+name+"','"+currency+"')", new String[]{});
     }
 }

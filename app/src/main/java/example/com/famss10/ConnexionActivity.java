@@ -32,7 +32,7 @@ public class ConnexionActivity extends AppCompatActivity {
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent comptesIntent = new Intent(ConnexionActivity.this, ActivityDatabase.class);
+                Intent comptesIntent = new Intent(ConnexionActivity.this, Comptes.class);
                 startActivity(comptesIntent);
                 finish();
             }

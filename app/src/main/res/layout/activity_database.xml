@@ -21,4 +21,23 @@
         android:id="@+id/result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+
+
+    <EditText
+        android:id="@+id/Name_Count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Please enter name count"/>
+
+    <EditText
+        android:id="@+id/Currency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Please enter currency"/>
+    <Button
+        android:id="@+id/NewCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SAVE" />
 </LinearLayout>

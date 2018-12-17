@@ -32,10 +32,23 @@ public class Comptes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Button pers_count = new Button(Comptes.this);
-                pers_count.setId(i++);
+                pers_count = new Button(Comptes.this);
+                pers_count_layout.addView(pers_count);
+                pers_count.setId(i);
                 pers_count.setText(bt_name[i]);
                 i++;
+
+
+                pers_count.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(Comptes.this, ActivityDatabase.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
             }
         });
 
