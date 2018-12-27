@@ -2,19 +2,29 @@ package example.com.famss10;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class NewCountActivity extends AppCompatActivity {
 
-    String [] currencyChoices;
+    private String [] currencyChoices;
+    private Button confirm;
+    private EditText CountName;
+    private String countName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_count);
+
+        this.confirm=findViewById(R.id.bConfirm);
+        this.CountName=findViewById(R.id.etCountName);
+        this.countName=CountName.getText().toString();
 
 
         final TextView tvCurrency = (TextView) findViewById(R.id.tvCurrency);
@@ -42,5 +52,18 @@ public class NewCountActivity extends AppCompatActivity {
                 mDialog.show();
             }
         });
+
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), Comptes.class);
+                intent.putExtra("Nom du compte",countName);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 }
