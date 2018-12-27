@@ -83,6 +83,18 @@ public class DatabaseAccess {
 
 
 
+    public String UserExist(String name){
+        c=db.rawQuery("select Name from User where Name = '"+name+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String prenom = c.getString(0);
+            buffer.append(""+prenom);
+
+        }
+        return buffer.toString();
+    }
+
+
     public String getSurname(String name){
         c=db.rawQuery("select Surname from User where Name = '"+name+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
