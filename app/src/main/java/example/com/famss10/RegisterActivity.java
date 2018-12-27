@@ -4,6 +4,7 @@ package example.com.famss10;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.text.DateFormat;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -22,21 +23,63 @@ import java.util.GregorianCalendar;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
+    public EditText firstname, surname, birthday, mail, mdp;
+    public TextView Gender;
+    public Button Save;
     String [] choixSexe;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        final EditText etBirthday = (EditText) findViewById(R.id.etBirthday);
-        final Button bCalendar = (Button) findViewById(R.id.bCalendar);
 
-        bCalendar.setOnClickListener(new View.OnClickListener() {
+        firstname=findViewById(R.id.etName);
+        surname=findViewById(R.id.etUsername);
+        Gender = findViewById(R.id.etSexe);
+        birthday=findViewById(R.id.etBirthday);
+        mail=findViewById(R.id.etMail);
+        mdp=findViewById(R.id.etPassword);
+        Save=findViewById(R.id.bRegister);
+
+
+        Save.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-               datePicker(bCalendar);
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+
+                String F=firstname.getText().toString();
+                String S=surname.getText().toString();
+                //String G=Gender.getText().toString();
+                String G= "LJPODPZD";
+                Date B= new Date(2001,01,01);
+                //Date B= (Date) birthday.getText();
+                String M= mail.getText().toString();
+                String P=mdp.getText().toString();
+
+                databaseAccess.addUser(F,S,B,M,P,G);
+
+/*
+                Cursor result= databaseAccess.getUser();
+                StringBuffer buffer = new StringBuffer();
+                buffer.append("ID: "+ result.getString(0) + "\n"); //index 0 mean the first column of our hotel table
+                buffer.append("Name : " + result.getString(1) + "\n");
+                buffer.append("Surname : " + result.getString(2) + "\n");
+                buffer.append("Birthday: " + result.getString(3) + "\n");
+                buffer.append("Email: " + result.getString(4) + "\n");
+                buffer.append("Password: " + result.getString(5) + "\n");
+                buffer.append("Gender: " + result.getString(6) + "\n");
+                displayUser("Affichage Encodage ", buffer.toString());*/
+
+                String surname= databaseAccess.getSurname(F);
+                StringBuffer buffer=new StringBuffer();
+                buffer.append("Surname:" +surname);
+                displayUser("Affichage Encodage ", buffer.toString());
+
+                databaseAccess.close();
             }
         });
-
 
 
         //début de la partie dédiée au genre de l'utilisateur
@@ -67,9 +110,21 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             }
         });
         // fin de la partie dédiée au genre de l'utilisateur
+
+
+
+
+        final EditText etBirthday = (EditText) findViewById(R.id.etBirthday);
+        final Button bCalendar = (Button) findViewById(R.id.bCalendar);
+
+        bCalendar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                datePicker(bCalendar);
+            }
+        });
+
+
     }
-
-
 
     //début de la partie dédiée au calendrier
     public void datePicker(View view){
@@ -88,6 +143,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public void onDateSet(DatePicker view, int year, int month, int day){
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
+
     }
 
 
@@ -109,7 +165,14 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
 
+    public void displayUser(String title, String content){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.show();
 
+    }
 
 
 

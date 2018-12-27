@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.Date;
+
 public class DatabaseAccess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase db;
@@ -56,7 +58,27 @@ public class DatabaseAccess {
     }
 
     public void addCount(String name, String currency){
-
         db.execSQL("insert into Table1 (Name, Address) VALUES ('"+name+"','"+currency+"')", new String[]{});
+    }
+
+    public void addUser (String Firstname, String Surname, Date Birthday, String email, String mdp, String sexe){
+        db.execSQL("insert into User (Name_User, Surname, Birthday, Email, Password, Gender) VALUES ('"+Firstname+"','"+Surname+"','"+Birthday+"','"+email+"','"+mdp+"','"+sexe+"')",new String[]{});
+    }
+
+    public Cursor getUser(){
+        Cursor c = db.rawQuery("select * from User", null);
+        return c;
+    }
+
+
+    public String getSurname(String name){
+        c=db.rawQuery("select Surname from User where Name_User = '"+name+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String prenom = c.getString(0);
+            buffer.append(""+prenom);
+
+        }
+        return buffer.toString();
     }
 }
