@@ -23,7 +23,6 @@ public class DatabaseAccess {
     public static DatabaseAccess getInstance (Context context){
         if (instance==null){
             instance=new DatabaseAccess(context);
-
         }
         return instance;
     }

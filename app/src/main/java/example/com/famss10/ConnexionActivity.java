@@ -63,8 +63,8 @@ public class ConnexionActivity extends AppCompatActivity {
                 String nom=etUsername.getText().toString();
                 String mdp=etPassword.getText().toString();
 
-                String psw=databaseAccess.getPassword(nom);
-                String name=databaseAccess.UserExist(nom);
+                String psw=databaseAccess.getAttribut("Psw",nom);
+                String name=databaseAccess.getAttribut("Name",nom);
                 databaseAccess.close();
 
 
