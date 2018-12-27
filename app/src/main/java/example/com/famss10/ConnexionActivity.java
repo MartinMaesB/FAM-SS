@@ -16,7 +16,7 @@ public class ConnexionActivity extends AppCompatActivity {
     private EditText etPassword ;
     private Button bLogin;
     private TextView registerLink;
-    private String nom ="test", mdp="1";
+    private String nom ="test", mdp="1",psw="2";
     private Integer counter=5;
     private TextView tvNbr;
 
@@ -53,7 +53,21 @@ public class ConnexionActivity extends AppCompatActivity {
     }
 
     private void validate (String userName, String userPassword){
-        if (userName.equals(nom) && userPassword.equals(mdp)){
+
+                //ouvre la database
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+
+                //getting string value from edittext
+
+                String nom=etUsername.getText().toString();
+                String mdp=etPassword.getText().toString();
+
+                String psw=databaseAccess.getPassword(nom);
+                databaseAccess.close();
+
+
+        if (mdp.equals(psw)){
             Intent intent = new Intent(ConnexionActivity.this, Comptes.class);
             startActivity(intent);
         } else{

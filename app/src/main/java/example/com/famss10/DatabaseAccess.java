@@ -19,7 +19,6 @@ public class DatabaseAccess {
     }
 
 
-
     //to return the single instance of database
     public static DatabaseAccess getInstance (Context context){
         if (instance==null){
@@ -69,6 +68,19 @@ public class DatabaseAccess {
         Cursor c = db.rawQuery("select * from User", null);
         return c;
     }
+
+    public String getPassword(String nomUser){
+        c=db.rawQuery("select Password from User where Name = '"+nomUser+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String password = c.getString(0);
+            buffer.append(""+password);
+
+        }
+        return buffer.toString();
+
+    }
+
 
 
     public String getSurname(String name){
