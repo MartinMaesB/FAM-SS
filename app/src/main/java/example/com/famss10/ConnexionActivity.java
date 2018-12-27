@@ -11,16 +11,31 @@ import android.content.pm.ActivityInfo;
 
 public class ConnexionActivity extends AppCompatActivity {
 
+
+    private EditText etUsername ;
+    private EditText etPassword ;
+    private Button bLogin;
+    private TextView registerLink;
+    private String nom ="test", mdp="1";
+    private Integer counter=5;
+    private TextView tvNbr;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // Make to run your application only in portrait mode
         setContentView(R.layout.activity_connexion);
 
-        final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etPasswaord = (EditText) findViewById(R.id.etPassword);
-        final Button bLogin = (Button) findViewById(R.id.bLogin);
-        final TextView registerLink = (TextView) findViewById(R.id.tvRegister);
+         etUsername = (EditText) findViewById(R.id.etUsername);
+         etPassword = (EditText) findViewById(R.id.etPassword);
+         bLogin = (Button) findViewById(R.id.bLogin);
+         registerLink = (TextView) findViewById(R.id.tvRegister);
+         tvNbr=(TextView)findViewById(R.id.tvNbrEssai);
+
+        tvNbr.setText("No of attempts remaining: 5");
 
         registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,10 +47,29 @@ public class ConnexionActivity extends AppCompatActivity {
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent comptesIntent = new Intent(ConnexionActivity.this, Comptes.class);
-                startActivity(comptesIntent);
-                finish();
+                validate(etUsername.getText().toString(), etPassword.getText().toString());
             }
         });
     }
+
+    private void validate (String userName, String userPassword){
+        if (userName.equals(nom) && userPassword.equals(mdp)){
+            Intent intent = new Intent(ConnexionActivity.this, Comptes.class);
+            startActivity(intent);
+        } else{
+            counter--;
+
+            tvNbr.setText("No of attempts remaining : " + String.valueOf(counter));
+            if (counter ==0){
+                bLogin.setEnabled(false);
+            }
+        }
+    }
+
+
+
+
+
+
+
 }

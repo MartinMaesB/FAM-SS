@@ -87,4 +87,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/famss_logo" />
 
+    <TextView
+        android:id="@+id/tvNbrEssai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Nombre d'essai restant"
+        app:layout_constraintBottom_toBottomOf="@+id/bLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bLogin"
+        app:layout_constraintTop_toTopOf="@+id/bLogin" />
+
 </android.support.constraint.ConstraintLayout>
