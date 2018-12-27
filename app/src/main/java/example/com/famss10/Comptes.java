@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 
 public class Comptes extends AppCompatActivity {
 
-    private Button new_pers_count,pers_count;
+    private Button new_pers_count,pers_count, test;
     private LinearLayout pers_count_layout, ext_count_layout;
     private int i=0;
 
@@ -27,6 +27,7 @@ public class Comptes extends AppCompatActivity {
         this.pers_count_layout=(LinearLayout) findViewById(R.id.ll_pers_count);
         this.ext_count_layout=(LinearLayout) findViewById(R.id.ll_ext_count);
         this.new_pers_count= findViewById(R.id.bt_new_pers_count);
+        this.test=findViewById(R.id.bTest);
 
         new_pers_count.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +50,15 @@ public class Comptes extends AppCompatActivity {
                     }
                 });
 
+            }
+        });
+
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent otherActivity = new Intent(getApplicationContext(), NewCountActivity.class);
+                startActivity(otherActivity);
+                finish();
             }
         });
 
