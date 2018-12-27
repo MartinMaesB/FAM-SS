@@ -51,14 +51,14 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
                 String F=firstname.getText().toString();
                 String S=surname.getText().toString();
-                //String G=Gender.getText().toString();
-                String G= "LJPODPZD";
-                Date B= new Date(2001,01,01);
+                String G=Gender.getText().toString();
+                //String G= "LJPODPZD";
+                //Date B= new Date(2001,01,01);
                 //Date B= (Date) birthday.getText();
                 String M= mail.getText().toString();
                 String P=mdp.getText().toString();
 
-                databaseAccess.addUser(F,S,B,M,P,G);
+                //databaseAccess.addUser(F,S,P,G);
 
 /*
                 Cursor result= databaseAccess.getUser();
@@ -73,9 +73,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 displayUser("Affichage Encodage ", buffer.toString());*/
 
                 String surname= databaseAccess.getSurname(F);
+                String gender= databaseAccess.getGender(F);
                 StringBuffer buffer=new StringBuffer();
                 buffer.append("Surname:" +surname);
+                buffer.append("Gender:" +gender);
                 displayUser("Affichage Encodage ", buffer.toString());
+
+                String prenom=databaseAccess.getSurname(F);
+                mail.setText(prenom);
+                databaseAccess.close();
 
                 databaseAccess.close();
             }

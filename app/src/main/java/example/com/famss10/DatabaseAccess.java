@@ -60,8 +60,8 @@ public class DatabaseAccess {
         db.execSQL("insert into Table1 (Name, Address) VALUES ('"+name+"','"+currency+"')", new String[]{});
     }
 
-    public void addUser (String Firstname, String Surname, Date Birthday, String email, String mdp, String sexe){
-        db.execSQL("insert into User (Name_User, Surname, Birthday, Email, Password, Gender) VALUES ('"+Firstname+"','"+Surname+"','"+Birthday+"','"+email+"','"+mdp+"','"+sexe+"')",new String[]{});
+    public void addUser (String Firstname, String Surname, String mdp, String sexe){
+        db.execSQL("insert into User (Name, Surname, Psw, Gender) VALUES ('"+Firstname+"','"+Surname+"','"+mdp+"','"+sexe+"')",new String[]{});
     }
 
     public Cursor getUser(){
@@ -84,11 +84,21 @@ public class DatabaseAccess {
 
 
     public String getSurname(String name){
-        c=db.rawQuery("select Surname from User where Name_User = '"+name+"'", new String[]{});
+        c=db.rawQuery("select Surname from User where Name = '"+name+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
             String prenom = c.getString(0);
             buffer.append(""+prenom);
+
+        }
+        return buffer.toString();
+    }
+    public String getGender(String name){
+        c=db.rawQuery("select Gender from User where Name = '"+name+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String sexe= c.getString(0);
+            buffer.append(""+sexe);
 
         }
         return buffer.toString();
