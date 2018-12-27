@@ -60,43 +60,13 @@ public class DatabaseAccess {
         db.execSQL("insert into Table1 (Name, Address) VALUES ('"+name+"','"+currency+"')", new String[]{});
     }
 
-
+    public void addUser (String Firstname, String Surname, String mdp, String sexe){
+        db.execSQL("insert into User (Name, Surname, Psw, Gender) VALUES ('"+Firstname+"','"+Surname+"','"+mdp+"','"+sexe+"')",new String[]{});
+    }
 
     public Cursor getUser(){
         Cursor c = db.rawQuery("select * from User", null);
         return c;
-    }
-
-
-
-    ////////////////////////////////////////USER/////////////////////////////////
-
-    public void addUser (String Firstname, String Surname, String mdp, String sexe, String birthday, String mail){
-        db.execSQL("insert into User (Name, Surname, Psw, Gender, Birtday,Email) VALUES ('"+Firstname+"','"+Surname+"','"+mdp+"','"+sexe+"','"+birthday+"','"+mail+"')",new String[]{});
-    }
-
-    public String getAttribut(String Attribut, int id){
-        c=db.rawQuery("select '"+Attribut+"' from User where idUser = '"+id+"'", new String[]{});
-        StringBuffer buffer= new StringBuffer();
-        while(c.moveToNext()){
-            String prenom = c.getString(0);
-            buffer.append(""+prenom);
-
-        }
-        return buffer.toString();
-    }
-
-
-
-
-    public String getGender(int id){
-        c=db.rawQuery("select Gender from User where idUser = '"+id+"'", new String[]{});
-        StringBuffer buffer= new StringBuffer();
-        while(c.moveToNext()){
-            String sexe= c.getString(0);
-            buffer.append(""+sexe);
-        }
-        return buffer.toString();
     }
 
     public String getPassword(String nomUser){
@@ -113,4 +83,36 @@ public class DatabaseAccess {
 
 
 
+    public String UserExist(String name){
+        c=db.rawQuery("select Name from User where Name = '"+name+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String prenom = c.getString(0);
+            buffer.append(""+prenom);
+
+        }
+        return buffer.toString();
+    }
+
+
+    public String getSurname(String name){
+        c=db.rawQuery("select Surname from User where Name = '"+name+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String prenom = c.getString(0);
+            buffer.append(""+prenom);
+
+        }
+        return buffer.toString();
+    }
+    public String getGender(String name){
+        c=db.rawQuery("select Gender from User where Name = '"+name+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String sexe= c.getString(0);
+            buffer.append(""+sexe);
+
+        }
+        return buffer.toString();
+    }
 }

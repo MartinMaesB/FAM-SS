@@ -64,18 +64,28 @@ public class ConnexionActivity extends AppCompatActivity {
                 String mdp=etPassword.getText().toString();
 
                 String psw=databaseAccess.getPassword(nom);
+                String name=databaseAccess.UserExist(nom);
                 databaseAccess.close();
 
 
-        if (mdp.equals(psw)){
-            Intent intent = new Intent(ConnexionActivity.this, Comptes.class);
-            startActivity(intent);
-        } else{
-            counter--;
+        if(mdp.length()!=0){
+            if (mdp.equals(psw)){
+                Intent intent = new Intent(ConnexionActivity.this, Comptes.class);
+                startActivity(intent);
+            } else{
+                counter--;
 
-            tvNbr.setText("No of attempts remaining : " + String.valueOf(counter));
-            if (counter ==0){
+                tvNbr.setText("No of attempts remaining : " + String.valueOf(counter));
+                if (counter ==0){
                 bLogin.setEnabled(false);
+                }
+            }
+        }else { tvNbr.setText("Aucun mot de passe entré"); }
+        if(name.length()==0) {
+            tvNbr.setText("Aucun utilisateur ne porte ce nom");
+
+            if (mdp.length()!=0){
+                counter++;
             }
         }
     }
