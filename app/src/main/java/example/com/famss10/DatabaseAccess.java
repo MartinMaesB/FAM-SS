@@ -70,7 +70,7 @@ public class DatabaseAccess {
     }
 
     public String getPassword(String nomUser){
-        c=db.rawQuery("select Password from User where Name = '"+nomUser+"'", new String[]{});
+        c=db.rawQuery("select Psw from User where Name = '"+nomUser+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
             String password = c.getString(0);
