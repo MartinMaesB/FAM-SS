@@ -18,7 +18,9 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".Comptes" />
-        <activity android:name=".ActivityDatabase"></activity>
+        <activity android:name=".ActivityDatabase" />
+        <activity android:name=".CountActivity" />
+        <activity android:name=".NewCountActivity"></activity>
     </application>
 
 </manifest>
