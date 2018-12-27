@@ -60,23 +60,23 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 String M= mail.getText().toString();
 
 
-                databaseAccess.addUser(F,S,P,G,B,M);
+                //databaseAccess.addUser(F,S,P,G,B,M);
 
-
-                String name= databaseAccess.getAttribut("Name",1);
-                String surname= databaseAccess.getAttribut("Surname",4);
-                String mdp= databaseAccess.getAttribut("Psw",4);
-                String gender= databaseAccess.getAttribut("Gender",4);
-                String mail= databaseAccess.getAttribut("Email",4);
+                String person ="Harry";
+                String name= databaseAccess.getAttribut("Name",person);
+                String surname= databaseAccess.getAttribut("Surname",person);
+                String mdp= databaseAccess.getAttribut("Psw",person);
+                String gender= databaseAccess.getAttribut("Gender",person);
+                //String mail= databaseAccess.getAttribut("Email","Martin");
 
 
                 StringBuffer buffer=new StringBuffer();
-                buffer.append("Name:" +name);
-                buffer.append("Surname:" +surname);
-                buffer.append("Password:" +mdp);
+                buffer.append("Name:" +name+"\n");
+                buffer.append("Surname:" +surname+"\n");
+                buffer.append("Password:" +mdp+"\n");
                 buffer.append("Gender:" +gender);
-                buffer.append("Email:" +mail);
-                displayUser("Affichage Encodage ", buffer.toString());
+               // buffer.append("Email:" +mail);
+                display("Affichage Encodage ", buffer.toString());
 
                 //String prenom=databaseAccess.getSurname(F);
                 //mail.setText(prenom);
@@ -169,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
 
-    public void displayUser(String title, String content){
+    public void display(String title, String content){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);

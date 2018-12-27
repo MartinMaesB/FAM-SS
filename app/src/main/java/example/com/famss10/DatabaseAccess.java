@@ -75,8 +75,8 @@ public class DatabaseAccess {
         db.execSQL("insert into User (Name, Surname, Psw, Gender, Birtday,Email) VALUES ('"+Firstname+"','"+Surname+"','"+mdp+"','"+sexe+"','"+birthday+"','"+mail+"')",new String[]{});
     }
 
-    public String getAttribut(String Attribut, int id){
-        c=db.rawQuery("select '"+Attribut+"' from User where idUser = '"+id+"'", new String[]{});
+    public String getAttribut(String Attribut, String name){
+        c=db.rawQuery("select "+Attribut+" from User where Name = '"+name+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
             String prenom = c.getString(0);
@@ -88,7 +88,7 @@ public class DatabaseAccess {
 
 
 
-
+/*
     public String getGender(int id){
         c=db.rawQuery("select Gender from User where idUser = '"+id+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
@@ -108,8 +108,10 @@ public class DatabaseAccess {
 
         }
         return buffer.toString();
-
     }
+    */
+
+
     public String UserExist(String name){
         c=db.rawQuery("select Name from User where Name = '"+name+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
