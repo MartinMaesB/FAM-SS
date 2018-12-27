@@ -51,37 +51,35 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
                 String F=firstname.getText().toString();
                 String S=surname.getText().toString();
+                String P=mdp.getText().toString();
                 String G=Gender.getText().toString();
-                //String G= "LJPODPZD";
+
                 //Date B= new Date(2001,01,01);
                 //Date B= (Date) birthday.getText();
+                String B="Blabla";
                 String M= mail.getText().toString();
-                String P=mdp.getText().toString();
 
-                //databaseAccess.addUser(F,S,P,G);
 
-/*
-                Cursor result= databaseAccess.getUser();
-                StringBuffer buffer = new StringBuffer();
-                buffer.append("ID: "+ result.getString(0) + "\n"); //index 0 mean the first column of our hotel table
-                buffer.append("Name : " + result.getString(1) + "\n");
-                buffer.append("Surname : " + result.getString(2) + "\n");
-                buffer.append("Birthday: " + result.getString(3) + "\n");
-                buffer.append("Email: " + result.getString(4) + "\n");
-                buffer.append("Password: " + result.getString(5) + "\n");
-                buffer.append("Gender: " + result.getString(6) + "\n");
-                displayUser("Affichage Encodage ", buffer.toString());*/
+                databaseAccess.addUser(F,S,P,G,B,M);
 
-                String surname= databaseAccess.getSurname(F);
-                String gender= databaseAccess.getGender(F);
+
+                String name= databaseAccess.getAttribut("Name",1);
+                String surname= databaseAccess.getAttribut("Surname",4);
+                String mdp= databaseAccess.getAttribut("Psw",4);
+                String gender= databaseAccess.getAttribut("Gender",4);
+                String mail= databaseAccess.getAttribut("Email",4);
+
+
                 StringBuffer buffer=new StringBuffer();
+                buffer.append("Name:" +name);
                 buffer.append("Surname:" +surname);
+                buffer.append("Password:" +mdp);
                 buffer.append("Gender:" +gender);
+                buffer.append("Email:" +mail);
                 displayUser("Affichage Encodage ", buffer.toString());
 
-                String prenom=databaseAccess.getSurname(F);
-                mail.setText(prenom);
-                databaseAccess.close();
+                //String prenom=databaseAccess.getSurname(F);
+                //mail.setText(prenom);
 
                 databaseAccess.close();
             }
