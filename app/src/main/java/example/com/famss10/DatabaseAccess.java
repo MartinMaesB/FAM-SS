@@ -71,7 +71,7 @@ public class DatabaseAccess {
     ////////////////////////////////////////USER/////////////////////////////////
 
     public void addUser (String Firstname, String Surname, String mdp, String sexe, String birthday, String mail){
-        db.execSQL("insert into User (Name, Surname, Psw, Gender, Birtday,Email) VALUES ('"+Firstname+"','"+Surname+"','"+mdp+"','"+sexe+"','"+birthday+"','"+mail+"')",new String[]{});
+        db.execSQL("insert into User (Name, Surname, Psw, Gender, Birthday,Email) VALUES ('"+Firstname+"','"+Surname+"','"+mdp+"','"+sexe+"','"+birthday+"','"+mail+"')",new String[]{});
     }
 
     public String getAttribut(String Attribut, String name){
