@@ -10,7 +10,7 @@ public class DatabaseAccess {
     private SQLiteDatabase db;
     private static  DatabaseAccess instance;
     Cursor c = null;
-    Cursor d =null;
+
     //private contructor so that object creation from outside the class is avoided
     private DatabaseAccess(Context context){
         this.openHelper=new DatabaseOpenHelper(context);
