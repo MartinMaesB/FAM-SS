@@ -23,7 +23,7 @@ import java.util.GregorianCalendar;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    public EditText firstname, surname, birthday, mail, mdp;
+    public EditText nameUser, birthday, mail, mdp;
     public TextView Gender;
     public Button Save;
     String [] choixSexe;
@@ -34,8 +34,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        firstname=findViewById(R.id.etName);
-        surname=findViewById(R.id.etUsername);
+        nameUser=findViewById(R.id.etName);
+
         Gender = findViewById(R.id.etSexe);
         birthday=findViewById(R.id.etBirthday);
         mail=findViewById(R.id.etMail);
@@ -49,8 +49,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                String F=firstname.getText().toString();
-                String S=surname.getText().toString();
+                String F=nameUser.getText().toString();
                 String P=mdp.getText().toString();
                 String G=Gender.getText().toString();
 
@@ -60,11 +59,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 String M= mail.getText().toString();
 
 
-                databaseAccess.addUser(F,S,P,G,B,M);
+                databaseAccess.addUser(F,P,G,B,M);
 
                 String person =F;
                 String name= databaseAccess.getAttribut("Name",person);
-                String surname= databaseAccess.getAttribut("Surname",person);
                 String mdp= databaseAccess.getAttribut("Psw",person);
                 String gender= databaseAccess.getAttribut("Gender",person);
                 String birthday= databaseAccess.getAttribut("Birthday",person);
@@ -73,7 +71,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
                 StringBuffer buffer=new StringBuffer();
                 buffer.append("Name:" +name+"\n");
-                buffer.append("Surname:" +surname+"\n");
                 buffer.append("Password:" +mdp+"\n");
                 buffer.append("Gender:" +gender+"\n");
                 buffer.append("Birthday:"+birthday);
@@ -101,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 mBuilder.setSingleChoiceItems(choixSexe, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       etSexe.setText("Sexe : " + choixSexe[which]);
+                       etSexe.setText(choixSexe[which]);
                        dialog.dismiss();
                     }
                 });

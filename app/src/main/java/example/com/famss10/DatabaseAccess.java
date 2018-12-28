@@ -70,8 +70,8 @@ public class DatabaseAccess {
 
     ////////////////////////////////////////USER/////////////////////////////////
 
-    public void addUser (String Firstname, String Surname, String mdp, String sexe, String birthday, String mail){
-        db.execSQL("insert into User (Name, Surname, Psw, Gender, Birthday,Email) VALUES ('"+Firstname+"','"+Surname+"','"+mdp+"','"+sexe+"','"+birthday+"','"+mail+"')",new String[]{});
+    public void addUser (String Firstname, String mdp, String sexe, String birthday, String mail){
+        db.execSQL("insert into User (Name, Psw, Gender, Birthday,Email) VALUES ('"+Firstname+"',"+mdp+"','"+sexe+"','"+birthday+"','"+mail+"')",new String[]{});
     }
 
     public String getAttribut(String Attribut, String name){
