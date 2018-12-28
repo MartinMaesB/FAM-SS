@@ -101,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 mBuilder.setSingleChoiceItems(choixSexe, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       etSexe.setText("Sexe : " + choixSexe[which]);
+                       etSexe.setText(choixSexe[which]);
                        dialog.dismiss();
                     }
                 });
