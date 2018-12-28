@@ -23,9 +23,9 @@ import java.util.GregorianCalendar;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    public EditText nameUser, birthday, mail, mdp;
-    public TextView Gender;
-    public Button Save;
+    public EditText etName, etMail, etBirthday, etPassword;
+    public TextView etSexe;
+    public Button bRegister;
     String [] choixSexe;
 
 
@@ -34,34 +34,35 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        nameUser=findViewById(R.id.etName);
+        etName=findViewById(R.id.etName);
 
-        Gender = findViewById(R.id.etSexe);
-        birthday=findViewById(R.id.etBirthday);
-        mail=findViewById(R.id.etMail);
-        mdp=findViewById(R.id.etPassword);
-        Save=findViewById(R.id.bRegister);
+        etSexe = findViewById(R.id.etSexe);
+        etBirthday=findViewById(R.id.etBirthday);
+        etMail=findViewById(R.id.etMail);
+        etPassword=findViewById(R.id.etPassword);
+        bRegister=findViewById(R.id.bRegister);
 
 
-        Save.setOnClickListener(new View.OnClickListener() {
+        bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                String F=nameUser.getText().toString();
-                String P=mdp.getText().toString();
-                String G=Gender.getText().toString();
+
+                String Name=etName.getText().toString();
+                String Psw=etPassword.getText().toString();
+                String Gender=etSexe.getText().toString();
 
                 //Date B= new Date(2001,01,01);
                 //Date B= (Date) birthday.getText();
                 String B="Blabla";
-                String M= mail.getText().toString();
+                String Mail= etMail.getText().toString();
 
 
-                databaseAccess.addUser(F,P,G,B,M);
+                databaseAccess.addUser(Name,Psw,Gender,B,Mail);
 
-                String person =F;
+                String person =Name;
                 String name= databaseAccess.getAttribut("Name",person);
                 String mdp= databaseAccess.getAttribut("Psw",person);
                 String gender= databaseAccess.getAttribut("Gender",person);
