@@ -34,9 +34,10 @@
         android:layout_marginTop="56dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:hint="Nom du compte"
         android:inputType="textPersonName"
-        android:textAlignment="center"
 
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,9 +68,10 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:hint="Argent sur le compe"
         android:inputType="number"
-        android:textAlignment="center"
 
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
