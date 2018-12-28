@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.Blob;
+import java.sql.Time;
 import java.util.Date;
 
 public class DatabaseAccess {
@@ -27,21 +29,21 @@ public class DatabaseAccess {
         return instance;
     }
 
-    //to open database
 
+    //to open database
     public void open(){
         this.db=openHelper.getWritableDatabase();
-
     }
 
     //closing the database connection
-
     public void close(){
         if(db!=null){
             this.db.close();
         }
     }
 
+
+    //EXAMPLES
     //create a method to query and return the result from database
     //query for address by passing name
     public String getAddress(String name){
@@ -54,12 +56,6 @@ public class DatabaseAccess {
         }
         return buffer.toString();
     }
-
-    public void addCount(String name, String currency){
-        db.execSQL("insert into Table1 (Name, Address) VALUES ('"+name+"','"+currency+"')", new String[]{});
-    }
-
-
 
     public Cursor getUser(){
         Cursor c = db.rawQuery("select * from User", null);
@@ -84,9 +80,6 @@ public class DatabaseAccess {
         }
         return buffer.toString();
     }
-
-
-
 /*
     public String getGender(int id){
         c=db.rawQuery("select Gender from User where idUser = '"+id+"'", new String[]{});
@@ -104,13 +97,9 @@ public class DatabaseAccess {
         while(c.moveToNext()){
             String password = c.getString(0);
             buffer.append(""+password);
-
         }
         return buffer.toString();
     }
-    */
-
-
     public String UserExist(String name){
         c=db.rawQuery("select Name from User where Name = '"+name+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
@@ -121,8 +110,55 @@ public class DatabaseAccess {
         }
         return buffer.toString();
     }
+*/
+
+    ////////////////////COUNT////////////////////
+    public void addCount (String namecount, String currency, String Email) {
+        db.execSQL("insert into Count (NameCount, Currency, Email) VALUES ('"+namecount+"','"+currency+"','"+Email+"')", new String[]{});
+    }
 
 
+    ////////////////////Category////////////////////
+    public void addCategory (String color) {
+        db.execSQL("insert into Category (Color) VALUES ('"+color+"')", new String[]{});
+    }
+
+
+    /////////////////Control///////////////////////
+    public void addControl (int Quantity, String Email, int idSupervisor){
+        db.execSQL("insert into Control (Quantity, Email, idSupervisor) VALUES ('"+Quantity+"','"+Email+"','"+idSupervisor+"')", new String[]{});
+    }
+
+    /////////////////Creation//////////////////////
+    public void addCreation (int Quantity, int idDiary, int idSummary){
+        db.execSQL("insert into Control (Quantity, idDiary, idSummary) VALUES ('"+Quantity+"','"+idDiary+"','"+idSummary+"')", new String[]{});
+    }
+
+    ////////////////Diary/////////////////////////////:
+    public void addDiary (java.sql.Date date, Time time){
+        db.execSQL("insert into Diary (Date, Time) VALUES ('"+date+"','"+time+"')", new String[]{});
+    }
+
+    ///////////////Frequency////////////////////////////
+    public void addFrequency (java.sql.Date startdate, java.sql.Date enddate){
+        db.execSQL("insert into Frequency (StartDate, EndDate) VALUES ('"+startdate+"','"+enddate+"')", new String[]{});
+    }
+
+    ///////////////Summary////////////////////////////
+    public void addSummary (Blob graphic, java.sql.Date startdate, Date enddate){
+        db.execSQL("insert into Summary (Graphic, StartDate, EndDate) VALUES ('"+graphic+"','"+startdate+"','"+enddate+"')", new String[]{});
+    }
+
+
+    /////////////Supervisor/////////////////////////
+    public void addSupervisor(String relation){
+        db.execSQL("insert into Supervisor (Relation) VALUES ('"+relation+"')", new String[]{});
+    }
+
+
+    ///////////////Transaction/////////////////////
+
+    //////////////Type///////////////////////////
 
 
 }
