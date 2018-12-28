@@ -53,13 +53,17 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 String Name=etName.getText().toString();
                 String Psw=etPassword.getText().toString();
                 String Gender=etSexe.getText().toString();
-
+                String B="Blabla";
                 //Date B= new Date(2001,01,01);
                 //Date B= (Date) birthday.getText();
-                String B="Blabla";
                 String Mail= etMail.getText().toString();
 
-
+/*                String Name="LA";
+                String Psw="Lo";
+                String Gender="Hi";
+                String B="Blabla";
+                String Mail="LAlALA";
+*/
                 databaseAccess.addUser(Name,Psw,Gender,B,Mail);
 
                 String person =Name;
@@ -67,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 String mdp= databaseAccess.getAttribut("Psw",person);
                 String gender= databaseAccess.getAttribut("Gender",person);
                 String birthday= databaseAccess.getAttribut("Birthday",person);
-                //String mail= databaseAccess.getAttribut("Email","Martin");
+                String mail= databaseAccess.getAttribut("Email","Martin");
 
 
                 StringBuffer buffer=new StringBuffer();
@@ -75,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 buffer.append("Password:" +mdp+"\n");
                 buffer.append("Gender:" +gender+"\n");
                 buffer.append("Birthday:"+birthday);
-               // buffer.append("Email:" +mail);
+                buffer.append("Email:" +mail);
                 display("Affichage Encodage ", buffer.toString());
 
                 //String prenom=databaseAccess.getSurname(F);

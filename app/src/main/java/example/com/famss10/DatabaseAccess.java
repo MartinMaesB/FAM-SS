@@ -70,16 +70,16 @@ public class DatabaseAccess {
 
     ////////////////////////////////////////USER/////////////////////////////////
 
-    public void addUser (String Firstname, String mdp, String sexe, String birthday, String mail){
-        db.execSQL("insert into User (Name, Psw, Gender, Birthday,Email) VALUES ('"+Firstname+"',"+mdp+"','"+sexe+"','"+birthday+"','"+mail+"')",new String[]{});
+    public void addUser (String name, String mdp, String sexe, String birthday,String Mail){
+        db.execSQL("insert into User (Name, Psw, Gender, Birthday,Email) VALUES ('"+name+"','"+mdp+"','"+sexe+"','"+birthday+"','"+Mail+"')",new String[]{});
     }
 
     public String getAttribut(String Attribut, String name){
         c=db.rawQuery("select "+Attribut+" from User where Name = '"+name+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
-            String prenom = c.getString(0);
-            buffer.append(""+prenom);
+            String nom = c.getString(0);
+            buffer.append(""+nom);
 
         }
         return buffer.toString();
