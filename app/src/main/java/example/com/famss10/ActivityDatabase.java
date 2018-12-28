@@ -38,7 +38,7 @@ public class ActivityDatabase extends AppCompatActivity {
                 String n=namecount.getText().toString();
                 String c=currency.getText().toString();
 
-                databaseAccess.addCount(n,c);
+                //databaseAccess.addCount(n,c);
 
                 databaseAccess.close();
 

@@ -66,7 +66,7 @@ public class DatabaseAccess {
 
     ////////////////////////////////////////USER/////////////////////////////////
 
-    public void addUser (String name, String mdp, String sexe, String birthday,String Mail){
+    public void addUser (String name, String mdp, String sexe, java.sql.Date birthday, String Mail){
         db.execSQL("insert into User (Name, Psw, Gender, Birthday,Email) VALUES ('"+name+"','"+mdp+"','"+sexe+"','"+birthday+"','"+Mail+"')",new String[]{});
     }
 

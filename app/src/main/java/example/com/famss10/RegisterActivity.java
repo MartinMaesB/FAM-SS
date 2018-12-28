@@ -30,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public Button bRegister;
     public CheckBox CheckBox;
     String [] choixSexe;
+    Date b ;
 
 
     @Override
@@ -46,6 +47,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         etPassword2=findViewById(R.id.etPassword2);
         bRegister=findViewById(R.id.bRegister);
         CheckBox=findViewById(R.id.checkBox);
+
+
 
 
         bRegister.setOnClickListener(new View.OnClickListener() {
@@ -113,9 +116,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         String Psw=etPassword.getText().toString();
         String Psw2=etPassword2.getText().toString();
         String Gender=etSexe.getText().toString();
-        String B="Blabla";
+        //String B="Blabla";
         //Date B= new Date(2001,01,01);
-        //Date B= (Date) birthday.getText();
+        //Date B= (Date) etBirthday.getText();
         String Mail= etMail.getText().toString();
 
 
@@ -146,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     display("Veuillez cocher les condittions d'utilisation : ", " ");
                 else{
                     if(Psw.equals(Psw2)){
-                    databaseAccess.addUser(Name,Psw,Gender,B,Mail);
+                    databaseAccess.addUser(Name,Psw,Gender,b,Mail);
 
                     String person =Name;
                     String name1= databaseAccess.getAttribut("Name",person);
@@ -195,7 +198,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public void onDateSet(DatePicker view, int year, int month, int day){
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
-
+        Date B= new Date(year, month,day);
+        b=B;
     }
 
 
