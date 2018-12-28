@@ -4,6 +4,7 @@ package example.com.famss10;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.app.DatePickerDialog;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,9 +25,10 @@ import java.util.GregorianCalendar;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    public EditText etName, etMail, etBirthday, etPassword;
+    public EditText etName, etMail, etBirthday, etPassword, etPassword2;
     public TextView etSexe;
     public Button bRegister;
+    public CheckBox CheckBox;
     String [] choixSexe;
 
 
@@ -40,52 +43,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         etBirthday=findViewById(R.id.etBirthday);
         etMail=findViewById(R.id.etMail);
         etPassword=findViewById(R.id.etPassword);
+        etPassword2=findViewById(R.id.etPassword2);
         bRegister=findViewById(R.id.bRegister);
+        CheckBox=findViewById(R.id.checkBox);
 
 
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                databaseAccess.open();
-
-
-                String Name=etName.getText().toString();
-                String Psw=etPassword.getText().toString();
-                String Gender=etSexe.getText().toString();
-                String B="Blabla";
-                //Date B= new Date(2001,01,01);
-                //Date B= (Date) birthday.getText();
-                String Mail= etMail.getText().toString();
-
-/*                String Name="LA";
-                String Psw="Lo";
-                String Gender="Hi";
-                String B="Blabla";
-                String Mail="LAlALA";
-*/
-                databaseAccess.addUser(Name,Psw,Gender,B,Mail);
-
-                String person =Name;
-                String name= databaseAccess.getAttribut("Name",person);
-                String mdp= databaseAccess.getAttribut("Psw",person);
-                String gender= databaseAccess.getAttribut("Gender",person);
-                String birthday= databaseAccess.getAttribut("Birthday",person);
-                String mail= databaseAccess.getAttribut("Email","Martin");
-
-
-                StringBuffer buffer=new StringBuffer();
-                buffer.append("Name:" +name+"\n");
-                buffer.append("Password:" +mdp+"\n");
-                buffer.append("Gender:" +gender+"\n");
-                buffer.append("Birthday:"+birthday);
-                buffer.append("Email:" +mail);
-                display("Affichage Encodage ", buffer.toString());
-
-                //String prenom=databaseAccess.getSurname(F);
-                //mail.setText(prenom);
-
-                databaseAccess.close();
+                validate ();
             }
         });
 
@@ -133,6 +99,84 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
     }
+
+
+    private void validate (){
+
+        //ouvre la database
+        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+        databaseAccess.open();
+
+        //getting string value from edittext
+
+        String Name=etName.getText().toString();
+        String Psw=etPassword.getText().toString();
+        String Psw2=etPassword2.getText().toString();
+        String Gender=etSexe.getText().toString();
+        String B="Blabla";
+        //Date B= new Date(2001,01,01);
+        //Date B= (Date) birthday.getText();
+        String Mail= etMail.getText().toString();
+
+
+        //vérificaton de l'existence des choses dans la bdd
+        String name=databaseAccess.getAttribut("Name",Name);
+        String mail=databaseAccess.getAttribut("Email",Name);
+
+
+
+        if(name.length()!=0||mail.length()!=0){
+
+            if(name.length()!=0)
+                display("Ce nom d'utilisateur existe déjà : ", Name);
+            if(mail.length()!=0)
+                display("Cette adresse Mail existe déjà : ", Mail);
+        }
+        else{
+            if(Name.length()==0||Psw.length()==0||Mail.length()==0){
+                if(Name.length()==0)
+                    display("Veuillez entrer un nom d'utilisateur ", " ");
+                if(Psw.length()==0)
+                    display("Veuillez entrer un mot de passe ", " ");
+                if(Mail.length()==0)
+                    display("Veuillez entrer une adresse mail ", " ");
+            }
+            else{
+                if(!(CheckBox).isChecked())
+                    display("Veuillez cocher les condittions d'utilisation : ", " ");
+                else{
+                    if(Psw.equals(Psw2)){
+                    databaseAccess.addUser(Name,Psw,Gender,B,Mail);
+
+                    String person =Name;
+                    String name1= databaseAccess.getAttribut("Name",person);
+                    String mdp= databaseAccess.getAttribut("Psw",person);
+                    String gender= databaseAccess.getAttribut("Gender",person);
+                    String birthday= databaseAccess.getAttribut("Birthday",person);
+                    String mail1= databaseAccess.getAttribut("Email","Martin");
+
+
+                    StringBuffer buffer=new StringBuffer();
+                    buffer.append("Name:" +name1+"\n");
+                    buffer.append("Password:" +mdp+"\n");
+                    buffer.append("Gender:" +gender+"\n");
+                    buffer.append("Birthday:"+birthday+"\n");
+                    buffer.append("Email:" +mail1);
+                    display("Affichage Encodage ", buffer.toString());}
+
+                    else
+                        display("Les mots de passe ne correspondent pas: ", " ");
+                }
+            }
+        }
+
+
+
+        databaseAccess.close();
+
+    }
+
+
 
     //début de la partie dédiée au calendrier
     public void datePicker(View view){
@@ -183,7 +227,12 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     }
 
 
-//
+
+
+
+
+
+
 }
 
 
