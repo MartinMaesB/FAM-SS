@@ -69,7 +69,7 @@ public class NewCountActivity extends AppCompatActivity {
                 String email = Email.getText().toString();
 
                 databaseAccess.addCount(countName,currency,email,balance);
-                Intent intent = new Intent(getApplicationContext(), Comptes.class);
+                Intent intent = new Intent(getApplicationContext(), CountsActivity.class);
                 startActivity(intent);
                 finish();
             }

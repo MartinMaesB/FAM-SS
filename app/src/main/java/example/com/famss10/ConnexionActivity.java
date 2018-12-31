@@ -70,7 +70,7 @@ public class ConnexionActivity extends AppCompatActivity {
 
         if(mdp.length()!=0){
             if (mdp.equals(psw)){
-                Intent intent = new Intent(ConnexionActivity.this, Comptes.class);
+                Intent intent = new Intent(ConnexionActivity.this, CountsActivity.class);
                 startActivity(intent);
             } else{
                 counter--;

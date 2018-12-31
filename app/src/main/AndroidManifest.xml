@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".Comptes" />
+        <activity android:name=".CountsActivity" />
         <activity android:name=".ActivityDatabase" />
         <activity android:name=".CountActivity" />
         <activity android:name=".NewCountActivity"></activity>

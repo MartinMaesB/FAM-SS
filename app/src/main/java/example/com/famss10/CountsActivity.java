@@ -1,18 +1,13 @@
 package example.com.famss10;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-public class Comptes extends AppCompatActivity {
+public class CountsActivity extends AppCompatActivity {
 
     private Button new_pers_count,pers_count, test;
     private LinearLayout pers_count_layout, ext_count_layout;
@@ -22,7 +17,7 @@ public class Comptes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comptes);
+        setContentView(R.layout.activity_counts);
 
         final String[]bt_name={"bt_1","bt_2","bt_3"};
 
@@ -35,10 +30,10 @@ public class Comptes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Comptes.this, NewCountActivity.class);
+                Intent intent = new Intent(CountsActivity.this, NewCountActivity.class);
                 startActivity(intent);
 
-                pers_count = new Button(Comptes.this);
+                pers_count = new Button(CountsActivity.this);
                 pers_count_layout.addView(pers_count);
                 pers_count.setId(i);
                 pers_count.setText(bt_name[i]);
@@ -50,7 +45,7 @@ public class Comptes extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Intent intent = new Intent(Comptes.this, CountActivity.class);
+                        Intent intent = new Intent(CountsActivity.this, CountActivity.class);
                         startActivity(intent);
                         finish();
                     }
