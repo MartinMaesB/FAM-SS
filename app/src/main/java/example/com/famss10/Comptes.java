@@ -26,19 +26,6 @@ public class Comptes extends AppCompatActivity {
 
         final String[]bt_name={"bt_1","bt_2","bt_3"};
 
-        Intent intent = getIntent();
-        final String countName = intent.getStringExtra("Nom du compte");
-
-        TextView res = findViewById(R.id.tvTest);
-
-       /* if(countName.equals("")){
-            res.setText("Error");
-        } else {
-            res.setText(countName);
-        }*/
-
-
-
         this.pers_count_layout=(LinearLayout) findViewById(R.id.ll_pers_count);
         this.ext_count_layout=(LinearLayout) findViewById(R.id.ll_ext_count);
         this.new_pers_count= findViewById(R.id.bt_new_pers_count);
@@ -54,7 +41,7 @@ public class Comptes extends AppCompatActivity {
                 pers_count = new Button(Comptes.this);
                 pers_count_layout.addView(pers_count);
                 pers_count.setId(i);
-                pers_count.setText(countName);
+                pers_count.setText(bt_name[i]);
                 i++;
 
 

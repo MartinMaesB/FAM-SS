@@ -113,8 +113,8 @@ public class DatabaseAccess {
 */
 
     ////////////////////COUNT////////////////////
-    public void addCount (String namecount, String currency, String Email) {
-        db.execSQL("insert into Count (NameCount, Currency, Email) VALUES ('"+namecount+"','"+currency+"','"+Email+"')", new String[]{});
+    public void addCount (String namecount, String currency, String Email, int balance) {
+        db.execSQL("insert into Count (NameCount, Currency, Email, Balance) VALUES ('"+namecount+"','"+currency+"','"+Email+"','"+balance+"')");
     }
 
 

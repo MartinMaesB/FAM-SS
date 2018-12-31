@@ -14,8 +14,8 @@ public class NewCountActivity extends AppCompatActivity {
 
     private String [] currencyChoices;
     private Button confirm;
-    private EditText CountName;
-    private String countName;
+    private EditText CountName,Balance, Email;
+    private TextView Currency;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,9 @@ public class NewCountActivity extends AppCompatActivity {
 
         this.confirm=findViewById(R.id.bConfirm);
         this.CountName=findViewById(R.id.etCountName);
-        this.countName=CountName.getText().toString();
+        this.Currency=findViewById(R.id.tvCurrency);
+        this.Balance=findViewById(R.id.etInitialValue);
+        this.Email=findViewById(R.id.etEmail);
 
 
         final TextView tvCurrency = (TextView) findViewById(R.id.tvCurrency);
@@ -58,8 +60,16 @@ public class NewCountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+
+                String countName=CountName.getText().toString();
+                String currency = Currency.getText().toString();
+                int balance = Integer.parseInt(Balance.getText().toString());
+                String email = Email.getText().toString();
+
+                databaseAccess.addCount(countName,currency,email,balance);
                 Intent intent = new Intent(getApplicationContext(), Comptes.class);
-                intent.putExtra("Nom du compte",countName);
                 startActivity(intent);
                 finish();
             }
