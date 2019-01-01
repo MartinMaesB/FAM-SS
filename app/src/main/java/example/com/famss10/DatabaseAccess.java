@@ -151,6 +151,13 @@ public class DatabaseAccess {
         return buffer.toString();
     }
 
+    public int getintAttribut(String select, String from, String where,String element, int i ){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        c.moveToPosition(i);
+        int entier = c.getInt(0);
+        return entier;
+    }
+
     public String getLastStringAttribut(String select, String from, String where, String element){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();

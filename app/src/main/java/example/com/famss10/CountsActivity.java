@@ -13,7 +13,7 @@ public class CountsActivity extends AppCompatActivity {
 
     private Button new_pers_count;
     private ArrayList<Button>pers_count;
-    private LinearLayout pers_count_layout, ext_count_layout;
+    private LinearLayout pers_count_layout;
     private int i=0;
 
     @Override
@@ -28,7 +28,7 @@ public class CountsActivity extends AppCompatActivity {
 
 
         this.pers_count_layout = (LinearLayout) findViewById(R.id.ll_pers_count);
-        this.ext_count_layout = (LinearLayout) findViewById(R.id.ll_ext_count);
+
         this.new_pers_count = findViewById(R.id.bt_new_pers_count);
 
 
@@ -41,10 +41,11 @@ public class CountsActivity extends AppCompatActivity {
             pers_count_layout.addView(pers_count.get(j));
             pers_count.get(j).setId(j);
 
-            String nameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, j);
             // String nameCount = databaseAccess.getStringAttribut("NameCount", "Count","Email", userEmail, j);
+            String nameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, j);
+            int balance = databaseAccess.getintAttribut("Balance","Count","Email",userEmail, j);
 
-            pers_count.get(j).setText(nameCount);
+            pers_count.get(j).setText(nameCount+"\t"+String.valueOf(balance));
             i = j+1;
             //display("j", String.valueOf(j));
         }
