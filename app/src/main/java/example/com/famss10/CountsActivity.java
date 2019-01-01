@@ -7,66 +7,50 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 public class CountsActivity extends AppCompatActivity {
 
-    private Button new_pers_count,pers_count, test;
+    private Button new_pers_count;
+    private ArrayList<Button>pers_count;
     private LinearLayout pers_count_layout, ext_count_layout;
-    private int i=0;
-
+    private int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counts);
 
+        pers_count=new ArrayList<>();
+
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
         final String userEmail = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
 
-        final String[]bt_name={"bt_1","bt_2","bt_3"};
 
-        this.pers_count_layout=(LinearLayout) findViewById(R.id.ll_pers_count);
-        this.ext_count_layout=(LinearLayout) findViewById(R.id.ll_ext_count);
-        this.new_pers_count= findViewById(R.id.bt_new_pers_count);
-
-
-        new_pers_count.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(CountsActivity.this, NewCountActivity.class);
-                intent.putExtra("userEmail",userEmail);
-                startActivityForResult(intent,0);
+        this.pers_count_layout = (LinearLayout) findViewById(R.id.ll_pers_count);
+        this.ext_count_layout = (LinearLayout) findViewById(R.id.ll_ext_count);
+        this.new_pers_count = findViewById(R.id.bt_new_pers_count);
 
 
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
+        databaseAccess.open();
+        //for (int j = 0; j < databaseAccess.getcount("NameCount","Count","Email",userEmail); j++)
+        for (int j = 0; j < databaseAccess.getcount("NameCount", "Count"); j++) {
 
-            }
-        });
-    }
+            pers_count.add(new Button(CountsActivity.this));
+            pers_count_layout.addView(pers_count.get(j));
+            pers_count.get(j).setId(j);
 
+            String nameCount = databaseAccess.getStringAttribut("NameCount", "Count", j);
+            // String nameCount = databaseAccess.getStringAttribut("NameCount", "Count","Email", userEmail, j);
 
+            pers_count.get(j).setText(nameCount);
+            i = j;
+        }
 
-    //Lorsque l'activité NewCountActivity se ferme  (Mais je ne sais pas à quoi ca sert Intent data)
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0) {
-            if (resultCode==0) {
-
-                pers_count = new Button(CountsActivity.this);
-                pers_count_layout.addView(pers_count);
-                pers_count.setId(i);
-
-                //ouvre la database
-                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
-                databaseAccess.open();
-
-                //String NameCount = getIntent().getStringExtra("CountName");
-
-
-                String nameCount = databaseAccess.getStringAttribut("NameCount", "Count", "NameCount", NewCountActivity.countname);
-                pers_count.setText(nameCount);
-                i++;
-
-
-                pers_count.setOnClickListener(new View.OnClickListener() {
+        if (databaseAccess.getcount("NameCount", "Count") != 0) {
+            for (Button B : pers_count) {
+                B.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -75,6 +59,39 @@ public class CountsActivity extends AppCompatActivity {
                         //finish();
                     }
                 });
+            }
+        }
+
+            new_pers_count.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(CountsActivity.this, NewCountActivity.class);
+                    intent.putExtra("userEmail", userEmail);
+                    startActivityForResult(intent, 0);
+                }
+            });
+
+        }
+
+
+     //Lorsque l'activité NewCountActivity se ferme  (Mais je ne sais pas à quoi ca sert Intent data)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode==0) {
+
+                pers_count.add(new Button(CountsActivity.this));
+                i++;
+                pers_count_layout.addView(pers_count.get(i));
+                pers_count.get(i).setId(i);
+
+                //ouvre la database
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+
+                String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count");
+                ///String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count","Email", userEmail);
+                pers_count.get(i).setText(nameCount);
             }
         }
     }

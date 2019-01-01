@@ -16,7 +16,6 @@ public class NewCountActivity extends AppCompatActivity {
     private Button confirm;
     private EditText CountName,Balance;
     private TextView Currency;
-    public static String countname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class NewCountActivity extends AppCompatActivity {
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                countname=CountName.getText().toString();
+                String countname=CountName.getText().toString();
                 String currency = Currency.getText().toString();
                 int balance = Integer.parseInt(Balance.getText().toString());
 
@@ -84,4 +83,5 @@ public class NewCountActivity extends AppCompatActivity {
         });
 
     }
+
 }

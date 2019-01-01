@@ -123,8 +123,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
         //vérificaton de l'existence des choses dans la bdd
-        String name=databaseAccess.getStringAttribut("Name","User","Name",Name);
-        String mail=databaseAccess.getStringAttribut("Email","User","Name",Name);
+        String name=databaseAccess.getStringAttributWhere("Name","User","Name",Name);
+        String mail=databaseAccess.getStringAttributWhere("Email","User","Name",Name);
 
 
 
@@ -152,11 +152,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     databaseAccess.addUser(Name,Psw,Gender,b,Mail);
 
                     String person =Name;
-                    String name1= databaseAccess.getStringAttribut("Name","User","Name",person);
-                    String mdp= databaseAccess.getStringAttribut("Psw","User","Name",person);
-                    String gender= databaseAccess.getStringAttribut("Gender","User","Name",person);
-                    String birthday= databaseAccess.getStringAttribut("Birthday","User","Name",person);
-                    String mail1= databaseAccess.getStringAttribut("Email","User","Name",person);
+                    String name1= databaseAccess.getStringAttributWhere("Name","User","Name",person);
+                    String mdp= databaseAccess.getStringAttributWhere("Psw","User","Name",person);
+                    String gender= databaseAccess.getStringAttributWhere("Gender","User","Name",person);
+                    String birthday= databaseAccess.getStringAttributWhere("Birthday","User","Name",person);
+                    String mail1= databaseAccess.getStringAttributWhere("Email","User","Name",person);
 
 
                     StringBuffer buffer=new StringBuffer();
