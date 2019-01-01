@@ -65,12 +65,14 @@ public class ConnexionActivity extends AppCompatActivity {
 
                 String psw=databaseAccess.getAttribut("Psw",nom);
                 String name=databaseAccess.getAttribut("Name",nom);
+                String email = databaseAccess.getAttribut("Email",nom); //on prend la clé de l'user avec le quel on va effectuer le login
                 databaseAccess.close();
 
 
         if(mdp.length()!=0){
             if (mdp.equals(psw)){
                 Intent intent = new Intent(ConnexionActivity.this, CountsActivity.class);
+                intent.putExtra("userEmail",email); //pour passer la clé de l'user l'activité d'apres
                 startActivity(intent);
             } else{
                 counter--;

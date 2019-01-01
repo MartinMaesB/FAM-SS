@@ -19,6 +19,9 @@ public class CountsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counts);
 
+        Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
+        final String userEmail = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
+
         final String[]bt_name={"bt_1","bt_2","bt_3"};
 
         this.pers_count_layout=(LinearLayout) findViewById(R.id.ll_pers_count);
@@ -31,6 +34,7 @@ public class CountsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(CountsActivity.this, NewCountActivity.class);
+                intent.putExtra("userEmail",userEmail);
                 startActivity(intent);
 
                 pers_count = new Button(CountsActivity.this);
