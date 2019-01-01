@@ -117,7 +117,7 @@ public class DatabaseAccess {
     public void addCount (String namecount, String currency, String Email, int balance) {
         db.execSQL("insert into Count (NameCount, Currency, Email, Balance) VALUES ('"+namecount+"','"+currency+"','"+Email+"','"+balance+"')");
     }
-
+/*
     public String getStringAttribut(String select, String from, int i ){
         c=db.rawQuery("select "+select+" from "+from+"", new String[]{});
         StringBuffer buffer= new StringBuffer();
@@ -139,11 +139,11 @@ public class DatabaseAccess {
         c=db.rawQuery("select "+select+" from "+from+"", new String[]{});
         return c.getCount();
     }
+*/
 
 
-    /*
     public String getStringAttribut(String select, String from, String where,String element, int i ){
-        c=db.rawQuery("select "+select+" from "+from+"where "+where+"= '"+element+"'", new String[]{});
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
         c.moveToPosition(i);
         String nom = c.getString(0);
@@ -164,7 +164,7 @@ public class DatabaseAccess {
         return c.getCount();
     }
 
-*/
+
     ////////////////////Category////////////////////
     public void addCategory (String color) {
         db.execSQL("insert into Category (Color) VALUES ('"+color+"')", new String[]{});

@@ -34,21 +34,22 @@ public class CountsActivity extends AppCompatActivity {
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
-        //for (int j = 0; j < databaseAccess.getcount("NameCount","Count","Email",userEmail); j++)
-        for (int j = 0; j < databaseAccess.getcount("NameCount", "Count"); j++) {
+        for (int j = 0; j < databaseAccess.getcount("NameCount","Count","Email",userEmail); j++){
+        //for (int j = 0; j < databaseAccess.getcount("NameCount", "Count"); j++) {
 
             pers_count.add(new Button(CountsActivity.this));
             pers_count_layout.addView(pers_count.get(j));
             pers_count.get(j).setId(j);
 
-            String nameCount = databaseAccess.getStringAttribut("NameCount", "Count", j);
+            String nameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, j);
             // String nameCount = databaseAccess.getStringAttribut("NameCount", "Count","Email", userEmail, j);
 
             pers_count.get(j).setText(nameCount);
             i = j+1;
+            //display("j", String.valueOf(j));
         }
 
-        if (databaseAccess.getcount("NameCount", "Count") != 0) {
+        if (databaseAccess.getcount("NameCount", "Count","Email",userEmail) != 0) {
             for (Button B : pers_count) {
                 B.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -88,12 +89,26 @@ public class CountsActivity extends AppCompatActivity {
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count");
-                ///String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count","Email", userEmail);
+                Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
+                final String userEmail = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
+
+
+                //String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count");
+                String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count","Email", userEmail);
                 pers_count.get(i).setText(nameCount);
                 i++;
                 databaseAccess.close();
             }
         }
     }
+    public void display(String title, String content){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.show();
+
+    }
+
+
 }
