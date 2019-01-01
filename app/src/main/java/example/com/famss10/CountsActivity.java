@@ -14,7 +14,7 @@ public class CountsActivity extends AppCompatActivity {
     private Button new_pers_count;
     private ArrayList<Button>pers_count;
     private LinearLayout pers_count_layout, ext_count_layout;
-    private int i;
+    private int i=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class CountsActivity extends AppCompatActivity {
             // String nameCount = databaseAccess.getStringAttribut("NameCount", "Count","Email", userEmail, j);
 
             pers_count.get(j).setText(nameCount);
-            i = j;
+            i = j+1;
         }
 
         if (databaseAccess.getcount("NameCount", "Count") != 0) {
@@ -81,7 +81,6 @@ public class CountsActivity extends AppCompatActivity {
             if (resultCode==0) {
 
                 pers_count.add(new Button(CountsActivity.this));
-                i++;
                 pers_count_layout.addView(pers_count.get(i));
                 pers_count.get(i).setId(i);
 
@@ -92,6 +91,8 @@ public class CountsActivity extends AppCompatActivity {
                 String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count");
                 ///String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count","Email", userEmail);
                 pers_count.get(i).setText(nameCount);
+                i++;
+                databaseAccess.close();
             }
         }
     }
