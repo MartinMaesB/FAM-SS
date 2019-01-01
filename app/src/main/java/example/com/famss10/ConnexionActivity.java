@@ -63,9 +63,9 @@ public class ConnexionActivity extends AppCompatActivity {
                 String nom=etUsername.getText().toString();
                 String mdp=etPassword.getText().toString();
 
-                String psw=databaseAccess.getAttribut("Psw",nom);
-                String name=databaseAccess.getAttribut("Name",nom);
-                String email = databaseAccess.getAttribut("Email",nom); //on prend la clé de l'user avec le quel on va effectuer le login
+                String psw=databaseAccess.getStringAttribut("Psw","User","Name",nom);
+                String name=databaseAccess.getStringAttribut("Name","User","Name",nom);
+                String email = databaseAccess.getStringAttribut("Email","User","Name",nom); //on prend la clé de l'user avec le quel on va effectuer le login
                 databaseAccess.close();
 
 

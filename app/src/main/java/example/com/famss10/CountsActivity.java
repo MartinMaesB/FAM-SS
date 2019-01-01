@@ -35,14 +35,35 @@ public class CountsActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(CountsActivity.this, NewCountActivity.class);
                 intent.putExtra("userEmail",userEmail);
-                startActivity(intent);
+                startActivityForResult(intent,0);
+
+
+
+            }
+        });
+    }
+
+
+
+    //Lorsque l'activité NewCountActivity se ferme  (Mais je ne sais pas à quoi ca sert Intent data)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode==0) {
 
                 pers_count = new Button(CountsActivity.this);
                 pers_count_layout.addView(pers_count);
                 pers_count.setId(i);
-                pers_count.setText(bt_name[i]);
-                i++;
 
+                //ouvre la database
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+
+                //String NameCount = getIntent().getStringExtra("CountName");
+
+
+                String nameCount = databaseAccess.getStringAttribut("NameCount", "Count", "NameCount", NewCountActivity.countname);
+                pers_count.setText(nameCount);
+                i++;
 
 
                 pers_count.setOnClickListener(new View.OnClickListener() {
@@ -51,19 +72,10 @@ public class CountsActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(CountsActivity.this, CountActivity.class);
                         startActivity(intent);
-                        finish();
+                        //finish();
                     }
                 });
-
             }
-        });
-
-
-
-
-
-
-
-
+        }
     }
 }

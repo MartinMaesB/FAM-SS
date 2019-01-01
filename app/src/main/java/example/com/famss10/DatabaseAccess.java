@@ -70,8 +70,8 @@ public class DatabaseAccess {
         db.execSQL("insert into User (Name, Psw, Gender, Birthday,Email) VALUES ('"+name+"','"+mdp+"','"+sexe+"','"+birthday+"','"+Mail+"')",new String[]{});
     }
 
-    public String getAttribut(String Attribut, String name){
-        c=db.rawQuery("select "+Attribut+" from User where Name = '"+name+"'", new String[]{});
+    public String getStringAttribut(String select, String from,String where, String element){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+" = '"+element+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
             String nom = c.getString(0);
@@ -116,6 +116,8 @@ public class DatabaseAccess {
     public void addCount (String namecount, String currency, String Email, int balance) {
         db.execSQL("insert into Count (NameCount, Currency, Email, Balance) VALUES ('"+namecount+"','"+currency+"','"+Email+"','"+balance+"')");
     }
+
+
 
 
     ////////////////////Category////////////////////

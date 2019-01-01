@@ -16,13 +16,14 @@ public class NewCountActivity extends AppCompatActivity {
     private Button confirm;
     private EditText CountName,Balance;
     private TextView Currency;
+    public static String countname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_count);
 
-        Intent intent=getIntent();
+        final Intent intent=getIntent();
         final String email = intent.getStringExtra("userEmail");
 
         this.confirm=findViewById(R.id.bConfirm);
@@ -65,14 +66,19 @@ public class NewCountActivity extends AppCompatActivity {
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                String countName=CountName.getText().toString();
+                countname=CountName.getText().toString();
                 String currency = Currency.getText().toString();
                 int balance = Integer.parseInt(Balance.getText().toString());
 
 
-                databaseAccess.addCount(countName,currency,email,balance);
-                Intent intent = new Intent(getApplicationContext(), CountsActivity.class);
-                startActivity(intent);
+                databaseAccess.addCount(countname,currency,email,balance);
+
+                //Intent intent = new Intent(getApplicationContext(), CountsActivity.class);
+                //startActivity(intent);
+                //intent.putExtra("CountName",countName);
+
+                //setResult(0,intent);
+                setResult(0);
                 finish();
             }
         });

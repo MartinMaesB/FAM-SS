@@ -123,8 +123,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
         //vérificaton de l'existence des choses dans la bdd
-        String name=databaseAccess.getAttribut("Name",Name);
-        String mail=databaseAccess.getAttribut("Email",Name);
+        String name=databaseAccess.getStringAttribut("Name","User","Name",Name);
+        String mail=databaseAccess.getStringAttribut("Email","User","Name",Name);
 
 
 
@@ -152,11 +152,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     databaseAccess.addUser(Name,Psw,Gender,b,Mail);
 
                     String person =Name;
-                    String name1= databaseAccess.getAttribut("Name",person);
-                    String mdp= databaseAccess.getAttribut("Psw",person);
-                    String gender= databaseAccess.getAttribut("Gender",person);
-                    String birthday= databaseAccess.getAttribut("Birthday",person);
-                    String mail1= databaseAccess.getAttribut("Email","Martin");
+                    String name1= databaseAccess.getStringAttribut("Name","User","Name",person);
+                    String mdp= databaseAccess.getStringAttribut("Psw","User","Name",person);
+                    String gender= databaseAccess.getStringAttribut("Gender","User","Name",person);
+                    String birthday= databaseAccess.getStringAttribut("Birthday","User","Name",person);
+                    String mail1= databaseAccess.getStringAttribut("Email","User","Name",person);
 
 
                     StringBuffer buffer=new StringBuffer();
@@ -220,6 +220,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     //fin de la partie dédiée au calendrier
 
 
+
+    //Pour afficher une fenêtre popup
 
     public void display(String title, String content){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
