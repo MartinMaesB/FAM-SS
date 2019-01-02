@@ -58,6 +58,9 @@ public class CountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent intent1 = new Intent(CountActivity.this, SummaryActivity.class);
+                startActivity(intent1);
+
             }
         });
 

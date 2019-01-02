@@ -26,6 +26,9 @@
             android:name=".menu"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SummaryActivity" />
+        <activity android:name=".SummarySwipeLeftActivity" />
+        <activity android:name=".SummarySwipeRightActivity"></activity>
     </application>
 
 </manifest>
