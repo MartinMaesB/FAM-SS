@@ -1,6 +1,7 @@
 package example.com.famss10;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class CountsActivity extends AppCompatActivity {
 
-    private Button new_pers_count;
+    private Button new_pers_count,deconnexion;
     private ArrayList<Button>pers_count;
     private LinearLayout pers_count_layout;
     private int i=0;
@@ -30,7 +31,14 @@ public class CountsActivity extends AppCompatActivity {
         this.pers_count_layout = (LinearLayout) findViewById(R.id.ll_pers_count);
 
         this.new_pers_count = findViewById(R.id.bt_new_pers_count);
+        this.deconnexion=findViewById(R.id.btnDeco);
 
+        deconnexion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
@@ -44,26 +52,48 @@ public class CountsActivity extends AppCompatActivity {
             // String nameCount = databaseAccess.getStringAttribut("NameCount", "Count","Email", userEmail, j);
             String nameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, j);
             int balance = databaseAccess.getintAttribut("Balance","Count","Email",userEmail, j);
+            String Currency = databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,j);
+           // if (Currency=="Euro (€) ") Currency="€";
+           // if (Currency==" Dollar ($) ") Currency="$";
+           // if (Currency==" Yen (¥)") Currency="¥";
 
-            pers_count.get(j).setText(nameCount+"\t"+String.valueOf(balance));
+            pers_count.get(j).setText(nameCount+"\n"+String.valueOf(balance)+" "+Currency);
             i = j+1;
             //display("j", String.valueOf(j));
         }
 
-        if (databaseAccess.getcount("NameCount", "Count","Email",userEmail) != 0) {
-            for (Button B : pers_count) {
-                B.setOnClickListener(new View.OnClickListener() {
+       /* if (databaseAccess.getcount("NameCount", "Count","Email",userEmail) != 0) {
+            for (final Button button:pers_count) {
+                button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         Intent intent = new Intent(CountsActivity.this, CountActivity.class);
+                        intent.putExtra("idCount", button.getId());
+                        intent.putExtra("userEmail",userEmail);
+                        startActivity(intent);
+                        //finish();
+                    }
+                });
+            }
+        }*/
+
+        if (databaseAccess.getcount("NameCount", "Count","Email",userEmail) != 0) {
+            for (int j = 0; j < databaseAccess.getcount("NameCount", "Count", "Email", userEmail); j++) {
+                final int position = j;
+                pers_count.get(j).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(CountsActivity.this, CountActivity.class);
+                        intent.putExtra("index", position);
+                        intent.putExtra("userEmail", userEmail);
                         startActivity(intent);
                         //finish();
                     }
                 });
             }
         }
-
             new_pers_count.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

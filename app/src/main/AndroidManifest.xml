@@ -20,7 +20,12 @@
         <activity android:name=".CountsActivity" />
         <activity android:name=".ActivityDatabase" />
         <activity android:name=".CountActivity" />
-        <activity android:name=".NewCountActivity"></activity>
+        <activity android:name=".NewCountActivity" />
+        <activity android:name=".TransactionActivity" />
+        <activity
+            android:name=".menu"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

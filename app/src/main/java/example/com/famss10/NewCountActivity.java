@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class NewCountActivity extends AppCompatActivity {
 
     private String [] currencyChoices;
@@ -42,7 +44,7 @@ public class NewCountActivity extends AppCompatActivity {
                 mBuilder.setSingleChoiceItems(currencyChoices, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        tvCurrency.setText("Currency : " + currencyChoices[which]);
+                        tvCurrency.setText(currencyChoices[which]);
                         dialog.dismiss();
                     }
                 });
@@ -68,8 +70,20 @@ public class NewCountActivity extends AppCompatActivity {
                 String countname=CountName.getText().toString();
                 String currency = Currency.getText().toString();
                 int balance = Integer.parseInt(Balance.getText().toString());
+                boolean OK = true;
+                ArrayList<String> messages=new ArrayList<>();
 
+                if(countname.length()==0){
+                    display("Veuillez entrer un nom de compte "," ");
+                    OK=false;}
+                if(currency.length()==0){
+                    display("Veuillez choisir la monnaie"," ");
+                    OK=false;}
+                if(Balance.getText().toString().length()==0){
+                    display("Veuillez entrer un mot de passe","");
+                    OK=false;}
 
+                    if (OK=true){
                 databaseAccess.addCount(countname,currency,email,balance);
 
                 //Intent intent = new Intent(getApplicationContext(), CountsActivity.class);
@@ -78,9 +92,17 @@ public class NewCountActivity extends AppCompatActivity {
 
                 //setResult(0,intent);
                 setResult(0);
-                finish();
+                finish();}
             }
         });
+
+    }
+    public void display(String title, String content){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.show();
 
     }
 

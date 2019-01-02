@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -128,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
 
+        /*
         if(name.length()!=0||mail.length()!=0){
 
             if(name.length()!=0)
@@ -171,13 +173,68 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                         display("Les mots de passe ne correspondent pas: ", " ");
                 }
             }
-        }
+        }*/
 
 
+            boolean OK = true;
+            ArrayList <String> messages=new ArrayList<>();
 
-        databaseAccess.close();
+                if(name.length()!=0){
+                    messages.add("Ce nom d'utilisateur existe déjà");
+                    OK=false;}
+                if(mail.length()!=0){
+                    messages.add("Cette adresse Mail existe déjà");
+                    OK=false;}
+                if(Name.length()==0){
+                    messages.add("Veuillez entrer un nom d'utilisateur ");
+                    OK=false;}
+                if(Mail.length()==0){
+                    messages.add("Veuillez entrer une adresse mail ");
+                    OK=false;}
+                if(Psw.length()==0){
+                    messages.add("Veuillez entrer un mot de passe ");
+                    OK=false;}
+                if(!(CheckBox).isChecked()){
+                    messages.add("Veuillez cocher les conditions d'utilisation");
+                    OK=false;}
+                if(Psw!=Psw2) {
+                    messages.add("Les mots de passe ne correspondent pas");
+                    OK=false;}
+
+
+                if (OK==true) {
+
+                    databaseAccess.addUser(Name, Psw, Gender, b, Mail);
+
+                    String person = Name;
+                    String name1 = databaseAccess.getStringAttributWhere("Name", "User", "Name", person);
+                    String mdp = databaseAccess.getStringAttributWhere("Psw", "User", "Name", person);
+                    String gender = databaseAccess.getStringAttributWhere("Gender", "User", "Name", person);
+                    String birthday = databaseAccess.getStringAttributWhere("Birthday", "User", "Name", person);
+                    String mail1 = databaseAccess.getStringAttributWhere("Email", "User", "Name", person);
+
+
+                    StringBuffer buffer = new StringBuffer();
+                    buffer.append("Name:" + name1 + "\n");
+                    buffer.append("Password:" + mdp + "\n");
+                    buffer.append("Gender:" + gender + "\n");
+                    buffer.append("Birthday:" + birthday + "\n");
+                    buffer.append("Email:" + mail1);
+                    display("Affichage Encodage ", buffer.toString());
+                    databaseAccess.close();
+                }
+                else displayAttention("Attention",messages);
 
     }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -223,7 +280,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     //Pour afficher une fenêtre popup
 
-    public void display(String title, String content){
+    public void display(String title, String content) {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
@@ -232,12 +289,14 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     }
 
-
-
-
-
-
-
+    public void displayAttention(String title, ArrayList<String> messages){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        for (String m : messages){
+        builder.setMessage(m);
+        builder.show();}
+    }
 
 }
 
