@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class CountActivity extends AppCompatActivity {
     private TextView CountName,Balance,Currency;
-    private Button Revenu, Depense, Resume;
+    private Button Revenu, Depense, Transfert, Resume, Transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,9 @@ public class CountActivity extends AppCompatActivity {
         this.Balance=findViewById(R.id.balance);
         this.Currency=findViewById(R.id.tvCurrency);
         this.Revenu=findViewById(R.id.btnRevenu);
+        this.Depense=findViewById(R.id.btnDepense);
+        this.Transfert=findViewById(R.id.btnTransfert);
+        this.Transaction=findViewById(R.id.btnTransaction);
         this.Resume=findViewById(R.id.btnResume);
 
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
@@ -34,7 +37,7 @@ public class CountActivity extends AppCompatActivity {
        // Currency.setText(databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,position));
         databaseAccess.close();
 
-        Revenu.setOnClickListener(new View.OnClickListener() {
+        Transaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CountActivity.this, TransactionActivity.class);
