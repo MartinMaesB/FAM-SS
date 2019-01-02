@@ -41,6 +41,7 @@
 
         <Button
             android:id="@+id/bt_new_pers_count"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
@@ -56,6 +57,7 @@
 
     <Button
         android:id="@+id/btnDeco"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

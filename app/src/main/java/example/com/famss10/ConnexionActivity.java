@@ -35,7 +35,7 @@ public class ConnexionActivity extends AppCompatActivity {
          registerLink = (TextView) findViewById(R.id.tvRegister);
          tvNbr=(TextView)findViewById(R.id.tvNbrEssai);
 
-        tvNbr.setText("No of attempts remaining: 5");
+        tvNbr.setText("Nombre d'essai restants : 5");
 
         registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +77,7 @@ public class ConnexionActivity extends AppCompatActivity {
             } else{
                 counter--;
 
-                tvNbr.setText("No of attempts remaining : " + String.valueOf(counter));
+                tvNbr.setText("Nombre d'essai restant : " + String.valueOf(counter));
                 if (counter ==0){
                 bLogin.setEnabled(false);
                 }
