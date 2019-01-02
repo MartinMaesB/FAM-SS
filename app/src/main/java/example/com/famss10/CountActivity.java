@@ -20,7 +20,6 @@ public class CountActivity extends AppCompatActivity {
         this.Balance=findViewById(R.id.balance);
         this.Currency=findViewById(R.id.tvCurrency);
         this.Revenu=findViewById(R.id.btnRevenu);
-        this.Depense=findViewById(R.id.btnDepense);
         this.Resume=findViewById(R.id.btnResume);
 
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
@@ -36,15 +35,6 @@ public class CountActivity extends AppCompatActivity {
         databaseAccess.close();
 
         Revenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CountActivity.this, TransactionActivity.class);
-                //intent.putExtra();
-                startActivityForResult(intent, 0);
-            }
-        });
-
-        Depense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CountActivity.this, TransactionActivity.class);
