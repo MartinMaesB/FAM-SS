@@ -22,7 +22,7 @@
 
     <EditText
         android:id="@+id/etNameUser"
-        android:layout_width="200"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
@@ -34,7 +34,7 @@
 
     <EditText
         android:id="@+id/etRelation"
-        android:layout_width="200"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
@@ -46,7 +46,7 @@
 
     <EditText
         android:id="@+id/etNameCount"
-        android:layout_width="200"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -61,7 +61,7 @@
 
     <Switch
         android:id="@+id/switch1"
-        android:layout_width="200"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
