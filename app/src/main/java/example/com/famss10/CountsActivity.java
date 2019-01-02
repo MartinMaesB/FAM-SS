@@ -126,9 +126,26 @@ public class CountsActivity extends AppCompatActivity {
 
                 //String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count");
                 String nameCount = databaseAccess.getLastStringAttribut("NameCount", "Count","Email", userEmail);
-                pers_count.get(i).setText(nameCount);
+                int balance = databaseAccess.getintAttribut("Balance","Count","Email",userEmail,i);
+
+                String Currency = databaseAccess.getLastStringAttribut("Currency","Count", "Email",userEmail);
+                pers_count.get(i).setText(nameCount+"\n"+String.valueOf(balance)+" "+Currency);
+
                 i++;
+                pers_count.get(i-1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(CountsActivity.this, CountActivity.class);
+                        intent.putExtra("index", i-1);
+                        intent.putExtra("userEmail", userEmail);
+                        startActivity(intent);
+                        //finish();
+                    }
+                });
+
                 databaseAccess.close();
+
             }
         }
     }
