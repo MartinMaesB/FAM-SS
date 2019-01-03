@@ -60,7 +60,7 @@ public class Superviseur extends AppCompatActivity {
                 for(int j=0; j< databaseAccess.getcount("EmailUser","Control","EmailSupervisor",EmailSupervisor);j++) {
                     String emailenfant = databaseAccess.getStringAttribut("EmailUser", "Control", "EmailSupervisor", EmailSupervisor, j);
 
-                    display(EmailEnfant,emailenfant);
+                    //display(EmailEnfant,emailenfant);
                     if (EmailEnfant.equals(emailenfant)) {
                     display("Erreur","Vous supervisez déjà cet utilisateur");
                     OK=false;

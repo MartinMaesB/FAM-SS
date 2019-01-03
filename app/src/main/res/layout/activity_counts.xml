@@ -8,13 +8,14 @@
     tools:context=".CountsActivity">
 
     <Button
-        android:id="@+id/btnSupprimer"
+        android:id="@+id/btnSuppression"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="8dp"
         android:text="Supprimer"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
