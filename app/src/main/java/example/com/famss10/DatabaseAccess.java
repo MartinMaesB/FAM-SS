@@ -173,9 +173,15 @@ public class DatabaseAccess {
 
 
     ////////////////////Category////////////////////
-    public void addCategory (String color) {
-        db.execSQL("insert into Category (Color) VALUES ('"+color+"')", new String[]{});
+    public void addCategory (String nom) {
+        db.execSQL("insert into Category (idCategory) VALUES ('"+nom+"')", new String[]{});
     }
+
+    /*public void getCategory(){
+        c=db.rawQuery("select * from "+"idCategory"+" where "+where+"= '"+element+"'", new String[]{});
+        return c.getCount();
+    }*/
+
 
 
     /////////////////Control///////////////////////
