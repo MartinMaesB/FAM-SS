@@ -143,7 +143,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-                validate();
+               // validate();
             }
         });
 
@@ -237,8 +237,31 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             return new DatePickerDialog(getActivity(),(DatePickerDialog.OnDateSetListener)getActivity(),year,month,day);
         }
     }
+/*
+    void validate(EditText etCompte,EditText etDescription,EditText etMontant,EditText etNameTransaction,T){
 
-    void validate(){}
+        String Compte=etCompte.getText().toString();
+        String Description= etDescription.getText().toString();
+        String Montant=etMontant.getText().toString();
+        String NameTransaction=etNameTransaction.getText().toString();
+        String Catégorie=findViewById(R.id.tvCatégorie);
+        Date DateDébut=findViewById(R.id.tvDate);
+        String Fréquence=findViewById(R.id.tvFréquence);
+        String Type=findViewById(R.id.tvType);
+        Date tvDateFin=findViewById(R.id.tvDateFin);
 
 
+
+
+
+
+        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+        databaseAccess.open();
+        databaseAccess.close();
+
+
+
+    }
+
+*/
 }
