@@ -54,8 +54,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 choixCatégorie.add("Type : Revenu");
                 choixCatégorie.add("Type : Transfert");
                 String titre= new String ("Choissez un Type de transaction :");
+                String ajout=new String("");
                 Boolean ajouter = false;
-                menuPopUp (tvType,choixCatégorie, titre, ajouter);
+                menuPopUp (tvType,choixCatégorie, titre,ajouter, ajout);
                 if (transfert.equals(tvType.getText().toString()))
                     etCompte.setEnabled(true);
                 else etCompte.setEnabled(false);
@@ -65,13 +66,6 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-        etCompte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         tvCatégorie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,8 +74,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 choixCatégorie.add("Charges");
                 choixCatégorie.add("Nourriture");
                 String titre= new String ("Choissez une catégorie:");
+                String ajout= new String("Ajouter une Catégorie");
                 Boolean ajouter = true;
-                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter);
+
+                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout);
                 //if (autre.equals(tvCatégorie.getText().toString()))
                   //  menuAjout(tvCatégorie);
 
@@ -102,8 +98,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 choixCatégorie.add("1x par mois");
                 choixCatégorie.add("ax par semaine");
                 String titre= new String ("Choissez une fréquence :");
+                String ajout= new String("Ajouter une fréquence");
                 Boolean ajouter = true;
-                menuPopUp (tvFréquence,choixCatégorie, titre,ajouter);
+                menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout);
+               // DatabaseAccess.addCategory();
             }
         });
 
@@ -120,7 +118,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-    void menuPopUp(final TextView T, final ArrayList<String> choixCatégorie, String titre,Boolean ajouter){
+    void menuPopUp(final TextView T, final ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(TransactionActivity.this);
         mBuilder.setTitle(titre);
         mBuilder.setIcon(R.drawable.icon);
@@ -128,7 +126,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         if(ajouter){
             //choixCatégorie.add("Autres");
             input=new EditText(this);
-            input.setText("Ajouter une catégorie");
+            input.setHint(ajout);
             //mBuilder.setView(input,15,0,0,0);
             mBuilder.setView(input);
         }
