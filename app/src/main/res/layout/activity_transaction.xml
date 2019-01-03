@@ -121,6 +121,30 @@
                 android:inputType="textPersonName" />
 
             <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:hint="Date de la transaction (de la première répétion)"
+                android:textSize="18dp" />
+
+            <CheckBox
+                android:id="@+id/cbFréquence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:textSize="18dp"
+                android:text="Répeter la transaction" />
+
+            <TextView
                 android:id="@+id/tvFréquence"
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
@@ -131,11 +155,11 @@
                 android:layout_marginRight="8dp"
                 android:textSize="18dp"
                 android:ems="10"
-                android:hint="Fréquence :"
+                android:hint="Fréquence : (si transaction répétée)"
                 android:inputType="textPersonName" />
 
             <TextView
-                android:id="@+id/tvDate"
+                android:id="@+id/tvDateFin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -143,7 +167,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:text="Date"
+                android:hint="Date de fin des répétitions"
                 android:textSize="18dp" />
 
             <Button
