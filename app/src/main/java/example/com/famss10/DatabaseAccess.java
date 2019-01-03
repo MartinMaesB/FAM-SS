@@ -225,6 +225,9 @@ public class DatabaseAccess {
         db.execSQL("insert into Frequency (StartDate, EndDate) VALUES ('"+startdate+"','"+enddate+"')", new String[]{});
     }
 
+    
+
+
     public ArrayList<String> getToutFrequency(){
         ArrayList<String> liste=new ArrayList<>();
         c=db.rawQuery("select idFrequency from Frequency", new String[]{});
