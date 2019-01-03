@@ -73,11 +73,15 @@
         android:id="@+id/btnRevenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="468dp"
+        android:layout_marginEnd="8dp"
         android:text="Revenu"
         android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="148dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnDepense"
+        app:layout_constraintStart_toEndOf="@+id/btnTransfert"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnResume"
@@ -135,6 +139,7 @@
         android:layout_marginEnd="44dp"
         android:text="Dépense"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/btnRevenu"
@@ -149,6 +154,7 @@
         android:layout_marginEnd="8dp"
         android:text="Transfert"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnRevenu"
         app:layout_constraintHorizontal_bias="0.724"
         app:layout_constraintStart_toStartOf="parent"
