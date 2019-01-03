@@ -24,6 +24,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
     public TextView input;
     public ArrayList<String> choixCatégorie;
+    Boolean cal=false;
     Date b=null;
     Date c=null;
     public String transfert = "Type : Transfert",autre = "Autres";
@@ -110,8 +111,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
                 choixCatégorie=databaseAccess.getToutFrequency();
-                String titre= new String ("Choissez une fréquence :");
-                String ajout= new String("Ajouter une fréquence");
+                String titre= new String ("Choissez une un nombre de répétitions :");
+                String ajout= new String("Ajouter un nombre de répétitions");
                 Boolean ajouter = true;
                 menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout,tvType,etCompte);
                 databaseAccess.close();
@@ -122,6 +123,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         tvDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                cal=false;
                 datePicker(tvDate);
 
             }
@@ -129,7 +131,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         tvDateFin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                cal=true;
                 datePicker(tvDateFin);
+
             }
         });
 
@@ -207,7 +211,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     private void setDate(final Calendar calendar){
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        if (!cal)
         ((TextView)findViewById(R.id.tvDate)).setText(sdf.format(calendar.getTime()));
+        else
+        ((TextView)findViewById(R.id.tvDateFin)).setText(sdf.format(calendar.getTime()));
     }
 
     @Override
@@ -242,6 +249,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         String NameTransaction=etNameTransaction.getText().toString();
         String Catégorie=tvCatégorie.getText().toString();
         String Fréquence=tvFréquence.getText().toString();
+        if(Fréquence.length()==0)
+            Fréquence="0";
+        Integer répétition=Integer.parseInt(Fréquence);
         String Type=tvType.getText().toString();
         Date DateDébut= (Date) tvDate.getText();
         Date DateFin=(Date) tvDateFin.getText();
@@ -278,12 +288,15 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             if(tvDateFin.getText().length()==0){
                 messages.add("Veuillez entrer une date de fin de répétition pour cette transaction");
                 OK=false;}
-            if(Fréquence.length()==0){
-                messages.add("Veuillez entrer une fréquence pour cette transaction");
+            if(Fréquence.equals("0")){
+                messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
             }
-//vérification des conditions
-        //if()
+//vérification des conditions d'existence
+        if(databaseAccess.getCategory(Catégorie).length()==0)
+            databaseAccess.addCategoryByName(Catégorie);
+        if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
+            databaseAccess.addFrequency(répétition,DateDébut,DateFin);
 
 
         if (OK) {
