@@ -200,8 +200,8 @@ public class DatabaseAccess {
 
 
     /////////////////Control///////////////////////
-    public void addControl (int Quantity, String Email, String EmailSupervisor){
-        db.execSQL("insert into Control (Quantity, EmailUser, EmailSupervisor) VALUES ('"+Quantity+"','"+Email+"','"+EmailSupervisor+"')", new String[]{});
+    public void addControl ( String Email, String EmailSupervisor){
+        db.execSQL("insert into Control (EmailUser, EmailSupervisor) VALUES ('"+Email+"','"+EmailSupervisor+"')", new String[]{});
     }
 
     /////////////////Creation//////////////////////

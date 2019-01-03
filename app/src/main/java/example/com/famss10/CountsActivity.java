@@ -186,7 +186,9 @@ public class CountsActivity extends AppCompatActivity {
                     int balance = databaseAccess.getintAttribut("Balance","Count","Email",EmailEnfant, k);
                     String Currency = databaseAccess.getStringAttribut("Currency","Count", "Email",EmailEnfant,k);
 
-                    child_count.get(k).setText(nameCount+"\n"+String.valueOf(balance)+" "+Currency);
+                    String NameEnfant = databaseAccess.getStringAttributWhere("Name","User","Email",EmailEnfant);
+
+                    child_count.get(k).setText(NameEnfant+"\n"+nameCount+"\n"+String.valueOf(balance)+" "+Currency);
                     //display("j", String.valueOf(j));
                 }
 
