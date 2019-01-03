@@ -7,11 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
-import java.util.ArrayList;
-
-public class SupervisorActivity extends AppCompatActivity {
-
-
+public class Superviseur extends AppCompatActivity {
     private Button Valider;
     private Switch AllComptes;
     private EditText NameUser, NameCount, Relation;
@@ -73,4 +69,5 @@ public class SupervisorActivity extends AppCompatActivity {
         builder.show();
 
     }
+
 }

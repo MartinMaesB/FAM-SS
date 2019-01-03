@@ -112,8 +112,8 @@ public class CountsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 child_count=new ArrayList<>();
-                Intent intent = new Intent(CountsActivity.this, SupervisorActivity.class);
-                startActivityForResult(intent, 1);
+               Intent intent = new Intent(CountsActivity.this, Superviseur.class);
+               startActivityForResult(intent, 1);
             }
         });
 
