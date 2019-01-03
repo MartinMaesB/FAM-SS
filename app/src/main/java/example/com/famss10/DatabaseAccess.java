@@ -181,11 +181,17 @@ public class DatabaseAccess {
 
 
     ////////////////////Category////////////////////
-    public void addCategory (String nom) {
-        db.execSQL("insert into Category VALUES ('"+nom+"')", new String[]{});
+    public void addCategoryByName (String nom) {
+        db.execSQL("insert into Category(idCategory) VALUES ('"+nom+"')", new String[]{});
     }
 
-    public ArrayList<String> getToutCategory(){
+    public void addCategor (String nom,String color) {
+        db.execSQL("insert into Category (idCategory,Color)VALUES ('"+nom+"'+'"+color+"')", new String[]{});
+    }
+
+
+
+    public ArrayList<String> getToutNomCategory(){
         ArrayList<String> liste=new ArrayList<>();
         c=db.rawQuery("select idCategory from Category", new String[]{});
         StringBuffer buffer= new StringBuffer();

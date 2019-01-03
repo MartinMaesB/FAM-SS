@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.app.DatePickerDialog;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
     public TextView input;
     public ArrayList<String> choixCatégorie;
-    Date b ;
+    Date b;
     public String transfert = "Type : Transfert",autre = "Autres";
 
     @Override
@@ -35,14 +36,37 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         final EditText etDescription=findViewById(R.id.etDescription);
         final EditText etMontant=findViewById(R.id.etMontant);
         final EditText etNameTransaction=findViewById(R.id.etNameTransaction);
-
+        final CheckBox cbFréquence=findViewById(R.id.cbFréquence);
         final TextView tvCatégorie=findViewById(R.id.tvCatégorie);
         final TextView tvDate=findViewById(R.id.tvDate);
         final TextView tvFréquence=findViewById(R.id.tvFréquence);
         final TextView tvType=findViewById(R.id.tvType);
         final Button bConfirmer=findViewById(R.id.bConfirmer);
-
+        final TextView tvDateFin=findViewById(R.id.tvDateFin);
         etCompte.setEnabled(false);
+        tvFréquence.setEnabled(false);
+        tvDateFin.setEnabled(false);
+        tvDate.setHint("Date de la transaction");
+        cbFréquence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!cbFréquence.isChecked()){
+                  tvFréquence.setEnabled(false);
+                  tvDateFin.setEnabled(false);
+                  tvDate.setHint("Date de la transaction");
+
+                }
+                else {tvFréquence.setEnabled(true);
+                tvDateFin.setEnabled(true);
+                    tvDate.setHint("Date de la première répétition");
+
+                }
+            }
+        });
+
+
+
+
 
         tvType.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +91,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
-                choixCatégorie=databaseAccess.getToutCategory();
+                choixCatégorie=databaseAccess.getToutNomCategory();
                 String titre= new String ("Choissez une catégorie:");
                 String ajout= new String("Ajouter une Catégorie");
                 Boolean ajouter = true;
@@ -101,19 +125,25 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
         });
 
+        tvDateFin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                datePicker(tvDateFin);
+            }
+        });
+
         bConfirmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
-                databaseAccess.addCategory("olé");
+                databaseAccess.addCategoryByName("olé");
                 databaseAccess.close();
 
 
 
 
 
-                confirmer();
+                validate();
             }
         });
 
@@ -121,13 +151,6 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
     }
 
-    void confirmer(){
-
-
-
-
-
-    }
 
     void menuPopUp(final TextView T, ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout, final TextView tvType, final EditText etCompte){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(TransactionActivity.this);
@@ -159,6 +182,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 if (transfert.equals(tvType.getText().toString()))
                     etCompte.setEnabled(true);
                 else etCompte.setEnabled(false);
+
+
+
+
                 dialog.dismiss();
             }
         });
@@ -211,7 +238,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         }
     }
 
-
+    void validate(){}
 
 
 }
