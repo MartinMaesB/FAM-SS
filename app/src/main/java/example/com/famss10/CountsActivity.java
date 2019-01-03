@@ -11,7 +11,8 @@ import java.util.ArrayList;
 
 public class CountsActivity extends AppCompatActivity {
 
-    private Button new_pers_count,deconnexion, Superviser, Supprimer;
+    private Button new_pers_count,deconnexion, Superviser, Suppression;
+
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
     private int i=0, indexBtnChild=0;
@@ -35,7 +36,7 @@ public class CountsActivity extends AppCompatActivity {
         this.Superviser=findViewById(R.id.btnSuperviser);
 
         this.deconnexion=findViewById(R.id.btnDeco);
-        this.Supprimer=findViewById(R.id.btnSuppression);
+        this.Suppression=findViewById(R.id.buttonSup);
 
         deconnexion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,13 +45,13 @@ public class CountsActivity extends AppCompatActivity {
             }
         });
 
-        Supprimer.setOnClickListener(new View.OnClickListener() {
+        Suppression.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (CountsActivity.this, SuppressionCompte.class);
                 intent.putExtra("userEmail", userEmail);
-                startActivity(intent);
-               // startActivityForResult(intent,3);
+                //startActivity(intent);
+               startActivityForResult(intent,3);
             }
         });
 
@@ -58,7 +59,7 @@ public class CountsActivity extends AppCompatActivity {
         databaseAccess.open();
 
         ////////////////////////////MES  COMPTES////////////////////////////////////
-        for (int j = 0; j < databaseAccess.getcount("NameCount","Count","Email",userEmail); j++){
+        for (int j = 0; j < databaseAccess.getcounter("NameCount","Count","Email",userEmail); j++){
 
             pers_count.add(new Button(CountsActivity.this));
             pers_count_layout.addView(pers_count.get(j));
@@ -77,8 +78,8 @@ public class CountsActivity extends AppCompatActivity {
             //display("j", String.valueOf(j));
         }
 
-        if (databaseAccess.getcount("NameCount", "Count","Email",userEmail) != 0) {
-            for (int j = 0; j < databaseAccess.getcount("NameCount", "Count", "Email", userEmail); j++) {
+        if (databaseAccess.getcounter("NameCount", "Count","Email",userEmail) != 0) {
+            for (int j = 0; j < databaseAccess.getcounter("NameCount", "Count", "Email", userEmail); j++) {
                 final int position = j;
                 pers_count.get(j).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -107,7 +108,7 @@ public class CountsActivity extends AppCompatActivity {
         ////////////////////////////////////////COMPTES ENFANTS///////////////////////////////////////////////
 
 
-        for (int m =0; m<databaseAccess.getcount("EmailUser", "Control","EmailSupervisor",userEmail);m++) {
+        for (int m =0; m<databaseAccess.getcounter("EmailUser", "Control","EmailSupervisor",userEmail);m++) {
 
             final String EmailEnfant = databaseAccess.getStringAttribut("EmailUser", "Control", "EmailSupervisor", userEmail,m);
             String NameEnfant = databaseAccess.getStringAttributWhere("Name", "User", "Email", EmailEnfant);
@@ -115,7 +116,7 @@ public class CountsActivity extends AppCompatActivity {
 
             indexBtnChild=indexBtnChild+1;
 
-            for (int j = 0; j < databaseAccess.getcount("NameCount", "Count", "Email", EmailEnfant); j++) {
+            for (int j = 0; j < databaseAccess.getcounter("NameCount", "Count", "Email", EmailEnfant); j++) {
 
 
                 indexBtnChild=indexBtnChild+j;
@@ -173,7 +174,7 @@ public class CountsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
             if (resultCode==0) {
-
+/*
                 pers_count.add(new Button(CountsActivity.this));
                 pers_count_layout.addView(pers_count.get(i));
                 pers_count.get(i).setId(i);
@@ -203,14 +204,18 @@ public class CountsActivity extends AppCompatActivity {
                         //finish();
                     }
                 });
-                databaseAccess.close();
+                databaseAccess.close();*/
+                Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+
             }
         }
 
         if (requestCode==1){
             if (resultCode==1){
 
-
+/*
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
@@ -222,7 +227,7 @@ public class CountsActivity extends AppCompatActivity {
                 final String EmailEnfant= databaseAccess.getLastStringAttribut("EmailUser", "Control", "EmailSupervisor",EmailSupervisor);
 
                 //display(EmailEnfant,EmailSupervisor);
-                for (int k = 0; k < databaseAccess.getcount("NameCount","Count","Email",EmailEnfant); k++){
+                for (int k = 0; k < databaseAccess.getcounter("NameCount","Count","Email",EmailEnfant); k++){
 
                     indexBtnChild=indexBtnChild+k;
                     child_count.add(new Button(CountsActivity.this));
@@ -239,8 +244,8 @@ public class CountsActivity extends AppCompatActivity {
                     //display("j", String.valueOf(j));
                 }
 
-                if (databaseAccess.getcount("NameCount", "Count","Email",EmailEnfant) != 0) {
-                    for (int k = 0; k < databaseAccess.getcount("NameCount", "Count", "Email", EmailEnfant); k++) {
+                if (databaseAccess.getcounter("NameCount", "Count","Email",EmailEnfant) != 0) {
+                    for (int k = 0; k < databaseAccess.getcounter("NameCount", "Count", "Email", EmailEnfant); k++) {
                         final int position = indexBtnChild+k;
                         child_count.get(indexBtnChild+k).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -254,16 +259,30 @@ public class CountsActivity extends AppCompatActivity {
                             }
                         });
                     }
-                }
+                }*/
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+
             }
         }
 
         if (requestCode==3){
             if (resultCode==3){
+
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+
+
+
             }
         }
 
     }
+
+
+
     public void display(String title, String content){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setCancelable(true);

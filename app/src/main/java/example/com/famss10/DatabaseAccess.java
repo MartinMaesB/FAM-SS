@@ -81,6 +81,16 @@ public class DatabaseAccess {
         }
         return buffer.toString();
     }
+    public String getStringAttributWhere2 (String select, String from, String where, String element, String where2, String element2){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+" = '"+element+"' and "+where2+" = '"+element2+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String nom = c.getString(0);
+            buffer.append(""+nom);
+
+        }
+        return buffer.toString();
+    }
 
     public int getintAttributWhere(String select, String from, String where,String element ){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
@@ -149,7 +159,7 @@ public class DatabaseAccess {
 
 
     public void delete2 (String from, String where,String Element,String where2, String Element2){
-        db.execSQL("delete from "+from+" where "+where+" '"+Element+"' and "+where2+" ''"+Element2+"'",new String []{});
+        db.execSQL("delete from "+from+" where "+where+" = '"+Element+"' and "+where2+" = '"+Element2+"'",new String []{});
     }
 
 
@@ -183,10 +193,11 @@ public class DatabaseAccess {
 
 
 
-    public int getcount (String select, String from, String where, String element){
+    public int getcounter (String select, String from, String where, String element){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
         return c.getCount();
     }
+
 
 
     ////////////////////Category////////////////////
