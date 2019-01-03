@@ -24,7 +24,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
     public TextView input;
     public ArrayList<String> choixCatégorie;
-    Date b;
+    Boolean cal=false;
+    Date b=null;
+    Date c=null;
     public String transfert = "Type : Transfert",autre = "Autres";
 
     @Override
@@ -109,8 +111,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
                 choixCatégorie=databaseAccess.getToutFrequency();
-                String titre= new String ("Choissez une fréquence :");
-                String ajout= new String("Ajouter une fréquence");
+                String titre= new String ("Choissez une un nombre de répétitions :");
+                String ajout= new String("Ajouter un nombre de répétitions");
                 Boolean ajouter = true;
                 menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout,tvType,etCompte);
                 databaseAccess.close();
@@ -121,28 +123,23 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         tvDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                cal=false;
                 datePicker(tvDate);
+
             }
         });
 
         tvDateFin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                cal=true;
                 datePicker(tvDateFin);
+
             }
         });
 
         bConfirmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                databaseAccess.open();
-                databaseAccess.addCategoryByName("olé");
-                databaseAccess.close();
-
-
-
-
-
                 validate(etCompte,etDescription,etMontant,etNameTransaction,tvCatégorie,tvFréquence,tvType,tvDate,tvDateFin,cbFréquence,bConfirmer);
             }
         });
@@ -214,7 +211,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     private void setDate(final Calendar calendar){
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        if (!cal)
         ((TextView)findViewById(R.id.tvDate)).setText(sdf.format(calendar.getTime()));
+        else
+        ((TextView)findViewById(R.id.tvDateFin)).setText(sdf.format(calendar.getTime()));
     }
 
     @Override
@@ -222,6 +222,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
         Date B= new Date(year, month,day);
+        if(b!=null)
+            c=B;
+            else
         b=B;
     }
 
@@ -238,7 +241,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         }
     }
 
-    void validate(EditText etCompte,EditText etDescription,EditText etMontant,EditText etNameTransaction,TextView tvCatégorie,TextView tvFréquence, TextView tvType, TextView tvDate,TextView tvDateFin,CheckBox cb,Button b){
+    void validate(EditText etCompte,EditText etDescription,EditText etMontant,EditText etNameTransaction,TextView tvCatégorie,TextView tvFréquence, TextView tvType, TextView tvDate,TextView tvDateFin,CheckBox cb,Button bt){
 
         String Compte=etCompte.getText().toString();
         String Description= etDescription.getText().toString();
@@ -246,6 +249,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         String NameTransaction=etNameTransaction.getText().toString();
         String Catégorie=tvCatégorie.getText().toString();
         String Fréquence=tvFréquence.getText().toString();
+        if(Fréquence.length()==0)
+            Fréquence="0";
+        Integer répétition=Integer.parseInt(Fréquence);
         String Type=tvType.getText().toString();
         Date DateDébut= (Date) tvDate.getText();
         Date DateFin=(Date) tvDateFin.getText();
@@ -264,21 +270,38 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         if(NameTransaction.length()==0){
             messages.add("Vous n'avez nommé votre transaction!");
             OK=false;}
-        if(Catégorie.length()==0){
-            messages.add("Vous n'avez pas donné de type a cette transaction");
+        if(Montant.length()==0){
+            messages.add("Vous n'avez donné de montant à votre transaction!");
             OK=false;}
-        if((cb).isChecked()){
-            if(Compte.length()==0){
+        if(Catégorie.length()==0){
+            messages.add("Vous n'avez pas donné de Catégorie à cette transaction");
+            OK=false;}
+        if(tvDate.getText().length()==0){
+            messages.add("Veuillez entrer la date de cette transaction");
+            OK=false;}
+        if(Type.equals("Type : Transfert")){
+            if(Compte.length()==0) {
                 messages.add("Veuillez entrer un compte receveur. S'il n'y en a pas, veuillez écrire :'Aucun' ");
                 OK=false;}
-            if(Fréquence.length()==0){
-                messages.add("Veuillez entrer une fréquence ");
+        }
+        if((cb).isChecked()){
+            if(tvDateFin.getText().length()==0){
+                messages.add("Veuillez entrer une date de fin de répétition pour cette transaction");
+                OK=false;}
+            if(Fréquence.equals("0")){
+                messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
             }
+//vérification des conditions d'existence
+        if(databaseAccess.getCategory(Catégorie).length()==0)
+            databaseAccess.addCategoryByName(Catégorie);
+        if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
+            databaseAccess.addFrequency(répétition,DateDébut,DateFin);
 
-        if (OK==true) {
 
-            databaseAccess.addTransaction();
+        if (OK) {
+
+            //databaseAccess.addTransaction();
             databaseAccess.close();
         }
         else displayAttention("Attention",messages);

@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public Button bRegister;
     public CheckBox CheckBox;
     String [] choixSexe;
-    Date b ;
+    Date b=null;
 
 
     @Override
@@ -197,12 +197,12 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 if(!(CheckBox).isChecked()){
                     messages.add("Veuillez cocher les conditions d'utilisation");
                     OK=false;}
-                if(Psw!=Psw2) {
+                if(!Psw.equals(Psw2)) {
                     messages.add("Les mots de passe ne correspondent pas");
                     OK=false;}
 
 
-                if (OK==true) {
+                if (OK) {
 
                     databaseAccess.addUser(Name, Psw, Gender, b, Mail);
 

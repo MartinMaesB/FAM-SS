@@ -30,7 +30,10 @@
         <activity android:name=".SummarySwipeLeftActivity" />
         <activity android:name=".SummaryCategoryTransactionActivity" />
         <activity android:name=".SummaryPieChartActivity" />
-        <activity android:name=".Superviseur"></activity>
+        <activity android:name=".Superviseur" />
+        <activity android:name=".SuppressionCompte" />
+        <activity android:name=".SupprimerCompte" />
+        <activity android:name=".PAge"></activity>
     </application>
 
 </manifest>

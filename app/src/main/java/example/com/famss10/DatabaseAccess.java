@@ -81,6 +81,16 @@ public class DatabaseAccess {
         }
         return buffer.toString();
     }
+    public String getStringAttributWhere2 (String select, String from, String where, String element, String where2, String element2){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+" = '"+element+"' and "+where2+" = '"+element2+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String nom = c.getString(0);
+            buffer.append(""+nom);
+
+        }
+        return buffer.toString();
+    }
 
     public int getintAttributWhere(String select, String from, String where,String element ){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
@@ -120,6 +130,38 @@ public class DatabaseAccess {
         return buffer.toString();
     }
 */
+    /////////////////Select, delete, update //////////
+
+    public String getStringAttribut(String select, String from, String where,String element, int i ){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        c.moveToPosition(i);
+        String nom = c.getString(0);
+        buffer.append(""+nom);
+        return buffer.toString();
+    }
+
+    public int getintAttribut(String select, String from, String where,String element, int i ){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        c.moveToPosition(i);
+        int entier = c.getInt(0);
+        return entier;
+    }
+
+    public String getLastStringAttribut(String select, String from, String where, String element){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        c.moveToLast();
+        String nom = c.getString(0);
+        buffer.append(""+nom);
+        return buffer.toString();
+    }
+
+
+    public void delete2 (String from, String where,String Element,String where2, String Element2){
+        db.execSQL("delete from "+from+" where "+where+" = '"+Element+"' and "+where2+" = '"+Element2+"'",new String []{});
+    }
+
 
     ////////////////////COUNT////////////////////
     public void addCount (String namecount, String currency, String Email, int balance) {
@@ -150,34 +192,12 @@ public class DatabaseAccess {
 */
 
 
-    public String getStringAttribut(String select, String from, String where,String element, int i ){
-        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-        StringBuffer buffer= new StringBuffer();
-        c.moveToPosition(i);
-        String nom = c.getString(0);
-        buffer.append(""+nom);
-        return buffer.toString();
-    }
 
-    public int getintAttribut(String select, String from, String where,String element, int i ){
-        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-        c.moveToPosition(i);
-        int entier = c.getInt(0);
-        return entier;
-    }
-
-    public String getLastStringAttribut(String select, String from, String where, String element){
-        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-        StringBuffer buffer= new StringBuffer();
-        c.moveToLast();
-        String nom = c.getString(0);
-        buffer.append(""+nom);
-        return buffer.toString();
-    }
-    public int getcount (String select, String from, String where, String element){
+    public int getcounter (String select, String from, String where, String element){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
         return c.getCount();
     }
+
 
 
     ////////////////////Category////////////////////
@@ -185,10 +205,21 @@ public class DatabaseAccess {
         db.execSQL("insert into Category(idCategory) VALUES ('"+nom+"')", new String[]{});
     }
 
-    public void addCategor (String nom,String color) {
+    public void addCategory (String nom,String color) {
         db.execSQL("insert into Category (idCategory,Color)VALUES ('"+nom+"'+'"+color+"')", new String[]{});
     }
 
+    public String getCategory(String nom){
+        c=db.rawQuery("select idCategory from Category", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+
+            String sexe= c.getString(0);
+            if(sexe.equals(nom))
+            buffer.append(""+sexe);
+        }
+        return buffer.toString() ;
+    }
 
 
     public ArrayList<String> getToutNomCategory(){
@@ -210,6 +241,7 @@ public class DatabaseAccess {
         db.execSQL("insert into Control (EmailUser, EmailSupervisor,Relation) VALUES ('"+Email+"','"+EmailSupervisor+"','"+relation+"')", new String[]{});
     }
 
+
     /////////////////Creation//////////////////////
     public void addCreation (int Quantity, int idDiary, int idSummary){
         db.execSQL("insert into Control (Quantity, idDiary, idSummary) VALUES ('"+Quantity+"','"+idDiary+"','"+idSummary+"')", new String[]{});
@@ -221,9 +253,20 @@ public class DatabaseAccess {
     }
 
     ///////////////Frequency////////////////////////////
-    public void addFrequency (java.sql.Date startdate, java.sql.Date enddate){
-        db.execSQL("insert into Frequency (StartDate, EndDate) VALUES ('"+startdate+"','"+enddate+"')", new String[]{});
+    public void addFrequency (Integer nombre, java.sql.Date startdate, java.sql.Date enddate){
+        db.execSQL("insert into Frequency (StartDate, EndDate, NbrRépétitions) VALUES ('"+startdate+"','"+enddate+"','"+nombre+"')", new String[]{});
     }
+
+
+    public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
+        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"',NbrRépétitons='"+nombre+"'", new String[]{});
+        return c.getInt(0);
+    }
+    public Integer getFrequencyRepetitions(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
+        c=db.rawQuery("select NbrRépétitions from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"'", new String[]{});
+        return c.getCount();
+    }
+
 
     public ArrayList<String> getToutFrequency(){
         ArrayList<String> liste=new ArrayList<>();
