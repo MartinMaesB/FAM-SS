@@ -21,12 +21,12 @@ import java.util.GregorianCalendar;
 
 public class TransactionActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    public EditText etNameTransaction, etDescription, etCompte, etMontant;
+    public EditText etNameTransaction, etDescription, etCompte, etMontant,input;
     public TextView tvType, tvFréquence,tvCatégorie;
     public Button bConfirmer;
     public ArrayList<String> choixCatégorie;
     Date b ;
-    public String transfert = "Type : Transfert";
+    public String transfert = "Type : Transfert",autre = "Autres";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         tvFréquence=findViewById(R.id.tvFréquence);
         tvType=findViewById(R.id.tvType);
         bConfirmer=findViewById(R.id.bConfirmer);
-
+        etCompte.setEnabled(false);
 
         tvType.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +56,14 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 String titre= new String ("Choissez un Type de transaction :");
                 Boolean ajouter = false;
                 menuPopUp (tvType,choixCatégorie, titre, ajouter);
+                if (transfert.equals(tvType.getText().toString()))
+                    etCompte.setEnabled(true);
+                else etCompte.setEnabled(false);
 
             }
         });
+
+
 
         etCompte.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +82,13 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 String titre= new String ("Choissez une catégorie:");
                 Boolean ajouter = true;
                 menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter);
+                //if (autre.equals(tvCatégorie.getText().toString()))
+                  //  menuAjout(tvCatégorie);
+
+
+
+
+
             }
         });
 
@@ -108,18 +120,29 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-
-
-
-
-
     void menuPopUp(final TextView T, final ArrayList<String> choixCatégorie, String titre,Boolean ajouter){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(TransactionActivity.this);
         mBuilder.setTitle(titre);
         mBuilder.setIcon(R.drawable.icon);
+
         if(ajouter){
-            choixCatégorie.add("Autre");
+            //choixCatégorie.add("Autres");
+            input=new EditText(this);
+            input.setText("Ajouter une catégorie");
+            //mBuilder.setView(input,15,0,0,0);
+            mBuilder.setView(input);
         }
+        mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String txt=input.getText().toString();
+                tvCatégorie.setText(txt);
+                //DatabaseAccess.addCategory(txt);
+            }
+        });
+
+
+
         final String s[] = (String[]) choixCatégorie.toArray(new String[choixCatégorie.size()]);
 
         mBuilder.setSingleChoiceItems(s, -1, new DialogInterface.OnClickListener() {
@@ -145,7 +168,6 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     }
 
 
-    //début de la partie dédiée au calendrier
     public void datePicker(View view){
 
         TransactionActivity.DatePickerFragment fragment = new TransactionActivity.DatePickerFragment();
@@ -165,8 +187,6 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         Date B= new Date(year, month,day);
         b=B;
     }
-
-
 
     public static class DatePickerFragment extends DialogFragment {
 
