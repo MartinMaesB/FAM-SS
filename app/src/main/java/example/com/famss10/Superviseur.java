@@ -1,5 +1,6 @@
 package example.com.famss10;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,11 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 
-import java.util.ArrayList;
-
-public class SupervisorActivity extends AppCompatActivity {
-
-
+public class Superviseur extends AppCompatActivity {
     private Button Valider;
     private Switch AllComptes;
     private EditText NameUser, NameCount, Relation;
@@ -20,7 +17,7 @@ public class SupervisorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_supervisor);
+        setContentView(R.layout.activity_superviseur);
 
         this.Valider=findViewById(R.id.btnValider);
         this.AllComptes=findViewById(R.id.switch1);
@@ -28,6 +25,8 @@ public class SupervisorActivity extends AppCompatActivity {
         this.NameCount=findViewById(R.id.etNameCount);
         this.Relation=findViewById(R.id.etRelation);
 
+        final Intent intent=getIntent();
+        final String EmailSupervisor = intent.getStringExtra("userEmail");
 
 
         Valider.setOnClickListener(new View.OnClickListener() {
@@ -53,8 +52,11 @@ public class SupervisorActivity extends AppCompatActivity {
                     display("Veuillez entrer le lien de parenté"," ");
                     OK=false;}
 
-                if (OK=true){
-                    databaseAccess.addSupervisor(relation);
+                if (OK==true){
+
+                    databaseAccess.addSupervisor(relation, EmailSupervisor);
+                    String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
+                    databaseAccess.addControl(1,EmailEnfant,EmailSupervisor);
 
                     setResult(1);
                     finish();}
@@ -73,4 +75,5 @@ public class SupervisorActivity extends AppCompatActivity {
         builder.show();
 
     }
+
 }

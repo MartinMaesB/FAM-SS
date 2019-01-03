@@ -82,6 +82,13 @@ public class DatabaseAccess {
         return buffer.toString();
     }
 
+    public int getintAttributWhere(String select, String from, String where,String element ){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+
+        int entier = c.getInt(0);
+        return entier;
+    }
+
 /*
     public String getGender(int id){
         c=db.rawQuery("select Gender from User where idUser = '"+id+"'", new String[]{});
@@ -193,8 +200,8 @@ public class DatabaseAccess {
 
 
     /////////////////Control///////////////////////
-    public void addControl (int Quantity, String Email, int idSupervisor){
-        db.execSQL("insert into Control (Quantity, Email, idSupervisor) VALUES ('"+Quantity+"','"+Email+"','"+idSupervisor+"')", new String[]{});
+    public void addControl (int Quantity, String Email, String EmailSupervisor){
+        db.execSQL("insert into Control (Quantity, EmailUser, EmailSupervisor) VALUES ('"+Quantity+"','"+Email+"','"+EmailSupervisor+"')", new String[]{});
     }
 
     /////////////////Creation//////////////////////
@@ -236,12 +243,16 @@ public class DatabaseAccess {
 
 
     /////////////Supervisor/////////////////////////
-    public void addSupervisor(String relation){
-        db.execSQL("insert into Supervisor (Relation) VALUES ('"+relation+"')", new String[]{});
+    public void addSupervisor(String relation, String EmailSupervisor){
+        db.execSQL("insert into Supervisor (Relation,EmailSupervisor) VALUES ('"+relation+"','"+EmailSupervisor+"')", new String[]{});
     }
 
 
     ///////////////TransactionActivity/////////////////////
+
+    public void getTransactions(Date start, Date end , String count){
+        db.execSQL("select Transactions.Name,Transactions.Mountant, Diary.Date From Transactions INNER JOIN Diary ON Transactions.idDiary = Diary.idDiary");
+    }
 
     //////////////Type///////////////////////////
 
