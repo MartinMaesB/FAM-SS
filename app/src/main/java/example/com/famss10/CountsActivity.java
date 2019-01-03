@@ -174,7 +174,7 @@ public class CountsActivity extends AppCompatActivity {
                 final String EmailSupervisor = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
 
 
-                final String EmailEnfant= databaseAccess.getStringAttributWhere("EmailUser", "Control", "EmailSupervisor",EmailSupervisor);
+                final String EmailEnfant= databaseAccess.getLastStringAttribut("EmailUser", "Control", "EmailSupervisor",EmailSupervisor);
 
                 for (int k = 0; k < databaseAccess.getcount("NameCount","Count","Email",EmailEnfant); k++){
 
@@ -186,7 +186,9 @@ public class CountsActivity extends AppCompatActivity {
                     int balance = databaseAccess.getintAttribut("Balance","Count","Email",EmailEnfant, k);
                     String Currency = databaseAccess.getStringAttribut("Currency","Count", "Email",EmailEnfant,k);
 
-                    child_count.get(k).setText(nameCount+"\n"+String.valueOf(balance)+" "+Currency);
+                    String NameEnfant = databaseAccess.getStringAttributWhere("Name","User","Email",EmailEnfant);
+
+                    child_count.get(k).setText(NameEnfant+"\n"+nameCount+"\n"+String.valueOf(balance)+" "+Currency);
                     //display("j", String.valueOf(j));
                 }
 

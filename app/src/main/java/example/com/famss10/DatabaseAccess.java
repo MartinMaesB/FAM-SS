@@ -206,8 +206,8 @@ public class DatabaseAccess {
 
 
     /////////////////Control///////////////////////
-    public void addControl (int Quantity, String Email, String EmailSupervisor){
-        db.execSQL("insert into Control (Quantity, EmailUser, EmailSupervisor) VALUES ('"+Quantity+"','"+Email+"','"+EmailSupervisor+"')", new String[]{});
+    public void addControl ( String Email, String EmailSupervisor, String relation){
+        db.execSQL("insert into Control (EmailUser, EmailSupervisor,Relation) VALUES ('"+Email+"','"+EmailSupervisor+"','"+relation+"')", new String[]{});
     }
 
     /////////////////Creation//////////////////////
@@ -249,8 +249,8 @@ public class DatabaseAccess {
 
 
     /////////////Supervisor/////////////////////////
-    public void addSupervisor(String relation, String EmailSupervisor){
-        db.execSQL("insert into Supervisor (Relation,EmailSupervisor) VALUES ('"+relation+"','"+EmailSupervisor+"')", new String[]{});
+    public void addSupervisor( String EmailSupervisor){
+        db.execSQL("insert into Supervisor (EmailSupervisor) VALUES ('"+EmailSupervisor+"')", new String[]{});
     }
 
 
