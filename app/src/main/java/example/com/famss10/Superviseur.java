@@ -57,7 +57,7 @@ public class Superviseur extends AppCompatActivity {
                 String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
 
 
-                for(int j=0; j< databaseAccess.getcount("EmailUser","Control","EmailSupervisor",EmailSupervisor);j++) {
+                for(int j=0; j< databaseAccess.getcounter("EmailUser","Control","EmailSupervisor",EmailSupervisor);j++) {
                     String emailenfant = databaseAccess.getStringAttribut("EmailUser", "Control", "EmailSupervisor", EmailSupervisor, j);
 
                     //display(EmailEnfant,emailenfant);
