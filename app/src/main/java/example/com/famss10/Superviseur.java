@@ -48,11 +48,24 @@ public class Superviseur extends AppCompatActivity {
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
+                boolean OK = true;
+
                 String nameuser=NameUser.getText().toString();
                 String namecount = NameCount.getText().toString();
                 String relation = Relation.getText().toString();
 
-                boolean OK = true;
+                String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
+
+
+                for(int j=0; j< databaseAccess.getcount("EmailUser","Control","EmailSupervisor",EmailSupervisor);j++) {
+                    String emailenfant = databaseAccess.getStringAttribut("EmailUser", "Control", "EmailSupervisor", EmailSupervisor, j);
+
+                    display(EmailEnfant,emailenfant);
+                    if (EmailEnfant.equals(emailenfant)) {
+                    display("Erreur","Vous supervisez déjà cet utilisateur");
+                    OK=false;
+                }
+                }
 
                 if(nameuser.length()==0){
                     display("Veuillez entrer un nom d'utilisateur"," ");
@@ -70,7 +83,7 @@ public class Superviseur extends AppCompatActivity {
 
                     String emailsupervisor=databaseAccess.getStringAttributWhere("EmailSupervisor","Supervisor","EmailSupervisor",EmailSupervisor);
                     if(emailsupervisor==null) {databaseAccess.addSupervisor(EmailSupervisor);}
-                    String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
+
                     databaseAccess.addControl(EmailEnfant,EmailSupervisor,relation);
                     //display(EmailEnfant,EmailSupervisor);
                     if (AllComptes.isChecked()) setResult(1);
