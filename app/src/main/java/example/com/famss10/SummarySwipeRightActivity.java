@@ -21,6 +21,7 @@ public class SummarySwipeRightActivity extends AppCompatActivity {
 
 
 
+
     //pour retourner en slidant vers la gauche
     public boolean onTouchEvent(MotionEvent touchevent){
         switch (touchevent.getAction()){

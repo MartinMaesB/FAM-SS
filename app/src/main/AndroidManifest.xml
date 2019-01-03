@@ -28,6 +28,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SummaryActivity" />
         <activity android:name=".SummarySwipeLeftActivity" />
+        <activity android:name=".SummaryCategoryTransactionActivity" />
         <activity android:name=".SummarySwipeRightActivity"></activity>
     </application>
 
