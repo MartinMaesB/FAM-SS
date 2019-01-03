@@ -22,21 +22,29 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.view.ColumnChartView;
 import lecho.lib.hellocharts.view.PieChartView;
 
 public class SummaryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     float x1,x2;
     boolean a; //pour separer les dates de debut et fin
-    Button start,end,ok,rev,dep;
+    Button start,end,ok;
     Date b;
-    PieChartData pieChartData = new PieChartData();
-    List<String> categories = new ArrayList<>();
 
 
-    List<SliceValue> pieData = new ArrayList<>();
+    ColumnChartData data;
+    ColumnChartView chart;
+    List<Column> columns = new ArrayList<>();
+    List<SubcolumnValue> rev = new ArrayList<>();
+    List<SubcolumnValue> dep = new ArrayList<>();
+    int numcol = 2, numsubcol=1;
 
 
     @Override
@@ -49,24 +57,11 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         start=findViewById(R.id.bstartdate);
         end=findViewById(R.id.benddate);
         ok=findViewById(R.id.bok);
-        rev=findViewById(R.id.brevenu);
-        dep=findViewById(R.id.bdepense);
-
-        final PieChartView pieChartView = findViewById(R.id.chart);
-
-        /*pieData.add(new SliceValue(35, Color.BLUE));
-        pieData.add(new SliceValue(15, Color.GRAY));
-        pieData.add(new SliceValue(30, Color.RED));
-        pieData.add(new SliceValue(75, Color.GREEN));
-
-        PieChartData pieChartData = new PieChartData(pieData);
-
-        pieChartView.setPieChartData(pieChartData);
-        */
+        chart = findViewById(R.id.chart);
 
 
 
-
+     //settage des dates de debut et fin
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 a=true;
@@ -81,90 +76,50 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 datePicker(end);
             }
         });
+    //fin settage dates
 
+
+
+
+
+
+    //graphique
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 //a mettre en commentaire
-                pieChartData.setHasLabels(true);
-                categories.add("Student");
-                categories.add("Q1");
-                categories.add("Q2");
-                categories.add("Q3");
-                pieData.add(new SliceValue(65, Color.BLUE).setLabel(categories.get(0)));
-                pieData.add(new SliceValue(25, Color.GRAY).setLabel(categories.get(1)));
-                pieData.add(new SliceValue(15, Color.RED).setLabel(categories.get(2)));
-                pieData.add(new SliceValue(30, Color.GREEN).setLabel(categories.get(3)));
+                rev.add(new SubcolumnValue(20,Color.GREEN).setLabel("Revenus"));
+                Column temp = new Column(rev);
+                temp.setHasLabels(true);
+                columns.add(temp);
 
-                pieChartData.setValues(pieData);
 
-                pieChartView.setPieChartData(pieChartData);
-                pieChartView.setChartRotationEnabled(true);
+
+                dep.add(new SubcolumnValue(30,Color.RED).setLabel("Depenses"));
+                Column temp1 = new Column(dep);
+                temp1.setHasLabels(true);
+                columns.add(temp1);
+
+                data=new ColumnChartData(columns);
+
+                data.setAxisXBottom(null);
+                data.setAxisYLeft(null);
+
+                chart.setColumnChartData(data);
+
+
+
                 //jusque la
 
-                dep.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                        databaseAccess.open();
-
-                        /*
-                        1) prendre tout les diary compris entre les dates
-                        2) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
-                        3) mettre les val des types dans la list categories
-                            4) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
-                            5) compter combien de resultat
-                            6) pieData.add(new SliceValue(nombre compté , couleur du type)
-
-
-                            SliceValue sliceValue = new SliceValue(44, Color.RED);
-                            sliceValue.setLabel(("Students " + (int)sliceValue.getValue() + "%" ).toCharArray());
-
-                        */
-
-                        databaseAccess.close();
-
-                        pieChartData.setValues(pieData);
-                        PieChartData pieChartData = new PieChartData(pieData);
-
-                    }
-                });
-
-                rev.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                        databaseAccess.open();
-
-                        /*
-                        1) prendre tout les diary compris entre les dates
-                        1) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
-                        2) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
-                            3) compter combien de resultat
-                            4) pieData.add(new SliceValue(nombre compté , couleur du type)
-
-
-                            SliceValue sliceValue = new SliceValue(44, Color.RED);
-                            sliceValue.setLabel(("Students " + (int)sliceValue.getValue() + "%" ).toCharArray());
-                       */
-
-                        databaseAccess.close();
-
-                        pieChartData.setValues(pieData);
-                        PieChartData pieChartData = new PieChartData(pieData);
-
-                    }
-                });
 
             }
         });
 
 
-        pieChartView.setOnValueTouchListener(new ValueTouchListener(){
+        /*pieChartView.setOnValueTouchListener(new ValueTouchListener(){
             @Override
             public void onValueSelected(int arcIndex, SliceValue value) {
                 super.onValueSelected(arcIndex, value);
@@ -173,34 +128,12 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 intent.putExtra("category",categories.get(i));
                 startActivity(intent);
             }
-        });
+        });*/
 
     }
 
-    public boolean onTouchEvent(MotionEvent touchevent){ //evenement qui se lance quand on click
-        switch (touchevent.getAction()){
 
-            case MotionEvent.ACTION_DOWN: //quand on appuye sur l'ecran
-                x1= touchevent.getX(); //endroit où on a appuyé
-                break;
 
-            case MotionEvent.ACTION_UP: //quand on lasce l'ecran
-                x2=touchevent.getX(); //endroit où on relasce
-                if(x1<x2){ //si on a été à droite
-                    Intent intent = new Intent(SummaryActivity.this,SummarySwipeLeftActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
-                }
-                if(x2<x1){ //si on a été à gauche
-                    Intent intent = new Intent(SummaryActivity.this,SummaryCategoryTransactionActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
-                }
-                break;
-
-        }
-        return false;
-    }
 
 
     //début de la partie dédiée au calendrier
@@ -246,8 +179,36 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
 
 
+
+    public boolean onTouchEvent(MotionEvent touchevent){ //evenement qui se lance quand on click
+        switch (touchevent.getAction()){
+
+            case MotionEvent.ACTION_DOWN: //quand on appuye sur l'ecran
+                x1= touchevent.getX(); //endroit où on a appuyé
+                break;
+
+            case MotionEvent.ACTION_UP: //quand on lasce l'ecran
+                x2=touchevent.getX(); //endroit où on relasce
+                if(x1<x2){ //si on a été à droite
+                    Intent intent = new Intent(SummaryActivity.this,SummarySwipeLeftActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
+                }
+                if(x2<x1){ //si on a été à gauche
+                    Intent intent = new Intent(SummaryActivity.this,SummaryCategoryTransactionActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
+                }
+                break;
+
+        }
+        return false;
+    }
+
+
+
     //pour le touchlistener sur le graphique
-    private class ValueTouchListener implements PieChartOnValueSelectListener {
+    /*private class ValueTouchListener implements PieChartOnValueSelectListener {
         @Override
         public void onValueSelected(int arcIndex, SliceValue value) {
 
@@ -257,5 +218,64 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         public void onValueDeselected() {
 
         }
-    }
+    }*/
 }
+
+
+/*
+ dep.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                        databaseAccess.open();
+
+                        /*
+                        1) prendre tout les diary compris entre les dates
+                        2) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
+                        3) mettre les val des types dans la list categories
+                            4) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
+                            5) compter combien de resultat
+                            6) pieData.add(new SliceValue(nombre compté , couleur du type)
+
+
+                            SliceValue sliceValue = new SliceValue(44, Color.RED);
+                            sliceValue.setLabel(("Students " + (int)sliceValue.getValue() + "%" ).toCharArray());
+
+
+
+                        databaseAccess.close();
+
+                                pieChartData.setValues(pieData);
+                                PieChartData pieChartData = new PieChartData(pieData);
+
+                                }
+                                });
+
+                                rev.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+
+        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+        databaseAccess.open();
+
+                        /*
+                        1) prendre tout les diary compris entre les dates
+                        1) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
+                        2) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
+                            3) compter combien de resultat
+                            4) pieData.add(new SliceValue(nombre compté , couleur du type)
+
+
+                            SliceValue sliceValue = new SliceValue(44, Color.RED);
+                            sliceValue.setLabel(("Students " + (int)sliceValue.getValue() + "%" ).toCharArray());
+
+
+        databaseAccess.close();
+
+        pieChartData.setValues(pieData);
+        PieChartData pieChartData = new PieChartData(pieData);
+
+        }
+        });
+*/
