@@ -113,6 +113,7 @@ public class CountsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 child_count=new ArrayList<>();
                Intent intent = new Intent(CountsActivity.this, Superviseur.class);
+               intent.putExtra("userEmail", userEmail);
                startActivityForResult(intent, 1);
             }
         });
@@ -168,7 +169,12 @@ public class CountsActivity extends AppCompatActivity {
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                final String EmailEnfant= databaseAccess.getStringAttributWhere("Email", "User", "Name","Martin");
+
+                Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
+                final String EmailSupervisor = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
+
+
+                final String EmailEnfant= databaseAccess.getStringAttributWhere("EmailUser", "Control", "EmailSupervisor",EmailSupervisor);
 
                 for (int k = 0; k < databaseAccess.getcount("NameCount","Count","Email",EmailEnfant); k++){
 
