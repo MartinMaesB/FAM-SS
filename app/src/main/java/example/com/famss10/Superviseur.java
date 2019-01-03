@@ -14,6 +14,8 @@ public class Superviseur extends AppCompatActivity {
     private EditText NameUser, NameCount, Relation;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,16 @@ public class Superviseur extends AppCompatActivity {
 
         final Intent intent=getIntent();
         final String EmailSupervisor = intent.getStringExtra("userEmail");
+
+        AllComptes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(AllComptes.isChecked()){
+                    NameCount.setEnabled(false);
+                }
+                else NameCount.setEnabled(true);
+            }
+        });
 
 
         Valider.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +57,9 @@ public class Superviseur extends AppCompatActivity {
                 if(nameuser.length()==0){
                     display("Veuillez entrer un nom d'utilisateur"," ");
                     OK=false;}
-                if(namecount.length()==0){
+
+
+                if(namecount.length()==0 && !AllComptes.isChecked()){
                     display("Veuillez entrer un nom de compte"," ");
                     OK=false;}
                 if(relation.length()==0){
@@ -55,12 +69,12 @@ public class Superviseur extends AppCompatActivity {
                 if (OK==true){
 
                     String emailsupervisor=databaseAccess.getStringAttributWhere("EmailSupervisor","Supervisor","EmailSupervisor",EmailSupervisor);
-                    if(emailsupervisor!=null) databaseAccess.addSupervisor(EmailSupervisor);
+                    if(emailsupervisor==null) {databaseAccess.addSupervisor(EmailSupervisor);}
                     String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
-
                     databaseAccess.addControl(EmailEnfant,EmailSupervisor,relation);
-
-                    setResult(1);
+                    //display(EmailEnfant,EmailSupervisor);
+                    if (AllComptes.isChecked()) setResult(1);
+                    else setResult(2);
                     finish();}
             }
         });
