@@ -221,11 +221,14 @@ public class DatabaseAccess {
     }
 
     ///////////////Frequency////////////////////////////
-    public void addFrequency (java.sql.Date startdate, java.sql.Date enddate){
-        db.execSQL("insert into Frequency (StartDate, EndDate) VALUES ('"+startdate+"','"+enddate+"')", new String[]{});
+    public void addFrequency (Integer nombre, java.sql.Date startdate, java.sql.Date enddate){
+        db.execSQL("insert into Frequency (StartDate, EndDate, NbrRépétitions) VALUES ('"+startdate+"','"+enddate+"','"+nombre+"')", new String[]{});
     }
 
-    
+    public Integer getFrequencyRepetitions(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
+        c=db.rawQuery("select NbrRépétitions from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"',", new String[]{});
+        return c.getCount();
+    }
 
 
     public ArrayList<String> getToutFrequency(){

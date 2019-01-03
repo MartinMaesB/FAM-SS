@@ -155,8 +155,8 @@
                 android:layout_marginRight="8dp"
                 android:textSize="18dp"
                 android:ems="10"
-                android:hint="Fréquence : (si transaction répétée)"
-                android:inputType="textPersonName" />
+                android:hint="Nombre de répétitions : (si la transaction est répétée)"
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/tvDateFin"
