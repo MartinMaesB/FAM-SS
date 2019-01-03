@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -21,52 +20,40 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
-import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.view.PieChartView;
+import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
+import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.view.ColumnChartView;
 
 public class SummaryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    float x1,x2;
+    float x1,x2; //position d'appuie et de relasce pour faire le swipe entre activitées
     boolean a; //pour separer les dates de debut et fin
-    Button start,end,ok,rev,dep;
-    Date b;
-    PieChartData pieChartData = new PieChartData();
-    List<String> categories = new ArrayList<>();
+    Button start,end,ok;
+    TextView balance;
+    Date b; //pour setter les dates de debut et de fin
 
-
-    List<SliceValue> pieData = new ArrayList<>();
-
+    ColumnChartData data; //données du graphique
+    ColumnChartView chart; //element dans le xml, pour lui donner des valeurs faut lui passer un "ColumnChartData"
+    //pour la construction des données du graphique
+    List<Column> columns = new ArrayList<>(); //chaque colonne est composé de 1 list de souscolonnes (dans ce cas 1colonne = 1 souscolonne)
+    List<SubcolumnValue> rev = new ArrayList<>(); //list qui contient 1 seul element (car 1 seul souscolonne par colonne) mais on est obligés de faire une List
+    List<SubcolumnValue> dep = new ArrayList<>(); // idem
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
-
-
+     //instanciation des elements dans le xml
         start=findViewById(R.id.bstartdate);
         end=findViewById(R.id.benddate);
         ok=findViewById(R.id.bok);
-        rev=findViewById(R.id.brevenu);
-        dep=findViewById(R.id.bdepense);
+        chart = findViewById(R.id.chart);
+        balance=findViewById(R.id.tvBalance);
 
-        final PieChartView pieChartView = findViewById(R.id.chart);
-
-        /*pieData.add(new SliceValue(35, Color.BLUE));
-        pieData.add(new SliceValue(15, Color.GRAY));
-        pieData.add(new SliceValue(30, Color.RED));
-        pieData.add(new SliceValue(75, Color.GREEN));
-
-        PieChartData pieChartData = new PieChartData(pieData);
-
-        pieChartView.setPieChartData(pieChartData);
-        */
-
-
-
-
+     //settage des dates de debut et fin
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 a=true;
@@ -81,102 +68,125 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 datePicker(end);
             }
         });
+     //fin settage dates
 
+
+
+
+
+
+    //graphique qui se génére à l'appuye du bouton ok
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                //a mettre en commentaire
-                pieChartData.setHasLabels(true);
-                categories.add("Student");
-                categories.add("Q1");
-                categories.add("Q2");
-                categories.add("Q3");
-                pieData.add(new SliceValue(65, Color.BLUE).setLabel(categories.get(0)));
-                pieData.add(new SliceValue(25, Color.GRAY).setLabel(categories.get(1)));
-                pieData.add(new SliceValue(15, Color.RED).setLabel(categories.get(2)));
-                pieData.add(new SliceValue(30, Color.GREEN).setLabel(categories.get(3)));
-
-                pieChartData.setValues(pieData);
-
-                pieChartView.setPieChartData(pieChartData);
-                pieChartView.setChartRotationEnabled(true);
-                //jusque la
-
-                dep.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                        databaseAccess.open();
-
-                        /*
-                        1) prendre tout les diary compris entre les dates
-                        2) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
-                        3) mettre les val des types dans la list categories
-                            4) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
-                            5) compter combien de resultat
-                            6) pieData.add(new SliceValue(nombre compté , couleur du type)
+         //1ere colonne (Revenus)
+                float revenus=20;
+                rev.add(new SubcolumnValue(revenus,Color.GREEN).setLabel("Revenus : "+revenus)); //on cré une souscolonne et on la met dans la liste des souscolonne
+                Column temp = new Column(rev); //creation d'une colonne -> faut passer une list de souscolonnes comme argument
+                temp.setHasLabels(true); //pour mettre un texte dans la colonne
+                columns.add(temp); // on met la colonne crée dans la liste des colonnes (pas les données du graph)
 
 
-                            SliceValue sliceValue = new SliceValue(44, Color.RED);
-                            sliceValue.setLabel(("Students " + (int)sliceValue.getValue() + "%" ).toCharArray());
+         //2eme colonne(Depenses)
+                //voir commentaires au dessus
+                float depenses=30;
+                dep.add(new SubcolumnValue(depenses,Color.RED).setLabel("Depenses : "+depenses));
+                Column temp1 = new Column(dep);
+                temp1.setHasLabels(true);
+                columns.add(temp1);
 
-                        */
+         //on cré la variable des données du graphique en lui passant la liste des colonnes
+                data=new ColumnChartData(columns);
 
-                        databaseAccess.close();
+         //pour definir des axes
+                data.setAxisXBottom(null);
+                data.setAxisYLeft(null);
 
-                        pieChartData.setValues(pieData);
-                        PieChartData pieChartData = new PieChartData(pieData);
+        //on donne les donnés au graphique
+                chart.setColumnChartData(data);
 
-                    }
-                });
-
-                rev.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                        databaseAccess.open();
-
-                        /*
-                        1) prendre tout les diary compris entre les dates
-                        1) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
-                        2) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
-                            3) compter combien de resultat
-                            4) pieData.add(new SliceValue(nombre compté , couleur du type)
+         //pour affichier le solde de la periode
+                float bal=revenus-depenses;
+                balance.setText("Balance : "+Float.toString(bal));
+                if(bal>0){
+                    balance.setTextColor(Color.GREEN);
+                } if(bal<0){
+                    balance.setTextColor(Color.RED);
+                }
 
 
-                            SliceValue sliceValue = new SliceValue(44, Color.RED);
-                            sliceValue.setLabel(("Students " + (int)sliceValue.getValue() + "%" ).toCharArray());
-                       */
 
-                        databaseAccess.close();
-
-                        pieChartData.setValues(pieData);
-                        PieChartData pieChartData = new PieChartData(pieData);
-
-                    }
-                });
 
             }
         });
 
 
-        pieChartView.setOnValueTouchListener(new ValueTouchListener(){
+     //pour quand on click sur une des 2 colonnes
+        chart.setOnValueTouchListener(new ValueTouchListener(){ //ValueTouchListener classe definie ici plus bas, elle contient 2 methodes: quan on selectionne et quand on deselectionne (la 2eme nous interesse pas)
             @Override
-            public void onValueSelected(int arcIndex, SliceValue value) {
-                super.onValueSelected(arcIndex, value);
-                int i = pieData.indexOf(value);
-                Intent intent =new Intent(SummaryActivity.this,SummaryCategoryTransactionActivity.class);
-                intent.putExtra("category",categories.get(i));
+            public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+                super.onValueSelected(columnIndex, subcolumnIndex, value);
+                Intent intent = new Intent(SummaryActivity.this,SummaryPieChartActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+
+
+
+
+
+// --------------PARTIE POUR LES 2 CALANDRIERS--------------
+    public void datePicker(View view){
+
+        DatePickerFragment fragment = new DatePickerFragment();
+        fragment.show(getSupportFragmentManager(),"date");
+    }
+
+    private void setDate(final Calendar calendar){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        //pour dire dans quel textView il doit mettre la date
+        if(a==true){
+            ((TextView)findViewById(R.id.etstart)).setText(sdf.format(calendar.getTime()));
+        } else{
+            ((TextView)findViewById(R.id.etend)).setText(sdf.format(calendar.getTime()));
+
+        }
 
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day){
+        Calendar cal = new GregorianCalendar(year,month,day);
+        setDate(cal);
+        Date B= new Date(year, month,day);
+        b=B;
+    }
+
+    public static class DatePickerFragment extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            return new DatePickerDialog(getActivity(),(DatePickerDialog.OnDateSetListener)getActivity(),year,month,day);
+        }
+    }
+// ------------------FIN------------------
+
+
+
+
+
+
+// --------------PARTIE POUR FAIRE SWIPER--------------
     public boolean onTouchEvent(MotionEvent touchevent){ //evenement qui se lance quand on click
         switch (touchevent.getAction()){
 
@@ -201,55 +211,18 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         }
         return false;
     }
+// ------------------FIN------------------
 
 
-    //début de la partie dédiée au calendrier
-    public void datePicker(View view){
-
-        DatePickerFragment fragment = new DatePickerFragment();
-        fragment.show(getSupportFragmentManager(),"date");
-    }
-
-    private void setDate(final Calendar calendar){
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        if(a==true){
-            ((TextView)findViewById(R.id.etstart)).setText(sdf.format(calendar.getTime()));
-        } else{
-            ((TextView)findViewById(R.id.etend)).setText(sdf.format(calendar.getTime()));
-
-        }
-
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int day){
-        Calendar cal = new GregorianCalendar(year,month,day);
-        setDate(cal);
-        Date B= new Date(year, month,day);
-        b=B;
-    }
 
 
-    public static class DatePickerFragment extends DialogFragment {
 
+
+// --------------CLASSE POUR FAIRE CLICKER SUR LES COLONNES DU GRAPH--------------
+
+    private class ValueTouchListener implements ColumnChartOnValueSelectListener {
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState){
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            return new DatePickerDialog(getActivity(),(DatePickerDialog.OnDateSetListener)getActivity(),year,month,day);
-        }
-    }
-
-
-
-    //pour le touchlistener sur le graphique
-    private class ValueTouchListener implements PieChartOnValueSelectListener {
-        @Override
-        public void onValueSelected(int arcIndex, SliceValue value) {
+        public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
 
         }
 
@@ -259,3 +232,6 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         }
     }
 }
+// ------------------FIN------------------
+
+
