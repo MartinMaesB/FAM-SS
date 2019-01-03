@@ -269,14 +269,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         if(tvDate.getText().length()==0){
             messages.add("Veuillez entrer la date de cette transaction");
             OK=false;}
-
-
         if(Type.equals("Type : Transfert")){
             if(Compte.length()==0) {
                 messages.add("Veuillez entrer un compte receveur. S'il n'y en a pas, veuillez écrire :'Aucun' ");
                 OK=false;}
         }
-
         if((cb).isChecked()){
             if(tvDateFin.getText().length()==0){
                 messages.add("Veuillez entrer une date de fin de répétition pour cette transaction");
@@ -285,6 +282,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 messages.add("Veuillez entrer une fréquence pour cette transaction");
                 OK=false;}
             }
+//vérification des conditions
+        //if()
+
 
         if (OK) {
 
