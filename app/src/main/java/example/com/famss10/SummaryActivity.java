@@ -41,7 +41,6 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
     List<SubcolumnValue> rev = new ArrayList<>(); //list qui contient 1 seul element (car 1 seul souscolonne par colonne) mais on est obligés de faire une List
     List<SubcolumnValue> dep = new ArrayList<>(); // idem
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +52,6 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         ok=findViewById(R.id.bok);
         chart = findViewById(R.id.chart);
         balance=findViewById(R.id.tvBalance);
-
-
 
      //settage des dates de debut et fin
         start.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +127,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
             @Override
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
                 super.onValueSelected(columnIndex, subcolumnIndex, value);
-                Intent intent = new Intent(SummaryActivity.this,SummaryCategoryTransactionActivity.class);
+                Intent intent = new Intent(SummaryActivity.this,SummaryPieChartActivity.class);
                 startActivity(intent);
             }
         });
