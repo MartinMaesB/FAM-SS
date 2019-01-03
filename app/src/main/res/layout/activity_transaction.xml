@@ -90,7 +90,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:ems="10"
-                android:hint="Compte receveur (si transfert)"
+                android:hint="Compte receveur (si type transfert)"
                 android:inputType="textPersonName" />
 
             <EditText

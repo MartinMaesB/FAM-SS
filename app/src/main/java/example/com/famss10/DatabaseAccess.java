@@ -205,10 +205,21 @@ public class DatabaseAccess {
         db.execSQL("insert into Category(idCategory) VALUES ('"+nom+"')", new String[]{});
     }
 
-    public void addCategor (String nom,String color) {
+    public void addCategory (String nom,String color) {
         db.execSQL("insert into Category (idCategory,Color)VALUES ('"+nom+"'+'"+color+"')", new String[]{});
     }
 
+    public String getCategory(String nom){
+        c=db.rawQuery("select idCategory from Category", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+
+            String sexe= c.getString(0);
+            if(sexe.equals(nom))
+            buffer.append(""+sexe);
+        }
+        return buffer.toString() ;
+    }
 
 
     public ArrayList<String> getToutNomCategory(){
@@ -246,8 +257,13 @@ public class DatabaseAccess {
         db.execSQL("insert into Frequency (StartDate, EndDate, NbrRépétitions) VALUES ('"+startdate+"','"+enddate+"','"+nombre+"')", new String[]{});
     }
 
+
+    public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
+        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"',NbrRépétitons='"+nombre+"'", new String[]{});
+        return c.getInt(0);
+    }
     public Integer getFrequencyRepetitions(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
-        c=db.rawQuery("select NbrRépétitions from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"',", new String[]{});
+        c=db.rawQuery("select NbrRépétitions from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"'", new String[]{});
         return c.getCount();
     }
 
