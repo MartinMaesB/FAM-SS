@@ -14,7 +14,7 @@ public class CountsActivity extends AppCompatActivity {
     private Button new_pers_count,deconnexion, Superviser, Supprimer;
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
-    private int i=0;
+    private int i=0, indexBtnChild=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class CountsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_counts);
 
         pers_count=new ArrayList<>();
+        child_count=new ArrayList<>();
 
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
         final String userEmail = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
@@ -45,8 +46,9 @@ public class CountsActivity extends AppCompatActivity {
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
+
+        ////////////////////////////MES  COMPTES////////////////////////////////////
         for (int j = 0; j < databaseAccess.getcount("NameCount","Count","Email",userEmail); j++){
-        //for (int j = 0; j < databaseAccess.getcount("NameCount", "Count"); j++) {
 
             pers_count.add(new Button(CountsActivity.this));
             pers_count_layout.addView(pers_count.get(j));
@@ -64,22 +66,6 @@ public class CountsActivity extends AppCompatActivity {
             i = j+1;
             //display("j", String.valueOf(j));
         }
-
-       /* if (databaseAccess.getcount("NameCount", "Count","Email",userEmail) != 0) {
-            for (final Button button:pers_count) {
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent intent = new Intent(CountsActivity.this, CountActivity.class);
-                        intent.putExtra("idCount", button.getId());
-                        intent.putExtra("userEmail",userEmail);
-                        startActivity(intent);
-                        //finish();
-                    }
-                });
-            }
-        }*/
 
         if (databaseAccess.getcount("NameCount", "Count","Email",userEmail) != 0) {
             for (int j = 0; j < databaseAccess.getcount("NameCount", "Count", "Email", userEmail); j++) {
@@ -108,18 +94,64 @@ public class CountsActivity extends AppCompatActivity {
             });
 
 
+        ////////////////////////////////////////COMPTES ENFANTS///////////////////////////////////////////////
+
+
+        for (int m =0; m<databaseAccess.getcount("EmailUser", "Control","EmailSupervisor",userEmail);m++) {
+
+            final String EmailEnfant = databaseAccess.getStringAttribut("EmailUser", "Control", "EmailSupervisor", userEmail,m);
+            String NameEnfant = databaseAccess.getStringAttributWhere("Name", "User", "Email", EmailEnfant);
+            //display(EmailEnfant,NameEnfant);
+
+            indexBtnChild=indexBtnChild+1;
+
+            for (int j = 0; j < databaseAccess.getcount("NameCount", "Count", "Email", EmailEnfant); j++) {
+
+
+                indexBtnChild=indexBtnChild+j;
+                //display(String.valueOf(indexBtnChild),"");
+                child_count.add(new Button(CountsActivity.this));
+                ComptesEnfants.addView(child_count.get(indexBtnChild-1));
+                child_count.get(indexBtnChild-1).setId(indexBtnChild-1);
+
+               String nameCount = databaseAccess.getStringAttribut("NameCount", "Count", "Email", EmailEnfant, j);
+               int balance = databaseAccess.getintAttribut("Balance", "Count", "Email", EmailEnfant, j);
+               String Currency = databaseAccess.getStringAttribut("Currency", "Count", "Email", EmailEnfant, j);
+
+
+                child_count.get(indexBtnChild-1).setText(NameEnfant+"\n"+nameCount + "\n" + String.valueOf(balance) + " " + Currency);
+
+                //display("j", String.valueOf(j));
+            }
+
+            if (indexBtnChild > 0) {
+                for (int j = 0; j < indexBtnChild-1; j++) {
+                    final int position = j;
+                    child_count.get(j).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent intent = new Intent(CountsActivity.this, CountActivity.class);
+                            intent.putExtra("index", position);
+                            intent.putExtra("userEmail", EmailEnfant);
+                            startActivity(intent);
+                            //finish();
+                        }
+                    });
+                }
+            }
+
+
+        }
         Superviser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                child_count=new ArrayList<>();
-               Intent intent = new Intent(CountsActivity.this, Superviseur.class);
-               intent.putExtra("userEmail", userEmail);
-               startActivityForResult(intent, 1);
+
+                Intent intent = new Intent(CountsActivity.this, Superviseur.class);
+                intent.putExtra("userEmail", userEmail);
+                startActivityForResult(intent, 1);
             }
         });
-
-
-
         databaseAccess.close();
         }
 
@@ -179,9 +211,10 @@ public class CountsActivity extends AppCompatActivity {
                 //display(EmailEnfant,EmailSupervisor);
                 for (int k = 0; k < databaseAccess.getcount("NameCount","Count","Email",EmailEnfant); k++){
 
+                    indexBtnChild=indexBtnChild+k;
                     child_count.add(new Button(CountsActivity.this));
-                    ComptesEnfants.addView(child_count.get(k));
-                    child_count.get(k).setId(k);
+                    ComptesEnfants.addView(child_count.get(indexBtnChild));
+                    child_count.get(indexBtnChild).setId(indexBtnChild);
 
                     String nameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",EmailEnfant, k);
                     int balance = databaseAccess.getintAttribut("Balance","Count","Email",EmailEnfant, k);
@@ -189,14 +222,14 @@ public class CountsActivity extends AppCompatActivity {
 
                     String NameEnfant = databaseAccess.getStringAttributWhere("Name","User","Email",EmailEnfant);
 
-                    child_count.get(k).setText(NameEnfant+"\n"+nameCount+"\n"+String.valueOf(balance)+" "+Currency);
+                    child_count.get(indexBtnChild).setText(NameEnfant+"\n"+nameCount+"\n"+String.valueOf(balance)+" "+Currency);
                     //display("j", String.valueOf(j));
                 }
 
                 if (databaseAccess.getcount("NameCount", "Count","Email",EmailEnfant) != 0) {
                     for (int k = 0; k < databaseAccess.getcount("NameCount", "Count", "Email", EmailEnfant); k++) {
-                        final int position = k;
-                        child_count.get(k).setOnClickListener(new View.OnClickListener() {
+                        final int position = indexBtnChild+k;
+                        child_count.get(indexBtnChild+k).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
