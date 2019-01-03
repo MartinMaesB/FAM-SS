@@ -14,11 +14,11 @@ public class SummaryCategoryTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary_category_transaction);
 
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         String category = intent.getStringExtra("category");
 
         title=findViewById(R.id.tvcategory);
-        title.setText(category);
+        title.setText(category);*/
     }
 
 }
