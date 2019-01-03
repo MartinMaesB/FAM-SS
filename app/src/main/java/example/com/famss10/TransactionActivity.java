@@ -143,7 +143,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-                validate();
+                validate(etCompte,etDescription,etMontant,etNameTransaction,tvCatégorie,tvFréquence,tvType,tvDate,tvDateFin,cbFréquence,bConfirmer);
             }
         });
 
@@ -238,7 +238,67 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         }
     }
 
-    void validate(){}
+    void validate(EditText etCompte,EditText etDescription,EditText etMontant,EditText etNameTransaction,TextView tvCatégorie,TextView tvFréquence, TextView tvType, TextView tvDate,TextView tvDateFin,CheckBox cb,Button b){
+
+        String Compte=etCompte.getText().toString();
+        String Description= etDescription.getText().toString();
+        String Montant=etMontant.getText().toString();
+        String NameTransaction=etNameTransaction.getText().toString();
+        String Catégorie=tvCatégorie.getText().toString();
+        String Fréquence=tvFréquence.getText().toString();
+        String Type=tvType.getText().toString();
+        Date DateDébut= (Date) tvDate.getText();
+        Date DateFin=(Date) tvDateFin.getText();
 
 
+        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+        databaseAccess.open();
+
+
+
+
+
+        boolean OK = true;
+        ArrayList <String> messages=new ArrayList<>();
+
+        if(NameTransaction.length()==0){
+            messages.add("Vous n'avez nommé votre transaction!");
+            OK=false;}
+        if(Catégorie.length()==0){
+            messages.add("Vous n'avez pas donné de type a cette transaction");
+            OK=false;}
+        if((cb).isChecked()){
+            if(Compte.length()==0){
+                messages.add("Veuillez entrer un compte receveur. S'il n'y en a pas, veuillez écrire :'Aucun' ");
+                OK=false;}
+            if(Fréquence.length()==0){
+                messages.add("Veuillez entrer une fréquence ");
+                OK=false;}
+            }
+
+        if (OK==true) {
+
+            databaseAccess.addTransaction();
+            databaseAccess.close();
+        }
+        else displayAttention("Attention",messages);
+    }
+
+    public void display(String title, String content) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.show();
+
+    }
+
+    public void displayAttention(String title, ArrayList<String> messages){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        for (String m : messages){
+            builder.setMessage(m);
+            builder.show();}
+    }
 }

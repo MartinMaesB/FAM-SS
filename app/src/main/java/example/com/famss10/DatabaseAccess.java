@@ -256,6 +256,13 @@ public class DatabaseAccess {
 
     ///////////////TransactionActivity/////////////////////
 
+
+    public void addTransaction(){
+        //db.execSQL("insert into Supervisor (EmailSupervisor) VALUES ('"+EmailSupervisor+"')", new String[]{});
+    }
+
+
+
     public void getTransactions(Date start, Date end , String count){
         db.execSQL("select Transactions.Name,Transactions.Mountant, Diary.Date From Transactions INNER JOIN Diary ON Transactions.idDiary = Diary.idDiary");
     }
