@@ -35,12 +35,22 @@ public class CountsActivity extends AppCompatActivity {
         this.Superviser=findViewById(R.id.btnSuperviser);
 
         this.deconnexion=findViewById(R.id.btnDeco);
-        this.Supprimer=findViewById(R.id.btnSupprimer);
+        this.Supprimer=findViewById(R.id.btnSuppression);
 
         deconnexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        Supprimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (CountsActivity.this, SuppressionCompte.class);
+                intent.putExtra("userEmail", userEmail);
+                startActivity(intent);
+               // startActivityForResult(intent,3);
             }
         });
 
@@ -153,6 +163,9 @@ public class CountsActivity extends AppCompatActivity {
             }
         });
         databaseAccess.close();
+
+
+
         }
 
 
@@ -242,6 +255,11 @@ public class CountsActivity extends AppCompatActivity {
                         });
                     }
                 }
+            }
+        }
+
+        if (requestCode==3){
+            if (resultCode==3){
             }
         }
 

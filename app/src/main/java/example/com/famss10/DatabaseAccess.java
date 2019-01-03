@@ -120,6 +120,38 @@ public class DatabaseAccess {
         return buffer.toString();
     }
 */
+    /////////////////Select, delete, update //////////
+
+    public String getStringAttribut(String select, String from, String where,String element, int i ){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        c.moveToPosition(i);
+        String nom = c.getString(0);
+        buffer.append(""+nom);
+        return buffer.toString();
+    }
+
+    public int getintAttribut(String select, String from, String where,String element, int i ){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        c.moveToPosition(i);
+        int entier = c.getInt(0);
+        return entier;
+    }
+
+    public String getLastStringAttribut(String select, String from, String where, String element){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        c.moveToLast();
+        String nom = c.getString(0);
+        buffer.append(""+nom);
+        return buffer.toString();
+    }
+
+
+    public void delete2 (String from, String where,String Element,String where2, String Element2){
+        db.execSQL("delete from "+from+" where "+where+" '"+Element+"' and "+where2+" ''"+Element2+"'",new String []{});
+    }
+
 
     ////////////////////COUNT////////////////////
     public void addCount (String namecount, String currency, String Email, int balance) {
@@ -150,30 +182,7 @@ public class DatabaseAccess {
 */
 
 
-    public String getStringAttribut(String select, String from, String where,String element, int i ){
-        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-        StringBuffer buffer= new StringBuffer();
-        c.moveToPosition(i);
-        String nom = c.getString(0);
-        buffer.append(""+nom);
-        return buffer.toString();
-    }
 
-    public int getintAttribut(String select, String from, String where,String element, int i ){
-        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-        c.moveToPosition(i);
-        int entier = c.getInt(0);
-        return entier;
-    }
-
-    public String getLastStringAttribut(String select, String from, String where, String element){
-        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-        StringBuffer buffer= new StringBuffer();
-        c.moveToLast();
-        String nom = c.getString(0);
-        buffer.append(""+nom);
-        return buffer.toString();
-    }
     public int getcount (String select, String from, String where, String element){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
         return c.getCount();
@@ -209,6 +218,7 @@ public class DatabaseAccess {
     public void addControl ( String Email, String EmailSupervisor, String relation){
         db.execSQL("insert into Control (EmailUser, EmailSupervisor,Relation) VALUES ('"+Email+"','"+EmailSupervisor+"','"+relation+"')", new String[]{});
     }
+
 
     /////////////////Creation//////////////////////
     public void addCreation (int Quantity, int idDiary, int idSummary){
