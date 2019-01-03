@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.Blob;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DatabaseAccess {
@@ -174,13 +175,20 @@ public class DatabaseAccess {
 
     ////////////////////Category////////////////////
     public void addCategory (String nom) {
-        db.execSQL("insert into Category (idCategory) VALUES ('"+nom+"')", new String[]{});
+        db.execSQL("insert into Category VALUES ('"+nom+"')", new String[]{});
     }
 
-    /*public void getCategory(){
-        c=db.rawQuery("select * from "+"idCategory"+" where "+where+"= '"+element+"'", new String[]{});
-        return c.getCount();
-    }*/
+    public ArrayList<String> getToutCategory(){
+        ArrayList<String> liste=new ArrayList<>();
+        c=db.rawQuery("select idCategory from Category", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String sexe= c.getString(0);
+            buffer.append(""+sexe);
+            liste.add(c.getString(0));
+        }
+        return liste ;
+    }
 
 
 
@@ -203,6 +211,23 @@ public class DatabaseAccess {
     public void addFrequency (java.sql.Date startdate, java.sql.Date enddate){
         db.execSQL("insert into Frequency (StartDate, EndDate) VALUES ('"+startdate+"','"+enddate+"')", new String[]{});
     }
+
+    public ArrayList<String> getToutFrequency(){
+        ArrayList<String> liste=new ArrayList<>();
+        c=db.rawQuery("select idFrequency from Frequency", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String sexe= c.getString(0);
+            buffer.append(""+sexe);
+            liste.add(sexe);
+        }
+        return liste ;
+    }
+
+
+
+
+
 
     ///////////////Summary////////////////////////////
     public void addSummary (Blob graphic, java.sql.Date startdate, Date enddate){
