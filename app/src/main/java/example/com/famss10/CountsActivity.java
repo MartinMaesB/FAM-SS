@@ -174,7 +174,7 @@ public class CountsActivity extends AppCompatActivity {
                 final String EmailSupervisor = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
 
 
-                final String EmailEnfant= databaseAccess.getStringAttributWhere("EmailUser", "Control", "EmailSupervisor",EmailSupervisor);
+                final String EmailEnfant= databaseAccess.getLastStringAttribut("EmailUser", "Control", "EmailSupervisor",EmailSupervisor);
 
                 for (int k = 0; k < databaseAccess.getcount("NameCount","Count","Email",EmailEnfant); k++){
 

@@ -54,10 +54,10 @@ public class Superviseur extends AppCompatActivity {
 
                 if (OK==true){
 
-                    databaseAccess.addSupervisor(relation, EmailSupervisor);
+                    databaseAccess.addSupervisor(EmailSupervisor);
                     String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
 
-                    databaseAccess.addControl(EmailEnfant,EmailSupervisor);
+                    databaseAccess.addControl(EmailEnfant,EmailSupervisor,relation);
 
                     setResult(1);
                     finish();}
