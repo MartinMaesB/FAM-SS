@@ -26,8 +26,8 @@ import java.util.GregorianCalendar;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    public EditText etName, etMail, etBirthday, etPassword, etPassword2;
-    public TextView etSexe;
+    public EditText etName, etMail, etPassword, etPassword2;
+    public TextView  etBirthday,etSexe;
     public Button bRegister;
     public CheckBox CheckBox;
     String [] choixSexe;
@@ -56,6 +56,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             @Override
             public void onClick(View v) {
                 validate ();
+                //Intent registerIntent = new Intent(RegisterActivity.this, ConnexionActivity.class);
+                //RegisterActivity.this.startActivity(registerIntent);
             }
         });
 
@@ -92,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
 
-        final EditText etBirthday = (EditText) findViewById(R.id.etBirthday);
+        final TextView etBirthday = (TextView) findViewById(R.id.etBirthday);
         final Button bCalendar = (Button) findViewById(R.id.bCalendar);
 
         bCalendar.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         String Psw2=etPassword2.getText().toString();
         String Gender=etSexe.getText().toString();
         //String B="Blabla";
-        //Date B= new Date(2001,01,01);
+        Date B= new Date(2001,01,01);
         //Date B= (Date) etBirthday.getText();
         String Mail= etMail.getText().toString();
 
@@ -204,7 +206,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
                 if (OK) {
 
-                    databaseAccess.addUser(Name, Psw, Gender, b, Mail);
+                    databaseAccess.addUser(Name, Psw, Gender, B, Mail);
 
                     String person = Name;
                     String name1 = databaseAccess.getStringAttributWhere("Name", "User", "Name", person);

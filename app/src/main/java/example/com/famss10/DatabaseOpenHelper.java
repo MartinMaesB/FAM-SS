@@ -7,7 +7,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 public class DatabaseOpenHelper extends SQLiteAssetHelper {
     //private static final String DATABASE_NAME="MyExternalDataBase.db";
     private static final String DATABASE_NAME="BddDeTest.db";
-    private static final int DATABASE_VERSION=7;
+    private static final int DATABASE_VERSION=2;
 
     //Constructor
 

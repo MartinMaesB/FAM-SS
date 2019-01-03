@@ -301,7 +301,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         if (OK) {
 
-            //databaseAccess.addTransaction();
+            databaseAccess.addTransaction();
             databaseAccess.close();
         }
         else displayAttention("Attention",messages);
