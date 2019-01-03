@@ -24,7 +24,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
     public TextView input;
     public ArrayList<String> choixCatégorie;
-    Date b;
+    Date b=null;
+    Date c=null;
     public String transfert = "Type : Transfert",autre = "Autres";
 
     @Override
@@ -122,6 +123,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         tvDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 datePicker(tvDate);
+
             }
         });
 
@@ -134,15 +136,6 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         bConfirmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                databaseAccess.open();
-                databaseAccess.addCategoryByName("olé");
-                databaseAccess.close();
-
-
-
-
-
                 validate(etCompte,etDescription,etMontant,etNameTransaction,tvCatégorie,tvFréquence,tvType,tvDate,tvDateFin,cbFréquence,bConfirmer);
             }
         });
@@ -222,6 +215,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
         Date B= new Date(year, month,day);
+        if(b!=null)
+            c=B;
+            else
         b=B;
     }
 
@@ -238,7 +234,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         }
     }
 
-    void validate(EditText etCompte,EditText etDescription,EditText etMontant,EditText etNameTransaction,TextView tvCatégorie,TextView tvFréquence, TextView tvType, TextView tvDate,TextView tvDateFin,CheckBox cb,Button b){
+    void validate(EditText etCompte,EditText etDescription,EditText etMontant,EditText etNameTransaction,TextView tvCatégorie,TextView tvFréquence, TextView tvType, TextView tvDate,TextView tvDateFin,CheckBox cb,Button bt){
 
         String Compte=etCompte.getText().toString();
         String Description= etDescription.getText().toString();
@@ -264,21 +260,35 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         if(NameTransaction.length()==0){
             messages.add("Vous n'avez nommé votre transaction!");
             OK=false;}
-        if(Catégorie.length()==0){
-            messages.add("Vous n'avez pas donné de type a cette transaction");
+        if(Montant.length()==0){
+            messages.add("Vous n'avez donné de montant à votre transaction!");
             OK=false;}
-        if((cb).isChecked()){
-            if(Compte.length()==0){
+        if(Catégorie.length()==0){
+            messages.add("Vous n'avez pas donné de Catégorie à cette transaction");
+            OK=false;}
+        if(tvDate.getText().length()==0){
+            messages.add("Veuillez entrer la date de cette transaction");
+            OK=false;}
+
+
+        if(Type.equals("Type : Transfert")){
+            if(Compte.length()==0) {
                 messages.add("Veuillez entrer un compte receveur. S'il n'y en a pas, veuillez écrire :'Aucun' ");
                 OK=false;}
+        }
+
+        if((cb).isChecked()){
+            if(tvDateFin.getText().length()==0){
+                messages.add("Veuillez entrer une date de fin de répétition pour cette transaction");
+                OK=false;}
             if(Fréquence.length()==0){
-                messages.add("Veuillez entrer une fréquence ");
+                messages.add("Veuillez entrer une fréquence pour cette transaction");
                 OK=false;}
             }
 
-        if (OK==true) {
+        if (OK) {
 
-            databaseAccess.addTransaction();
+            //databaseAccess.addTransaction();
             databaseAccess.close();
         }
         else displayAttention("Attention",messages);
