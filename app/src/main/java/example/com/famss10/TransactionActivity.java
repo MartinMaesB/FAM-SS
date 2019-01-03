@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.app.DatePickerDialog;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,11 +22,9 @@ import java.util.GregorianCalendar;
 
 public class TransactionActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    public EditText etNameTransaction, etDescription, etCompte, etMontant,input;
-    public TextView tvType, tvFréquence,tvCatégorie;
-    public Button bConfirmer;
+    public TextView input;
     public ArrayList<String> choixCatégorie;
-    Date b ;
+    Date b;
     public String transfert = "Type : Transfert",autre = "Autres";
 
     @Override
@@ -33,17 +32,41 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
 
-        etCompte=findViewById(R.id.etCompte);
-        etDescription=findViewById(R.id.etDescription);
-        etMontant=findViewById(R.id.etMontant);
-        etNameTransaction=findViewById(R.id.etNameTransaction);
-
-        tvCatégorie=findViewById(R.id.tvCatégorie);
+        final EditText etCompte=findViewById(R.id.etCompte);
+        final EditText etDescription=findViewById(R.id.etDescription);
+        final EditText etMontant=findViewById(R.id.etMontant);
+        final EditText etNameTransaction=findViewById(R.id.etNameTransaction);
+        final CheckBox cbFréquence=findViewById(R.id.cbFréquence);
+        final TextView tvCatégorie=findViewById(R.id.tvCatégorie);
         final TextView tvDate=findViewById(R.id.tvDate);
-        tvFréquence=findViewById(R.id.tvFréquence);
-        tvType=findViewById(R.id.tvType);
-        bConfirmer=findViewById(R.id.bConfirmer);
+        final TextView tvFréquence=findViewById(R.id.tvFréquence);
+        final TextView tvType=findViewById(R.id.tvType);
+        final Button bConfirmer=findViewById(R.id.bConfirmer);
+        final TextView tvDateFin=findViewById(R.id.tvDateFin);
         etCompte.setEnabled(false);
+        tvFréquence.setEnabled(false);
+        tvDateFin.setEnabled(false);
+        tvDate.setHint("Date de la transaction");
+        cbFréquence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!cbFréquence.isChecked()){
+                  tvFréquence.setEnabled(false);
+                  tvDateFin.setEnabled(false);
+                  tvDate.setHint("Date de la transaction");
+
+                }
+                else {tvFréquence.setEnabled(true);
+                tvDateFin.setEnabled(true);
+                    tvDate.setHint("Date de la première répétition");
+
+                }
+            }
+        });
+
+
+
+
 
         tvType.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,11 +79,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 String titre= new String ("Choissez un Type de transaction :");
                 String ajout=new String("");
                 Boolean ajouter = false;
-                menuPopUp (tvType,choixCatégorie, titre,ajouter, ajout);
-                if (transfert.equals(tvType.getText().toString()))
-                    etCompte.setEnabled(true);
-                else etCompte.setEnabled(false);
-
+                menuPopUp (tvType,choixCatégorie, titre,ajouter, ajout,tvType,etCompte);
             }
         });
 
@@ -69,39 +88,32 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         tvCatégorie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
-                choixCatégorie.add("Achats de Noël");
-                choixCatégorie.add("Charges");
-                choixCatégorie.add("Nourriture");
+                choixCatégorie=databaseAccess.getToutNomCategory();
                 String titre= new String ("Choissez une catégorie:");
                 String ajout= new String("Ajouter une Catégorie");
                 Boolean ajouter = true;
-
-                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout);
-                //if (autre.equals(tvCatégorie.getText().toString()))
-                  //  menuAjout(tvCatégorie);
-
-
-
-
-
+                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout,tvType,etCompte);
+                databaseAccess.close();
             }
         });
 
-        /**Attention, est ce qu'on ne ferait pas une nouvelle page ou quoi pour la fréquence?
-         * Parce que c'est clairement nul ce que j'ai fait*/
+
+
         tvFréquence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
-                choixCatégorie.add("Ne pas répéter");
-                choixCatégorie.add("1x par mois");
-                choixCatégorie.add("ax par semaine");
+                choixCatégorie=databaseAccess.getToutFrequency();
                 String titre= new String ("Choissez une fréquence :");
                 String ajout= new String("Ajouter une fréquence");
                 Boolean ajouter = true;
-                menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout);
-               // DatabaseAccess.addCategory();
+                menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout,tvType,etCompte);
+                databaseAccess.close();
             }
         });
 
@@ -113,18 +125,39 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
         });
 
+        tvDateFin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                datePicker(tvDateFin);
+            }
+        });
+
+        bConfirmer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+                databaseAccess.addCategoryByName("olé");
+                databaseAccess.close();
+
+
+
+
+
+                validate(etCompte,etDescription,etMontant,etNameTransaction,tvCatégorie,tvFréquence,tvType,tvDate,tvDateFin,cbFréquence,bConfirmer);
+            }
+        });
+
+
 
     }
 
 
-
-    void menuPopUp(final TextView T, final ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout){
+    void menuPopUp(final TextView T, ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout, final TextView tvType, final EditText etCompte){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(TransactionActivity.this);
         mBuilder.setTitle(titre);
         mBuilder.setIcon(R.drawable.icon);
 
         if(ajouter){
-            //choixCatégorie.add("Autres");
             input=new EditText(this);
             input.setHint(ajout);
             //mBuilder.setView(input,15,0,0,0);
@@ -134,8 +167,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String txt=input.getText().toString();
-                tvCatégorie.setText(txt);
-                //DatabaseAccess.addCategory(txt);
+                T.setText(txt);
             }
         });
 
@@ -147,6 +179,13 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 T.setText(s[which]);
+                if (transfert.equals(tvType.getText().toString()))
+                    etCompte.setEnabled(true);
+                else etCompte.setEnabled(false);
+
+
+
+
                 dialog.dismiss();
             }
         });
@@ -199,7 +238,67 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         }
     }
 
+    void validate(EditText etCompte,EditText etDescription,EditText etMontant,EditText etNameTransaction,TextView tvCatégorie,TextView tvFréquence, TextView tvType, TextView tvDate,TextView tvDateFin,CheckBox cb,Button b){
+
+        String Compte=etCompte.getText().toString();
+        String Description= etDescription.getText().toString();
+        String Montant=etMontant.getText().toString();
+        String NameTransaction=etNameTransaction.getText().toString();
+        String Catégorie=tvCatégorie.getText().toString();
+        String Fréquence=tvFréquence.getText().toString();
+        String Type=tvType.getText().toString();
+        Date DateDébut= (Date) tvDate.getText();
+        Date DateFin=(Date) tvDateFin.getText();
+
+
+        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+        databaseAccess.open();
 
 
 
+
+
+        boolean OK = true;
+        ArrayList <String> messages=new ArrayList<>();
+
+        if(NameTransaction.length()==0){
+            messages.add("Vous n'avez nommé votre transaction!");
+            OK=false;}
+        if(Catégorie.length()==0){
+            messages.add("Vous n'avez pas donné de type a cette transaction");
+            OK=false;}
+        if((cb).isChecked()){
+            if(Compte.length()==0){
+                messages.add("Veuillez entrer un compte receveur. S'il n'y en a pas, veuillez écrire :'Aucun' ");
+                OK=false;}
+            if(Fréquence.length()==0){
+                messages.add("Veuillez entrer une fréquence ");
+                OK=false;}
+            }
+
+        if (OK==true) {
+
+            databaseAccess.addTransaction();
+            databaseAccess.close();
+        }
+        else displayAttention("Attention",messages);
+    }
+
+    public void display(String title, String content) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.show();
+
+    }
+
+    public void displayAttention(String title, ArrayList<String> messages){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        for (String m : messages){
+            builder.setMessage(m);
+            builder.show();}
+    }
 }

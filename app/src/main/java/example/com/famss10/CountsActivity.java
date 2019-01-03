@@ -112,8 +112,9 @@ public class CountsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 child_count=new ArrayList<>();
-                Intent intent = new Intent(CountsActivity.this, SupervisorActivity.class);
-                startActivityForResult(intent, 1);
+               Intent intent = new Intent(CountsActivity.this, Superviseur.class);
+               intent.putExtra("userEmail", userEmail);
+               startActivityForResult(intent, 1);
             }
         });
 
@@ -168,8 +169,14 @@ public class CountsActivity extends AppCompatActivity {
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                final String EmailEnfant= databaseAccess.getStringAttributWhere("Email", "User", "Name","Martin");
 
+                Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
+                final String EmailSupervisor = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
+
+
+                final String EmailEnfant= databaseAccess.getLastStringAttribut("EmailUser", "Control", "EmailSupervisor",EmailSupervisor);
+
+                //display(EmailEnfant,EmailSupervisor);
                 for (int k = 0; k < databaseAccess.getcount("NameCount","Count","Email",EmailEnfant); k++){
 
                     child_count.add(new Button(CountsActivity.this));
@@ -180,7 +187,9 @@ public class CountsActivity extends AppCompatActivity {
                     int balance = databaseAccess.getintAttribut("Balance","Count","Email",EmailEnfant, k);
                     String Currency = databaseAccess.getStringAttribut("Currency","Count", "Email",EmailEnfant,k);
 
-                    child_count.get(k).setText(nameCount+"\n"+String.valueOf(balance)+" "+Currency);
+                    String NameEnfant = databaseAccess.getStringAttributWhere("Name","User","Email",EmailEnfant);
+
+                    child_count.get(k).setText(NameEnfant+"\n"+nameCount+"\n"+String.valueOf(balance)+" "+Currency);
                     //display("j", String.valueOf(j));
                 }
 

@@ -29,7 +29,8 @@
         <activity android:name=".SummaryActivity" />
         <activity android:name=".SummarySwipeLeftActivity" />
         <activity android:name=".SummaryCategoryTransactionActivity" />
-        <activity android:name=".SummarySwipeRightActivity"></activity>
+        <activity android:name=".SummarySwipeRightActivity" />
+        <activity android:name=".Superviseur"></activity>
     </application>
 
 </manifest>

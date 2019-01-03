@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.Blob;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DatabaseAccess {
@@ -79,6 +80,13 @@ public class DatabaseAccess {
 
         }
         return buffer.toString();
+    }
+
+    public int getintAttributWhere(String select, String from, String where,String element ){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+
+        int entier = c.getInt(0);
+        return entier;
     }
 
 /*
@@ -173,20 +181,33 @@ public class DatabaseAccess {
 
 
     ////////////////////Category////////////////////
-    public void addCategory (String nom) {
-        db.execSQL("insert into Category (idCategory) VALUES ('"+nom+"')", new String[]{});
+    public void addCategoryByName (String nom) {
+        db.execSQL("insert into Category(idCategory) VALUES ('"+nom+"')", new String[]{});
     }
 
-    /*public void getCategory(){
-        c=db.rawQuery("select * from "+"idCategory"+" where "+where+"= '"+element+"'", new String[]{});
-        return c.getCount();
-    }*/
+    public void addCategor (String nom,String color) {
+        db.execSQL("insert into Category (idCategory,Color)VALUES ('"+nom+"'+'"+color+"')", new String[]{});
+    }
+
+
+
+    public ArrayList<String> getToutNomCategory(){
+        ArrayList<String> liste=new ArrayList<>();
+        c=db.rawQuery("select idCategory from Category", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String sexe= c.getString(0);
+            buffer.append(""+sexe);
+            liste.add(c.getString(0));
+        }
+        return liste ;
+    }
 
 
 
     /////////////////Control///////////////////////
-    public void addControl (int Quantity, String Email, int idSupervisor){
-        db.execSQL("insert into Control (Quantity, Email, idSupervisor) VALUES ('"+Quantity+"','"+Email+"','"+idSupervisor+"')", new String[]{});
+    public void addControl ( String Email, String EmailSupervisor, String relation){
+        db.execSQL("insert into Control (EmailUser, EmailSupervisor,Relation) VALUES ('"+Email+"','"+EmailSupervisor+"','"+relation+"')", new String[]{});
     }
 
     /////////////////Creation//////////////////////
@@ -204,6 +225,23 @@ public class DatabaseAccess {
         db.execSQL("insert into Frequency (StartDate, EndDate) VALUES ('"+startdate+"','"+enddate+"')", new String[]{});
     }
 
+    public ArrayList<String> getToutFrequency(){
+        ArrayList<String> liste=new ArrayList<>();
+        c=db.rawQuery("select idFrequency from Frequency", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String sexe= c.getString(0);
+            buffer.append(""+sexe);
+            liste.add(sexe);
+        }
+        return liste ;
+    }
+
+
+
+
+
+
     ///////////////Summary////////////////////////////
     public void addSummary (Blob graphic, java.sql.Date startdate, Date enddate){
         db.execSQL("insert into Summary (Graphic, StartDate, EndDate) VALUES ('"+graphic+"','"+startdate+"','"+enddate+"')", new String[]{});
@@ -211,12 +249,19 @@ public class DatabaseAccess {
 
 
     /////////////Supervisor/////////////////////////
-    public void addSupervisor(String relation){
-        db.execSQL("insert into Supervisor (Relation) VALUES ('"+relation+"')", new String[]{});
+    public void addSupervisor( String EmailSupervisor){
+        db.execSQL("insert into Supervisor (EmailSupervisor) VALUES ('"+EmailSupervisor+"')", new String[]{});
     }
 
 
     ///////////////TransactionActivity/////////////////////
+
+
+    public void addTransaction(){
+        //db.execSQL("insert into Supervisor (EmailSupervisor) VALUES ('"+EmailSupervisor+"')", new String[]{});
+    }
+
+
 
     public void getTransactions(Date start, Date end , String count){
         db.execSQL("select Transactions.Name,Transactions.Mountant, Diary.Date From (SELECT Transactions FROM Transactions )INNER JOIN Diary ON Transactions.idDiary = Diary.idDiary");
