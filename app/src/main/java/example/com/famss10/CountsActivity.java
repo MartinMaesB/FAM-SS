@@ -170,11 +170,12 @@ public class CountsActivity extends AppCompatActivity {
         }
 
 
-     //Lorsque l'activité NewCountActivity se ferme  (Mais je ne sais pas à quoi ca sert Intent data)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
             if (resultCode==0) {
 /*
+                /////////////////Méthode1 qui rajoute directement les nouvelles données à l'activity sans la fermer et la réouvrir
+
                 pers_count.add(new Button(CountsActivity.this));
                 pers_count_layout.addView(pers_count.get(i));
                 pers_count.get(i).setId(i);
@@ -205,6 +206,9 @@ public class CountsActivity extends AppCompatActivity {
                     }
                 });
                 databaseAccess.close();*/
+
+
+                //Méthode2 où il suffit de fermer l'activité et la réouvrir
                 Intent intent = getIntent();
                     finish();
                     startActivity(intent);
