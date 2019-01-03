@@ -26,8 +26,8 @@ import java.util.GregorianCalendar;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    public EditText etName, etMail, etBirthday, etPassword, etPassword2;
-    public TextView etSexe;
+    public EditText etName, etMail, etPassword, etPassword2;
+    public TextView  etBirthday,etSexe;
     public Button bRegister;
     public CheckBox CheckBox;
     String [] choixSexe;
@@ -92,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
 
-        final EditText etBirthday = (EditText) findViewById(R.id.etBirthday);
+        final TextView etBirthday = (TextView) findViewById(R.id.etBirthday);
         final Button bCalendar = (Button) findViewById(R.id.bCalendar);
 
         bCalendar.setOnClickListener(new View.OnClickListener() {
