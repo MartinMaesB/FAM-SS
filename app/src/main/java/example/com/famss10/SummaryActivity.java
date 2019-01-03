@@ -33,14 +33,18 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
     Button start,end,ok,rev,dep;
     Date b;
     PieChartData pieChartData = new PieChartData();
+    List<String> categories = new ArrayList<>();
 
 
     List<SliceValue> pieData = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
+
+
 
         start=findViewById(R.id.bstartdate);
         end=findViewById(R.id.benddate);
@@ -85,13 +89,14 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
                 //a mettre en commentaire
                 pieChartData.setHasLabels(true);
-                SliceValue t = new SliceValue(65, Color.BLUE);
-                t.setLabel("Students");
-
-                pieData.add(t);
-                pieData.add(new SliceValue(25, Color.GRAY).setLabel("Q1: $10"));
-                pieData.add(new SliceValue(15, Color.RED).setLabel("Q2: $4"));
-                pieData.add(new SliceValue(30, Color.GREEN).setLabel(("Q3: $18")));
+                categories.add("Student");
+                categories.add("Q1");
+                categories.add("Q2");
+                categories.add("Q3");
+                pieData.add(new SliceValue(65, Color.BLUE).setLabel(categories.get(0)));
+                pieData.add(new SliceValue(25, Color.GRAY).setLabel(categories.get(1)));
+                pieData.add(new SliceValue(15, Color.RED).setLabel(categories.get(2)));
+                pieData.add(new SliceValue(30, Color.GREEN).setLabel(categories.get(3)));
 
                 pieChartData.setValues(pieData);
 
@@ -108,10 +113,11 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
                         /*
                         1) prendre tout les diary compris entre les dates
-                        1) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
-                        2) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
-                            3) compter combien de resultat
-                            4) pieData.add(new SliceValue(nombre compté , couleur du type)
+                        2) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
+                        3) mettre les val des types dans la list categories
+                            4) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
+                            5) compter combien de resultat
+                            6) pieData.add(new SliceValue(nombre compté , couleur du type)
 
 
                             SliceValue sliceValue = new SliceValue(44, Color.RED);
@@ -162,12 +168,10 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
             @Override
             public void onValueSelected(int arcIndex, SliceValue value) {
                 super.onValueSelected(arcIndex, value);
-                char[] a = value.getLabelAsChars();
-                TextView b = findViewById(R.id.textView4);
-                b.setText((a.toString()));
-                /*Intent intent =new Intent(SummaryActivity.this,SummaryCategoryTransactionActivity.class);
-                intent.putExtra("category",a);
-                startActivity(intent);*/
+                int i = pieData.indexOf(value);
+                Intent intent =new Intent(SummaryActivity.this,SummaryCategoryTransactionActivity.class);
+                intent.putExtra("category",categories.get(i));
+                startActivity(intent);
             }
         });
 

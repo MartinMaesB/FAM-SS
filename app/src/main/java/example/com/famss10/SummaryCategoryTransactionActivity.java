@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 
 public class SummaryCategoryTransactionActivity extends AppCompatActivity {
-    TextView text;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +17,8 @@ public class SummaryCategoryTransactionActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String category = intent.getStringExtra("category");
 
-        text=findViewById(R.id.textView3);
-        text.setText(category);
+        title=findViewById(R.id.tvcategory);
+        title.setText(category);
     }
 
 }

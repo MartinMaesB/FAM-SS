@@ -212,6 +212,10 @@ public class DatabaseAccess {
 
     ///////////////TransactionActivity/////////////////////
 
+    public void getTransactions(Date start, Date end , String count){
+        db.execSQL("select Transactions.Name,Transactions.Mountant, Diary.Date From Transactions INNER JOIN Diary ON Transactions.idDiary = Diary.idDiary");
+    }
+
     //////////////Type///////////////////////////
 
 

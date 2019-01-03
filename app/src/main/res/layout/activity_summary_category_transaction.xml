@@ -7,7 +7,7 @@
     tools:context=".SummaryCategoryTransactionActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvcategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Category"
@@ -21,7 +21,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/tvcategory">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
@@ -32,18 +32,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="172dp"
-        android:layout_height="164dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="156dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="20dp"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/scrollView2" />
 
 </android.support.constraint.ConstraintLayout>
