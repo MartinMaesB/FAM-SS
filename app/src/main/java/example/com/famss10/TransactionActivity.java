@@ -307,8 +307,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         final Intent intent=getIntent();
         final int idCount = intent.getIntExtra("idCount",0);
-        int balance= databaseAccess.getIntAttributWhereInt("Balance","Count","idCount",idCount);
-        databaseAccess.updateIntById("Count","Balance",balance+MontantTransaction,"idCount",idCount);
+
 
 
 
@@ -376,52 +375,29 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                     databaseAccess.addFrequency(répétition,b,c);
                 }
             }
-//vérification des conditions d'existence
-
-
-
-
-
-
-
-
-
 
 
         if (OK) {
 
 /**IL RESTE A :
 - ajouter la transaction
-- retirer ou ajouter la thune du compte
 - quand frequence ajouter ou supprimer de la thune aux intervalles donnés
 //- ajouter le diary*/
-
 
             if(Type.equals("Type : Transfert")){
 
             }
-
-
             else{
                 String dateExist = String.format(databaseAccess.getStringDate("Date", "Diary", "Date", b));
                 if(dateExist.length()==0)
                     databaseAccess.addDiary(b);
                 if(Type.equals("Type : Revenu")){
-
-
-                        Integer x=databaseAccess.getBalanceCountNameEmail(Compte,User);
-                        display("montant",x.toString());
-                        float y=x.floatValue();
-                        //y=y+a;
-                        //databaseAccess.setBalanceCountNameEmail(Compte,User,y);
-
-
-
-
-
+                    int balance= databaseAccess.getIntAttributWhereInt("Balance","Count","idCount",idCount);
+                    databaseAccess.updateIntById("Count","Balance",balance+MontantTransaction,"idCount",idCount);
                 }
                 else{
-
+                    int balance= databaseAccess.getIntAttributWhereInt("Balance","Count","idCount",idCount);
+                    databaseAccess.updateIntById("Count","Balance",balance-MontantTransaction,"idCount",idCount);
                 }
 
             }
