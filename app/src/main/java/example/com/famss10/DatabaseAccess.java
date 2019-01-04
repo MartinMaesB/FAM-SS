@@ -442,10 +442,8 @@ public class DatabaseAccess {
     ///////////////Transaction/////////////////////
     ///////////////////////////////////////////////////////
 
-    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary){
-        db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idBeneficiaryCount,idCount,idDiary) " +
-                "VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idBeneficiaryCount+"'," +
-                "'"+idCount+"','"+idDiary+"')", new String[]{});
+    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, int frequency,int idCount,int idDiary){
+        db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idCount,idDiary) VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
 
     public ArrayList<Float> getDepenses( String start, String end , int count){
