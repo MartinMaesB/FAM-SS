@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class CountsActivity extends AppCompatActivity {
 
-    private Button new_pers_count,deconnexion, Superviser, Suppression,désuperviser;
+    private Button new_pers_count, Superviser, Suppression,désuperviser;
+    private TextView Deconnexion;
 
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
@@ -39,10 +41,13 @@ public class CountsActivity extends AppCompatActivity {
         this.Superviser=findViewById(R.id.btnSuperviser);
         this.désuperviser=findViewById(R.id.btnDesuperviser);
 
-        this.deconnexion=findViewById(R.id.btnDeco);
+        this.Deconnexion=findViewById(R.id.tvDeconnexion);
+
         this.Suppression=findViewById(R.id.buttonSup);
 
-        deconnexion.setOnClickListener(new View.OnClickListener() {
+
+
+        Deconnexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -54,6 +59,7 @@ public class CountsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent (CountsActivity.this, SuppressionCompte.class);
                 intent.putExtra("userEmail", userEmail);
+                intent.putExtra("Choix","SuppCompte");
                 //startActivity(intent);
                startActivityForResult(intent,3);
             }
@@ -64,6 +70,7 @@ public class CountsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent (CountsActivity.this, SuppressionCompte.class);
                 intent.putExtra("userEmail", userEmail);
+                intent.putExtra("Choix","SuppSupervision");
                 //startActivity(intent);
                 startActivityForResult(intent,3);
             }
@@ -105,7 +112,7 @@ public class CountsActivity extends AppCompatActivity {
                         Intent intent = new Intent(CountsActivity.this, CountActivity.class);
                         intent.putExtra("index", position);
                         intent.putExtra("userEmail", userEmail);
-                        startActivity(intent);
+                        startActivityForResult(intent,4);
                         //finish();
                     }
                 });
@@ -166,7 +173,7 @@ public class CountsActivity extends AppCompatActivity {
                             Intent intent = new Intent(CountsActivity.this, CountActivity.class);
                             intent.putExtra("index", position);
                             intent.putExtra("userEmail", EmailEnfant);
-                            startActivity(intent);
+                            startActivityForResult(intent,4);
                             //finish();
                         }
                     });
@@ -304,12 +311,14 @@ public class CountsActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
-
-
-
             }
         }
 
+        if (requestCode==4){
+            if (resultCode==4){
+                finish();
+            }
+        }
     }
 
 

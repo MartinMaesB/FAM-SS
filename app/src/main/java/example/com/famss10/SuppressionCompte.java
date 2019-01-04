@@ -36,6 +36,7 @@ public class SuppressionCompte extends AppCompatActivity {
 
                 final Intent intent=getIntent();
                 final String EmailSupervisor = intent.getStringExtra("userEmail");
+                final String choix = intent.getStringExtra("Choix");
 
                 AllComptes.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -104,6 +105,8 @@ public class SuppressionCompte extends AppCompatActivity {
                 AllComptes.setChecked(true);
                 AllComptes.setEnabled(false);
                 NameCount.setEnabled(false);
+                AllComptes.setAlpha(0.0f);
+                NameCount.setAlpha(0.0f);
             }
         });
 
@@ -114,10 +117,27 @@ public class SuppressionCompte extends AppCompatActivity {
                 AllComptes.setChecked(false);
                 AllComptes.setEnabled(true);
                 NameCount.setEnabled(true);
+                AllComptes.setAlpha(1.0f);
+                NameCount.setAlpha(1.0f);
             }
         });
 
 
+
+        if (choix.equals("SuppSupervision")){
+            AllComptes.setChecked(true);
+            AllComptes.setEnabled(false);
+            NameCount.setEnabled(false);
+            AllComptes.setAlpha(0.0f);
+            NameCount.setAlpha(0.0f);
+        }
+        if (choix.equals("SuppCompte")){
+            AllComptes.setChecked(false);
+            AllComptes.setEnabled(true);
+            NameCount.setEnabled(true);
+            AllComptes.setAlpha(1.0f);
+            NameCount.setAlpha(1.0f);
+        }
 
 
                 Valider.setOnClickListener(new View.OnClickListener() {

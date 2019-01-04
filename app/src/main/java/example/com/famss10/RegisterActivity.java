@@ -120,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         String Psw2=etPassword2.getText().toString();
         String Gender=etSexe.getText().toString();
         //String B="Blabla";
-        Date B= new Date(2001,01,01);
+        //Date B= new Date(2001,01,01);
         //Date B= (Date) etBirthday.getText();
         String Mail= etMail.getText().toString();
 
@@ -165,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     String name1 = databaseAccess.getStringAttributWhere("Name", "User", "Name", person);
                     String mdp = databaseAccess.getStringAttributWhere("Psw", "User", "Name", person);
                     String gender = databaseAccess.getStringAttributWhere("Gender", "User", "Name", person);
-                    String birthday = databaseAccess.getStringAttributWhere("Birthday", "User", "Name", person);
+                    String birthday = String.format(databaseAccess.getStringAttributWhere("Birthday", "User", "Name", person));
                     String mail1 = databaseAccess.getStringAttributWhere("Email", "User", "Name", person);
 
 
@@ -191,16 +191,35 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     private void setDate(final Calendar calendar){
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
        ((TextView)findViewById(R.id.etBirthday)).setText(sdf.format(calendar.getTime()));
+
+
+
+       display("",sdf.format(calendar.getTime()));
+       String DATE = sdf.format(calendar.getTime()); // Récupère la date en STRING de la forme yyyy//MM/dd
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day){
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
+        display("0",String.valueOf(cal.get(0)));
+        display("1",String.valueOf(cal.get(1))); //DONNE L'année
+        display("2",String.valueOf(cal.get(2)));
+        display("3",String.valueOf(cal.get(3)));
         Date B= new Date(year, month,day);
-        b=B;
+        //b=B;
+
+        display("",String.valueOf(cal.getTime().getYear()));
+        display("",String.valueOf(cal.getTime().getMonth()));
+        display("",String.valueOf(cal.getTimeInMillis()));
+        display("", String.valueOf(new java.sql.Date(cal.getTimeInMillis())));//OKKKKK
+
+        b=new java.sql.Date(cal.getTimeInMillis()); //Récupère la date en DATE SQL !!!
+        display("Birtdhay",String.valueOf(b) );
+        String DaTe= String.valueOf(b);             //Récupère la date en STRING de la forme yyyy//MM/dd
+        display("",DaTe);
     }
 
 
