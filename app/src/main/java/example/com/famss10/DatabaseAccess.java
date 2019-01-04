@@ -132,6 +132,11 @@ public class DatabaseAccess {
 */
     /////////////////Select, delete, update //////////
 
+    public int getcounter (String select, String from, String where, String element){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        return c.getCount();
+    }
+
     public String getStringAttribut(String select, String from, String where,String element, int i ){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
@@ -161,6 +166,9 @@ public class DatabaseAccess {
     public void delete2 (String from, String where,String Element,String where2, String Element2){
         db.execSQL("delete from "+from+" where "+where+" = '"+Element+"' and "+where2+" = '"+Element2+"'",new String []{});
     }
+
+
+
 
 
     ////////////////////COUNT////////////////////
@@ -193,10 +201,7 @@ public class DatabaseAccess {
 
 
 
-    public int getcounter (String select, String from, String where, String element){
-        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-        return c.getCount();
-    }
+
 
 
 

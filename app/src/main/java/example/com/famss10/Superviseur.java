@@ -56,7 +56,7 @@ public class Superviseur extends AppCompatActivity {
 
                 String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
 
-
+                /* //Méthode1
                 for(int j=0; j< databaseAccess.getcounter("EmailUser","Control","EmailSupervisor",EmailSupervisor);j++) {
                     String emailenfant = databaseAccess.getStringAttribut("EmailUser", "Control", "EmailSupervisor", EmailSupervisor, j);
 
@@ -65,6 +65,13 @@ public class Superviseur extends AppCompatActivity {
                     display("Erreur","Vous supervisez déjà cet utilisateur");
                     OK=false;
                 }
+                }*/
+
+                //Méthode2
+                String emailenfant= databaseAccess.getStringAttributWhere2("EmailUser","Control","EmailSupervisor",EmailSupervisor,"EmailUser",EmailEnfant);
+                if (!emailenfant.isEmpty()){
+                    display("Erreur", "Vous supervisez déjà cet utilisateur");
+                    OK=false;
                 }
 
                 if(nameuser.length()==0){
