@@ -70,7 +70,7 @@ public class CountActivity extends AppCompatActivity {
 
                 Intent intent = new Intent (CountActivity.this, ModifyCount.class);
                 intent.putExtra("userEmail", userEmail);
-
+                intent.putExtra("indexCompte", position);
                 startActivityForResult(intent,0);
 
             }
