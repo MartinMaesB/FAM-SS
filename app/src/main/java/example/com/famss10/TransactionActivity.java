@@ -50,8 +50,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         final TextView tvDateFin=findViewById(R.id.tvDateFin);
         etUser.setEnabled(false);
         etCompte.setEnabled(false);
+        etCompte.setAlpha(0.1f);
+        etUser.setAlpha(0.1f);
         tvFréquence.setEnabled(false);
         tvDateFin.setEnabled(false);
+        tvFréquence.setAlpha(0.1f);
+        tvDateFin.setAlpha(0.1f);
         tvDate.setHint("Date de la transaction");
         cbFréquence.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +64,15 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                   tvFréquence.setEnabled(false);
                   tvDateFin.setEnabled(false);
                   tvDate.setHint("Date de la transaction");
+                    tvFréquence.setAlpha(0.1f);
+                    tvDateFin.setAlpha(0.1f);
 
                 }
                 else {tvFréquence.setEnabled(true);
                 tvDateFin.setEnabled(true);
                     tvDate.setHint("Date de la première répétition");
+                    tvFréquence.setAlpha(1.0f);
+                    tvDateFin.setAlpha(1.0f);
 
                 }
             }
