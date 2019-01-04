@@ -133,28 +133,36 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
             boolean OK = true;
-            ArrayList <String> messages=new ArrayList<>();
+            StringBuffer bufferErreur = new StringBuffer();
+            //ArrayList <String> messages=new ArrayList<>();
 
                 if(name.length()!=0){
-                    messages.add("Ce nom d'utilisateur existe déjà");
+                    //messages.add("Ce nom d'utilisateur existe déjà");
+                    bufferErreur.append("Ce nom d'utilisateur existe déjà"+"\n");
                     OK=false;}
                 if(mail.length()!=0){
-                    messages.add("Cette adresse Mail existe déjà");
+                    //messages.add("Cette adresse Mail existe déjà");
+                    bufferErreur.append("Cette adresse Mail existe déjà"+"\n");
                     OK=false;}
                 if(Name.length()==0){
-                    messages.add("Veuillez entrer un nom d'utilisateur ");
+                    //messages.add("Veuillez entrer un nom d'utilisateur ");
+                    bufferErreur.append("Veuillez entrer un nom d'utilisateur "+"\n");
                     OK=false;}
                 if(Mail.length()==0){
-                    messages.add("Veuillez entrer une adresse mail ");
+                    //messages.add("Veuillez entrer une adresse mail ");
+                    bufferErreur.append("Veuillez entrer une adresse mail "+"\n");
                     OK=false;}
                 if(Psw.length()==0){
-                    messages.add("Veuillez entrer un mot de passe ");
+                   // messages.add("Veuillez entrer un mot de passe ");
+                    bufferErreur.append("Veuillez entrer un mot de passe "+"\n");
                     OK=false;}
                 if(!(CheckBox).isChecked()){
-                    messages.add("Veuillez cocher les conditions d'utilisation");
+                   // messages.add("Veuillez cocher les conditions d'utilisation");
+                    bufferErreur.append("Veuillez cocher les conditions d'utilisation"+"\n");
                     OK=false;}
                 if(!Psw.equals(Psw2)) {
-                    messages.add("Les mots de passe ne correspondent pas");
+                   // messages.add("Les mots de passe ne correspondent pas");
+                    bufferErreur.append("Les mots de passe ne correspondent pas"+"\n");
                     OK=false;}
 
 
@@ -194,7 +202,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     display("Affichage Encodage ", buffer.toString());
                     databaseAccess.close();
                 }
-                else displayAttention("Attention",messages);
+                else display("Erreurs",bufferErreur.toString());
 
     }
 
