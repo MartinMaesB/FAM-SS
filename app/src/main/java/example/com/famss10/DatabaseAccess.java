@@ -452,7 +452,7 @@ public class DatabaseAccess {
 
             Cursor c = db.rawQuery("select Transactions.Mountant from " +
                     "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
-                    "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'dep' or Transactions.Operation = 'tra'", new String[]{});
+                    "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'Type : Dépense' or Transactions.Operation = 'Type : Transfert'", new String[]{});
 
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
@@ -471,7 +471,7 @@ public class DatabaseAccess {
 
         Cursor c = db.rawQuery("select Transactions.Mountant from " +
                 "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
-                "Transactions.idCount = '"+count+"' and (Date between '"+start+"' and '"+end+"') and Transactions.Operation = 'rev' ", new String[]{});
+                "Transactions.idCount = '"+count+"' and (Date between '"+start+"' and '"+end+"') and Transactions.Operation = 'Type : Revenu' ", new String[]{});
 
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
