@@ -82,7 +82,7 @@ public class CountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CountActivity.this, TransactionActivity.class);
-                //intent.putExtra();
+                intent.putExtra("idCount",id);
                 startActivityForResult(intent, 0);
             }
         });
