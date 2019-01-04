@@ -287,6 +287,10 @@ public class DatabaseAccess {
         db.execSQL("insert into Frequency (StartDate, EndDate, NbrRépétitions) VALUES ('"+startdate+"','"+enddate+"','"+nombre+"')", new String[]{});
     }
 
+    public void addFrequencynbr (Integer nombre){
+        db.execSQL("insert into Frequency (NbrRépétitions) VALUES ('"+nombre+"')", new String[]{});
+    }
+
 
     public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
         c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"'AND EndDate='"+enddate+"'AND NbrRépétitons='"+nombre+"'", new String[]{});
@@ -300,7 +304,7 @@ public class DatabaseAccess {
 
     public ArrayList<String> getToutFrequency(){
         ArrayList<String> liste=new ArrayList<>();
-        c=db.rawQuery("select idFrequency from Frequency", new String[]{});
+        c=db.rawQuery("select NbrRépétitions from Frequency", new String[]{});
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
             String sexe= c.getString(0);

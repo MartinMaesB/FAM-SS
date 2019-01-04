@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.app.DatePickerDialog;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     public TextView input;
     public ArrayList<String> choixCatégorie;
     Boolean cal=false;
+    Boolean frequenceok=false;
     Date b=null;
     Date c=null;
     public String transfert = "Type : Transfert",autre = "Autres";
@@ -80,10 +82,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 choixCatégorie.add("Type : Dépense");
                 choixCatégorie.add("Type : Revenu");
                 choixCatégorie.add("Type : Transfert");
+                frequenceok=false;
                 String titre= new String ("Choissez un Type de transaction :");
                 String ajout=new String("");
                 Boolean ajouter = false;
-                menuPopUp (tvType,choixCatégorie, titre,ajouter, ajout,tvType,etCompte,etUser);
+                menuPopUp (tvType,choixCatégorie, titre,ajouter, ajout,tvType,etCompte,etUser,frequenceok);
             }
         });
 
@@ -96,10 +99,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
                 choixCatégorie=databaseAccess.getToutNomCategory();
+                frequenceok=false;
                 String titre= new String ("Choissez une catégorie:");
                 String ajout= new String("Ajouter une Catégorie");
                 Boolean ajouter = true;
-                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout,tvType,etCompte,etUser);
+                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout,tvType,etCompte,etUser,frequenceok);
                 databaseAccess.close();
             }
         });
@@ -113,10 +117,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
                 choixCatégorie=databaseAccess.getToutFrequency();
+                frequenceok=true;
                 String titre= new String ("Choissez une un nombre de répétitions :");
                 String ajout= new String("Ajouter un nombre de répétitions");
                 Boolean ajouter = true;
-                menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout,tvType,etCompte,etUser);
+                menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout,tvType,etCompte,etUser,frequenceok);
                 databaseAccess.close();
             }
         });
@@ -151,13 +156,17 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     }
 
 
-    void menuPopUp(final TextView T, ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout, final TextView tvType, final EditText etCompte,final EditText etUser){
+    void menuPopUp(final TextView T, ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout, final TextView tvType, final EditText etCompte,final EditText etUser,Boolean frequenceok){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(TransactionActivity.this);
         mBuilder.setTitle(titre);
         mBuilder.setIcon(R.drawable.icon);
 
         if(ajouter){
             input=new EditText(this);
+
+            if(frequenceok)
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
             input.setHint(ajout);
             //mBuilder.setView(input,15,0,0,0);
             mBuilder.setView(input);
@@ -271,9 +280,6 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         String mail=databaseAccess.getStringAttributWhere("Email","User","Email",User);
 
 
-
-
-
         boolean OK = true;
         ArrayList <String> messages=new ArrayList<>();
 /*
@@ -335,10 +341,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 */
 
-       if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
+       //if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
 
 
-            databaseAccess.addFrequency(répétition,DateDébut,DateFin);
+            databaseAccess.addFrequencynbr(répétition);
 
 
 
