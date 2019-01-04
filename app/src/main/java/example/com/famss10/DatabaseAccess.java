@@ -246,6 +246,12 @@ public class DatabaseAccess {
         db.execSQL("insert into Control (EmailUser, EmailSupervisor,Relation) VALUES ('"+Email+"','"+EmailSupervisor+"','"+relation+"')", new String[]{});
     }
 
+    public String UserControl (String where, String Element){
+        c= db.rawQuery("select User.Email, User.Name, User.psw, Control.EmailUser,Control.EmailSupervisor from User left join Control ON User.Email = Control.EmailUser where "+where+" = '"+Element+"'",new String []{});
+        return c.getString(0);
+    }
+
+
 
     /////////////////Creation//////////////////////
     public void addCreation (int Quantity, int idDiary, int idSummary){
