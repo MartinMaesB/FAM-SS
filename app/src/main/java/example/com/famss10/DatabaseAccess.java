@@ -64,9 +64,9 @@ public class DatabaseAccess {
     }
 
 
-
+    /////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////USER/////////////////////////////////
-
+    /////////////////////////////////////////////////////////////////////////////
     public void addUser (String name, String mdp, String sexe, java.sql.Date birthday, String Mail){
         db.execSQL("insert into User (Name, Psw, Gender, Birthday,Email) VALUES ('"+name+"','"+mdp+"','"+sexe+"','"+birthday+"','"+Mail+"')",new String[]{});
     }
@@ -111,7 +111,7 @@ public class DatabaseAccess {
         return entier;
     }
 
-/*
+/**
     public String getGender(int id){
         c=db.rawQuery("select Gender from User where idUser = '"+id+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
@@ -142,8 +142,14 @@ public class DatabaseAccess {
         return buffer.toString();
     }
 */
-    /////////////////Select, delete, update //////////
 
+
+
+
+
+    //////////////////////////////////////////////////
+    /////////////////Select, delete, update //////////
+    //////////////////////////////////////////////////
     public int getcounter (String select, String from, String where, String element){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
         return c.getCount();
@@ -198,7 +204,9 @@ public class DatabaseAccess {
 
 
 
+    /////////////////////////////////////////////
     ////////////////////COUNT////////////////////
+    /////////////////////////////////////////////
     public void addCount (String namecount, String currency, String Email, float balance) {
         db.execSQL("insert into Count (NameCount, Currency, Email, Balance) VALUES ('"+namecount+"','"+currency+"','"+Email+"','"+balance+"')");
     }
@@ -221,14 +229,21 @@ public class DatabaseAccess {
                 "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
         return c.toString();
     }
-    public String getBalanceCountNameEmail(String name,String email){
-        Cursor c = db.rawQuery("select Count.NameCount,User.Email,Count. from " +
+
+    public int getBalanceCountNameEmail(String name,String email){
+        c = db.rawQuery("select Count.Balance from " +
                 "User Inner join Count on (User.Email = Count.Email) where " +
                 "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
-        return c.toString();
+
+        return c.getInt(0);
     }
 
-/*
+    public void setBalanceCountNameEmail(String name,String email,Float montant){
+        db.execSQL("Update Count set Balance=montant where Email='"+email+"' and NameCount='"+name+"'");
+        //return c.getFloat(0);
+    }
+
+/**
     public String getStringAttribut(String select, String from, int i ){
         c=db.rawQuery("select "+select+" from "+from+"", new String[]{});
         StringBuffer buffer= new StringBuffer();
@@ -256,8 +271,9 @@ public class DatabaseAccess {
 
 
 
-
+    ////////////////////////////////////////////////
     ////////////////////Category////////////////////
+    ////////////////////////////////////////////////
     public void addCategoryByName (String nom) {
         db.execSQL("insert into Category(idCategory) VALUES ('"+nom+"')", new String[]{});
     }
@@ -278,7 +294,6 @@ public class DatabaseAccess {
         return buffer.toString() ;
     }
 
-
     public ArrayList<String> getToutNomCategory(){
         ArrayList<String> liste=new ArrayList<>();
         c=db.rawQuery("select idCategory from Category", new String[]{});
@@ -293,7 +308,11 @@ public class DatabaseAccess {
 
 
 
+
+
+    ///////////////////////////////////////////////
     /////////////////Control///////////////////////
+    //////////////////////////////////////////////
     public void addControl ( String Email, String EmailSupervisor, String relation){
         db.execSQL("insert into Control (EmailUser, EmailSupervisor,Relation) VALUES ('"+Email+"','"+EmailSupervisor+"','"+relation+"')", new String[]{});
     }
@@ -305,22 +324,50 @@ public class DatabaseAccess {
 
 
 
+
+
+    ///////////////////////////////////////////////
     /////////////////Creation//////////////////////
+    ///////////////////////////////////////////////
     public void addCreation (int Quantity, int idDiary, int idSummary){
         db.execSQL("insert into Control (Quantity, idDiary, idSummary) VALUES ('"+Quantity+"','"+idDiary+"','"+idSummary+"')", new String[]{});
     }
 
-    ////////////////Diary/////////////////////////////:
+
+
+
+
+    //////////////////////////////////////////////////
+    ////////////////Diary/////////////////////////////
+    //////////////////////////////////////////////////
     public void addDiary (java.sql.Date date){
         db.execSQL("insert into Diary (Date) VALUES ('"+date+"')", new String[]{});
     }
 
     public String diaryExist(java.sql.Date date){
         c=db.rawQuery("select Date from Diary where Date= '"+date+"'", new String[]{});
-        return c.toString();
+        return"ok";
     }
 
+    public String getStringDate(String select, String from, String where, java.sql.Date element){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+" = '"+element+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String nom = c.getString(0);
+            buffer.append(""+nom);
+
+        }
+        return buffer.toString();
+    }
+
+
+
+
+
+
+    ///////////////////////////////////////////////////
     ///////////////Frequency////////////////////////////
+    ///////////////////////////////////////////////////
     public void addFrequency (Integer nombre, java.sql.Date startdate, java.sql.Date enddate){
         db.execSQL("insert into Frequency (StartDate, EndDate, NbrRépétitions) VALUES ('"+startdate+"','"+enddate+"','"+nombre+"')", new String[]{});
     }
@@ -329,16 +376,15 @@ public class DatabaseAccess {
         db.execSQL("insert into Frequency (NbrRépétitions) VALUES ('"+nombre+"')", new String[]{});
     }
 
-
     public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
         c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"'AND EndDate='"+enddate+"'AND NbrRépétitons='"+nombre+"'", new String[]{});
         return c.getInt(0);
     }
+
     public Integer getFrequencyRepetitions(Integer id){
         c=db.rawQuery("select NbrRépétitions from Frequency where idFrequency='"+id+"'", new String[]{});
         return c.getInt(0);
     }
-
 
     public ArrayList<String> getToutFrequency(){
         ArrayList<String> liste=new ArrayList<>();
@@ -356,27 +402,36 @@ public class DatabaseAccess {
 
 
 
-
+    //////////////////////////////////////////////////
     ///////////////Summary////////////////////////////
+    //////////////////////////////////////////////////
     public void addSummary (Blob graphic, java.sql.Date startdate, Date enddate){
         db.execSQL("insert into Summary (Graphic, StartDate, EndDate) VALUES ('"+graphic+"','"+startdate+"','"+enddate+"')", new String[]{});
     }
 
 
+
+
+
+    ////////////////////////////////////////////////
     /////////////Supervisor/////////////////////////
+    ///////////////////////////////////////////////
+
     public void addSupervisor( String EmailSupervisor){
         db.execSQL("insert into Supervisor (EmailSupervisor) VALUES ('"+EmailSupervisor+"')", new String[]{});
     }
 
 
-    ///////////////TransactionActivity/////////////////////
 
+
+
+    ///////////////////////////////////////////////////////
+    ///////////////TransactionActivity/////////////////////
+    ///////////////////////////////////////////////////////
 
     public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,String idBeneficiaryCount,String idCount,Integer idDiary){
         db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idBeneficiaryCount,idCount,idDiary) VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idBeneficiaryCount+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
-
-
 
     public ArrayList<Float> getDepenses( String start, String end , int count){
 
@@ -395,7 +450,6 @@ public class DatabaseAccess {
         }
         return liste ;
     }
-
 
     public ArrayList<Float> getRevenus( String start, String end , int count){
 
@@ -432,7 +486,12 @@ public class DatabaseAccess {
 
 //or Transactions.idBeneficiaryCount = '"+count+"')
     //or Transactions.Operation = 'tra')
+
+
+
+    /////////////////////////////////////////////
     //////////////Type///////////////////////////
+    /////////////////////////////////////////////
     public void addType( String idOperation){
         db.execSQL("insert into Type (idOperation) VALUES ('"+idOperation+"')", new String[]{});
     }
