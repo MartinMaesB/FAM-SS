@@ -73,9 +73,17 @@ public class NewCountActivity extends AppCompatActivity {
                 boolean OK = true;
                 ArrayList<String> messages=new ArrayList<>();
 
+
+
                 if(countname.length()==0){
                     display("Veuillez entrer un nom de compte "," ");
                     OK=false;}
+
+                if(countname.equals(databaseAccess.getStringAttributWhere2("NameCount","Count","NameCount",countname, "Email",email))){
+                    display("Erreur","Vous avez déjà un compte de ce nom");
+                    OK=false;
+                }
+
                 if(currency.length()==0){
                     display("Veuillez choisir la monnaie"," ");
                     OK=false;}
@@ -83,7 +91,8 @@ public class NewCountActivity extends AppCompatActivity {
                     display("Veuillez entrer un mot de passe","");
                     OK=false;}
 
-                    if (OK=true){
+
+                    if (OK==true){
                 databaseAccess.addCount(countname,currency,email,balance);
 
                 //Intent intent = new Intent(getApplicationContext(), CountsActivity.class);
