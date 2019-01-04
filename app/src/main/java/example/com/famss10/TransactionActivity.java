@@ -276,7 +276,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         boolean OK = true;
         ArrayList <String> messages=new ArrayList<>();
-
+/*
         if(NameTransaction.length()==0){
             messages.add("Vous n'avez nommé votre transaction!");
             OK=false;}
@@ -333,10 +333,18 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
 //vérification des conditions d'existence
 
+*/
+
+       if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
 
 
-       //if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
-            //databaseAccess.addFrequency(répétition,DateDébut,DateFin);
+            databaseAccess.addFrequency(répétition,DateDébut,DateFin);
+
+
+
+
+
+
         if (OK) {
 
             //    databaseAccess.addTransaction();
