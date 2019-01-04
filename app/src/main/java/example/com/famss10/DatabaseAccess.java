@@ -204,7 +204,6 @@ public class DatabaseAccess {
 
 
 
-
     ////////////////////Category////////////////////
     public void addCategoryByName (String nom) {
         db.execSQL("insert into Category(idCategory) VALUES ('"+nom+"')", new String[]{});
@@ -305,8 +304,8 @@ public class DatabaseAccess {
     ///////////////TransactionActivity/////////////////////
 
 
-    public void addTransaction(){
-        //db.execSQL("insert into Supervisor (EmailSupervisor) VALUES ('"+EmailSupervisor+"')", new String[]{});
+    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,String idBeneficiaryCount,String idCount,Integer idDiary){
+        db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idBeneficiaryCount,idCount,idDiary) VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idBeneficiaryCount+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
 
 
@@ -355,6 +354,9 @@ public class DatabaseAccess {
 
 
     //////////////Type///////////////////////////
+    public void addType( String idOperation){
+        db.execSQL("insert into Type (idOperation) VALUES ('"+idOperation+"')", new String[]{});
+    }
 
 
 }
