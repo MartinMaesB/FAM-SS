@@ -426,7 +426,7 @@ public class DatabaseAccess {
 
 
     ///////////////////////////////////////////////////////
-    ///////////////TransactionActivity/////////////////////
+    ///////////////Transaction/////////////////////
     ///////////////////////////////////////////////////////
 
     public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,String idBeneficiaryCount,String idCount,Integer idDiary){
