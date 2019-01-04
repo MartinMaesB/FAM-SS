@@ -483,7 +483,7 @@ public class DatabaseAccess {
         }
         Cursor c1 = db.rawQuery("select Transactions.Mountant from " +
                 "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
-                "Transactions.idBeneficiaryCount = '"+count+"' and (Date between '"+start+"' and '"+end+"')", new String[]{});
+                "Transactions.idBeneficiaryCount = '"+count+"' and (Date between '"+start+"' and '"+end+"') and Transactions.Operation = 'Type : Transfert'", new String[]{});
 
 
         while(c1.moveToNext()) {

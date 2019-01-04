@@ -35,6 +35,7 @@ public class SummarySwipeLeftActivity extends AppCompatActivity {
             String r = c.getString(0) + " " + c.getString(1) + " " + c.getString(2) + " " + c.getString(4) + " " + c.getString(5);
             //System.out.println(r);
             textView.setText(r);
+            textView.setTextSize(20);
             transactions.addView(textView);
             textView.setId(i);
             i++;
