@@ -20,32 +20,28 @@ public class CountsActivity extends AppCompatActivity {
 
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
-    private int i=0, indexBtnChild=0;
+    private int indexPersCount=0, indexBtnChild=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counts);
 
-        pers_count=new ArrayList<>();
-        child_count=new ArrayList<>();
 
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
         final String userEmail = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
 
-
+        pers_count=new ArrayList<>();
         this.pers_count_layout = (LinearLayout) findViewById(R.id.ll_pers_count);
-        this.ComptesEnfants=(LinearLayout)findViewById(R.id.ll_ComtesEnfants);
-
         this.new_pers_count = findViewById(R.id.bt_new_pers_count);
+        this.Suppression=findViewById(R.id.buttonSup);
+
+        child_count=new ArrayList<>();
+        this.ComptesEnfants=(LinearLayout)findViewById(R.id.ll_ComtesEnfants);
         this.Superviser=findViewById(R.id.btnSuperviser);
         this.désuperviser=findViewById(R.id.btnDesuperviser);
 
         this.Deconnexion=findViewById(R.id.tvDeconnexion);
-
-        this.Suppression=findViewById(R.id.buttonSup);
-
-
 
         Deconnexion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +56,7 @@ public class CountsActivity extends AppCompatActivity {
                 Intent intent = new Intent (CountsActivity.this, SuppressionCompte.class);
                 intent.putExtra("userEmail", userEmail);
                 intent.putExtra("Choix","SuppCompte");
-                //startActivity(intent);
-               startActivityForResult(intent,3);
+                startActivityForResult(intent,3);
             }
         });
 
@@ -71,10 +66,11 @@ public class CountsActivity extends AppCompatActivity {
                 Intent intent = new Intent (CountsActivity.this, SuppressionCompte.class);
                 intent.putExtra("userEmail", userEmail);
                 intent.putExtra("Choix","SuppSupervision");
-                //startActivity(intent);
                 startActivityForResult(intent,3);
             }
         });
+
+
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
 
@@ -89,13 +85,9 @@ public class CountsActivity extends AppCompatActivity {
             pers_count_layout.addView(pers_count.get(j));
             pers_count.get(j).setId(j);
 
-            // String nameCount = databaseAccess.getStringAttribut("NameCount", "Count","Email", userEmail, j);
             String nameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, j);
             int balance = databaseAccess.getintAttribut("Balance","Count","Email",userEmail, j);
             String Currency = databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,j);
-           // if (Currency=="Euro (€) ") Currency="€";
-           // if (Currency==" Dollar ($) ") Currency="$";
-           // if (Currency==" Yen (¥)") Currency="¥";
 
             pers_count.get(j).setText(nameCount+"\n"+String.valueOf(balance)+" "+Currency);
             i = j+1;
@@ -130,7 +122,6 @@ public class CountsActivity extends AppCompatActivity {
 
 
         ////////////////////////////////////////COMPTES ENFANTS///////////////////////////////////////////////
-
 
         for (int m =0; m<databaseAccess.getcounter("EmailUser", "Control","EmailSupervisor",userEmail);m++) {
 
@@ -193,8 +184,6 @@ public class CountsActivity extends AppCompatActivity {
         });
         databaseAccess.close();
 
-
-
         }
 
 
@@ -239,7 +228,7 @@ public class CountsActivity extends AppCompatActivity {
 */
 
                 //Méthode2 où il suffit de fermer l'activité et la réouvrir
-                Intent intent = getIntent();
+                    Intent intent = getIntent();
                     finish();
                     startActivity(intent);
 
