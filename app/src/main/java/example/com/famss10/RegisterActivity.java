@@ -204,22 +204,22 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public void onDateSet(DatePicker view, int year, int month, int day){
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
-        display("0",String.valueOf(cal.get(0)));
-        display("1",String.valueOf(cal.get(1))); //DONNE L'année
-        display("2",String.valueOf(cal.get(2)));
-        display("3",String.valueOf(cal.get(3)));
+        //display("0",String.valueOf(cal.get(0)));
+        //display("1",String.valueOf(cal.get(1))); //DONNE L'année
+        //display("2",String.valueOf(cal.get(2)));
+        //display("3",String.valueOf(cal.get(3)));
         Date B= new Date(year, month,day);
         //b=B;
 
-        display("",String.valueOf(cal.getTime().getYear()));
-        display("",String.valueOf(cal.getTime().getMonth()));
-        display("",String.valueOf(cal.getTimeInMillis()));
-        display("", String.valueOf(new java.sql.Date(cal.getTimeInMillis())));//OKKKKK
+        //display("",String.valueOf(cal.getTime().getYear()));
+        //display("",String.valueOf(cal.getTime().getMonth()));
+        //display("",String.valueOf(cal.getTimeInMillis()));
+        //display("", String.valueOf(new java.sql.Date(cal.getTimeInMillis())));//OKKKKK
 
         b=new java.sql.Date(cal.getTimeInMillis()); //Récupère la date en DATE SQL !!!
-        display("Birtdhay",String.valueOf(b) );
+        //display("Birtdhay",String.valueOf(b) );
         String DaTe= String.valueOf(b);             //Récupère la date en STRING de la forme yyyy//MM/dd
-        display("",DaTe);
+        //display("",DaTe);
     }
 
 

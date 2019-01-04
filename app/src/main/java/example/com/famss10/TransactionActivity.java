@@ -214,10 +214,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     private void setDate(final Calendar calendar){
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        if (!cal)
+        if (!cal){
         ((TextView)findViewById(R.id.tvDate)).setText(sdf.format(calendar.getTime()));
-        else
+        String DATTE = sdf.format(calendar.getTime());}
+        else{
         ((TextView)findViewById(R.id.tvDateFin)).setText(sdf.format(calendar.getTime()));
+        String DATE = sdf.format(calendar.getTime());}
     }
 
     @Override
@@ -225,10 +227,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
         Date B= new Date(year, month,day);
-        if(b!=null)
-            c=B;
-            else
-        b=B;
+        if(b!=null){
+            c=new java.sql.Date(cal.getTimeInMillis());
+            String DaTTe= String.valueOf(c);}
+            else{
+            b=new java.sql.Date(cal.getTimeInMillis());
+            String DaTe= String.valueOf(b);}
     }
 
     public static class DatePickerFragment extends DialogFragment {
@@ -282,6 +286,13 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         if(Catégorie.length()==0){
             messages.add("Vous n'avez pas donné de Catégorie à cette transaction");
             OK=false;}
+            else  {
+            if(databaseAccess.getCategory(Catégorie).length()==0)
+                databaseAccess.addCategoryByName(Catégorie);
+        }
+
+
+
         if(tvDate.getText().length()==0){
             messages.add("Veuillez entrer la date de cette transaction");
             OK=false;}
@@ -292,19 +303,23 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
             if(User.length()==0) {
                 messages.add("Veuillez entrer un user receveur. S'il n'y en a pas, veuillez écrire :'Aucun' ");
-                OK=false;}
-        }
-
-        if(mail.length()==0){
-            messages.add("Veuillez entrer un email existant. S'il n'y en a pas, veuillez écrire :'Aucun' ");
-            OK=false;
-        }
-        else{
-            String count=databaseAccess.getCountName(Compte);
-            if(count.length()==0){
-                messages.add("Veuillez entrer un count existant. S'il n'y en a pas, veuillez écrire :'Aucun' ");
                 OK=false;
             }
+            if(mail.length()==0){
+                messages.add("Veuillez entrer un email existant.");
+                OK=false;
+            }
+            else{
+                display("ok","ok");
+                //String count=databaseAccess.getLastStringAttribut("NameCount","Count","NameCount",Compte);
+                String count="";
+                if(count.length()==0){
+                    messages.add("Veuillez entrer un count existant.");
+                    OK=false;
+                }
+        }
+
+
         }
 
 
@@ -321,20 +336,21 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 OK=false;}
             }
 //vérification des conditions d'existence
-        if(databaseAccess.getCategory(Catégorie).length()==0)
-            databaseAccess.addCategoryByName(Catégorie);
-        if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
-            databaseAccess.addFrequency(répétition,DateDébut,DateFin);
+
+
+
+       // if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
+            //databaseAccess.addFrequency(répétition,DateDébut,DateFin);
         if (OK) {
 
-        //    databaseAccess.addTransaction();
-        if(Type.equals("Type : Transfert")){
+            //    databaseAccess.addTransaction();
+            if(Type.equals("Type : Transfert")){
 
-        }
-        else{
+            }
+            else{
 
 
-        }
+            }
 
 
 

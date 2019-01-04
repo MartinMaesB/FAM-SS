@@ -181,9 +181,10 @@ public class DatabaseAccess {
         return c.getFloat(0);
     }
 
-    public String getCountName(String name){
+    public String getCountName(String name,String email){
         c=db.rawQuery("select NameCount from Count where NameCount= '"+name+"'", new String[]{});
-        return c.toString();
+        c.moveToLast();
+        return c.getString(0);
     }
 
 
