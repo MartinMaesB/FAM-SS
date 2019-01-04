@@ -43,13 +43,14 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
     List<SubcolumnValue> rev = new ArrayList<>(); //list qui contient 1 seul element (car 1 seul souscolonne par colonne) mais on est obligés de faire une List
     List<SubcolumnValue> dep = new ArrayList<>(); // idem
     int j=0;
+    int idcount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
         Intent intent = getIntent();
-        final int idcount = intent.getIntExtra("idcount",1);
+        idcount = intent.getIntExtra("idcount",1);
 
      //instanciation des elements dans le xml
         start=findViewById(R.id.bstartdate);
@@ -189,6 +190,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
                 super.onValueSelected(columnIndex, subcolumnIndex, value);
                 Intent intent = new Intent(SummaryActivity.this,SummaryPieChartActivity.class);
+                intent.putExtra("idcount",idcount);
                 startActivity(intent);
             }
         });
@@ -259,6 +261,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 x2=touchevent.getX(); //endroit où on relasce
                 if(x1<x2){ //si on a été à droite
                     Intent intent = new Intent(SummaryActivity.this,SummarySwipeLeftActivity.class);
+                    intent.putExtra("idcount",idcount);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
                 }

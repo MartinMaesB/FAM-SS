@@ -484,8 +484,14 @@ public class DatabaseAccess {
         return liste ;
     }
 
-//or Transactions.idBeneficiaryCount = '"+count+"')
-    //or Transactions.Operation = 'tra')
+    public Cursor getTransactions(int count){
+        Cursor c = db.rawQuery("SELECT Transactions.Name , Transactions.Notes , Transactions.Mountant , Transactions.Operation , Transactions.idCategory , Diary.Date FROM " +
+                "Transactions INNER JOIN Diary ON (Transactions.idDiary = Diary.idDiary) WHERE " +
+                "Transactions.idCount = '"+count+"'" +
+                "ORDER BY Diary.Date",null);
+        return c;
+    }
+
 
 
 
