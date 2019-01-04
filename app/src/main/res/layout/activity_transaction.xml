@@ -42,14 +42,6 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="\t Pour les transferts d'argent"
-                android:textSize="10dp"
-                android:textStyle="italic" />
-
             <EditText
                 android:id="@+id/etNameTransaction"
                 android:layout_width="320dp"
