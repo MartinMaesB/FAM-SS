@@ -104,9 +104,9 @@ public class DatabaseAccess {
         return buffer.toString();
     }
 
-    public int getintAttributWhere(String select, String from, String where,String element ){
+    public int getIntAttributWhereInt(String select, String from, String where,int element ){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-
+        c.moveToFirst();
         int entier = c.getInt(0);
         return entier;
     }
