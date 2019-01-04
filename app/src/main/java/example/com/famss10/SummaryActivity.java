@@ -31,8 +31,9 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
     float x1,x2; //position d'appuie et de relasce pour faire le swipe entre activitées
     boolean a; //pour separer les dates de debut et fin
-    Button start,end,ok,test1;
-    TextView balance,test2;
+    Button start,end,ok;
+    TextView balance;
+    EditText datestart,dateend;
     Date b; //pour setter les dates de debut et de fin
 
     ColumnChartData data; //données du graphique
@@ -47,14 +48,18 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
+        Intent intent = getIntent();
+        final int idcount = intent.getIntExtra("idcount",1);
+
      //instanciation des elements dans le xml
         start=findViewById(R.id.bstartdate);
         end=findViewById(R.id.benddate);
         ok=findViewById(R.id.bok);
         chart = findViewById(R.id.chart);
         balance=findViewById(R.id.tvBalance);
-        test1=findViewById(R.id.button);
-        test2=findViewById(R.id.textView2);
+        datestart=findViewById(R.id.etstart);
+        dateend=findViewById(R.id.etend);
+
 
      //settage des dates de debut et fin
         start.setOnClickListener(new View.OnClickListener() {
@@ -84,13 +89,20 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
             public void onClick(View v) {
 
 
-                String a = "2019/01/10";
-                String b = "2019/03/10";
+                columns.clear();
+                rev.clear();
+                dep.clear();
+
+
+                String a = datestart.getText().toString();
+                System.out.println(a);
+                String b = dateend.getText().toString();
+                System.out.println(b);
 
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
-                final ArrayList<Float> dep1 = databaseAccess.getDepenses(a,b,1);
-                final ArrayList<Float> rev1 = databaseAccess.getRevenus(a,b,2);
+                final ArrayList<Float> dep1 = databaseAccess.getDepenses(a,b,idcount);
+                final ArrayList<Float> rev1 = databaseAccess.getRevenus(a,b,idcount);
                 databaseAccess.close();
 
                 float totdep=0, totrev = 0;
@@ -196,7 +208,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
     private void setDate(final Calendar calendar){
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
         //pour dire dans quel textView il doit mettre la date
         if(a==true){
@@ -249,11 +261,6 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                     Intent intent = new Intent(SummaryActivity.this,SummarySwipeLeftActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
-                }
-                if(x2<x1){ //si on a été à gauche
-                    Intent intent = new Intent(SummaryActivity.this,SummaryCategoryTransactionActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
                 }
                 break;
 

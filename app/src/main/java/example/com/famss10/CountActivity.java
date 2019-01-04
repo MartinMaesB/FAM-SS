@@ -37,12 +37,14 @@ public class CountActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
+        final Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
         final int position= intent.getIntExtra("index",0); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
         final String userEmail=intent.getStringExtra("userEmail");
        // display("Position",String.valueOf(position));
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
+
+        final int id = databaseAccess.getintAttribut("idCount","Count","Email",userEmail,position);
 
 
         Owner.setText(databaseAccess.getStringAttributWhere("Name","User","Email",userEmail));
@@ -73,7 +75,10 @@ public class CountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
                 Intent intent1 = new Intent(CountActivity.this, SummaryActivity.class);
+                intent1.putExtra("idcount",id);
                 startActivity(intent1);
 
             }
