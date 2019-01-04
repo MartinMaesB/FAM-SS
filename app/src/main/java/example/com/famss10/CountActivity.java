@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class CountActivity extends AppCompatActivity {
     private TextView CountName,Balance,Currency, Deconnexion2, Supervisé,Owner,Modifier;
     private Button Revenu, Depense, Transfert, Resume, Transaction;
+    private CalendarView calendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class CountActivity extends AppCompatActivity {
         this.Supervisé=findViewById(R.id.tvPartage);
         this.Owner=findViewById(R.id.tvOwner);
         this.Modifier=findViewById(R.id.tvModifier);
+        this.calendarView=findViewById(R.id.Calendrier);
 
         Deconnexion2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,10 +38,14 @@ public class CountActivity extends AppCompatActivity {
                 setResult(4);
                 finish();
 
+
             }
         });
 
 
+
+
+        display(String.valueOf(calendarView.getDate()),String.valueOf(calendarView.getContext()));
 
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
         final int position= intent.getIntExtra("index",0); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
