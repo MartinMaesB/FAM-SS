@@ -307,7 +307,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         final Intent intent=getIntent();
         final int idCount = intent.getIntExtra("idCount",0);
-
+        int idBeneficiaryCount=0;
 
 
 
@@ -355,6 +355,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                     messages.add("Veuillez entrer un count existant.");
                     OK=false;
                 }
+                else idBeneficiaryCount = databaseAccess.getCountIDNameEmail(Compte,User);
         }
         }
 
@@ -404,8 +405,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-
-            //databaseAccess.addTransaction(NameTransaction,Description,a,Type,Catégorie,répétition,Compte,,);
+            //addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
+            databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));
             databaseAccess.close();
         }
         else displayAttention("Attention",messages);

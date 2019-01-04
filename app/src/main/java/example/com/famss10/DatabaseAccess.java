@@ -230,6 +230,14 @@ public class DatabaseAccess {
         return c.toString();
     }
 
+    public int getCountIDNameEmail(String name,String email){
+
+        Cursor c = db.rawQuery("select User.idUser from " +
+                "User Inner join Count on (User.Email = Count.Email) where " +
+                "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
+        return c.getInt(0);
+    }
+
     public int getBalanceCountNameEmail(String name,String email){
         c = db.rawQuery("select Count.Balance from " +
                 "User Inner join Count on (User.Email = Count.Email) where " +
@@ -360,6 +368,11 @@ public class DatabaseAccess {
         return buffer.toString();
     }
 
+    public int getDiaryid(java.sql.Date date){
+        c=db.rawQuery("select idDiary from Diary where Date= '"+date+"'", new String[]{});
+        return c.getInt(0);
+    }
+
 
 
 
@@ -429,7 +442,7 @@ public class DatabaseAccess {
     ///////////////Transaction/////////////////////
     ///////////////////////////////////////////////////////
 
-    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,String idBeneficiaryCount,String idCount,Integer idDiary){
+    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary){
         db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idBeneficiaryCount,idCount,idDiary) VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idBeneficiaryCount+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
 
