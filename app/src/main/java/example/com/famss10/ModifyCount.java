@@ -125,12 +125,14 @@ public class ModifyCount extends AppCompatActivity {
                          databaseAccess.updateStringById("Count","NameCount",Name,"idCount",idCount);
                     }
                     if(cbMontant.isChecked()) {
-                        float balance = Float.parseFloat(Montant);
-                        databaseAccess.updateFloatById("Count","Balance",balance,"idCount",idCount);
+                        //float balance = Float.parseFloat(Montant);
+                        int balance=Integer.parseInt(Montant);
+                        databaseAccess.updateIntById("Count","Balance",balance,"idCount",idCount);
                     }
                     if(cbMonnaie.isChecked()) {
                         databaseAccess.updateStringById("Count","Currency",Monnaie,"idCount",idCount);
                     }
+                    setResult(0);
                     finish();
                 }
                 else{display("Erreurs",bufferErreur.toString());}

@@ -175,6 +175,11 @@ public class DatabaseAccess {
     }
 
 
+    public void delete1 (String from, String where,String Element){
+        db.execSQL("delete from "+from+" where "+where+" = '"+Element+"' ",new String []{});
+    }
+
+
     public void delete2 (String from, String where,String Element,String where2, String Element2){
         db.execSQL("delete from "+from+" where "+where+" = '"+Element+"' and "+where2+" = '"+Element2+"'",new String []{});
     }
@@ -184,7 +189,7 @@ public class DatabaseAccess {
 
     }
 
-    public void updateFloatById (String upDate, String set, float element, String where, int element2){
+    public void updateIntById (String upDate, String set, int element, String where, int element2){
         db.execSQL("update "+upDate+" set "+set+" = '"+element+"' where "+where+" = '"+element2+"' ",new  String []{});
 
     }

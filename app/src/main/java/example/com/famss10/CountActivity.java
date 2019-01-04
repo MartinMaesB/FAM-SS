@@ -101,6 +101,17 @@ public class CountActivity extends AppCompatActivity {
 
     }
 
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode==0) {
+
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+
+            }}}
+
     public void display(String title, String content){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setCancelable(true);
