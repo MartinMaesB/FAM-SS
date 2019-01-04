@@ -187,6 +187,13 @@ public class DatabaseAccess {
         return c.getString(0);
     }
 
+    public String getCountNameEmail(String name,String email){
+
+        Cursor c = db.rawQuery("select Count.NameCount,User.Email from " +
+                "User Inner join Count on (User.Email = Count.Email) where " +
+                "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
+        return c.toString();
+    }
 
 /*
     public String getStringAttribut(String select, String from, int i ){

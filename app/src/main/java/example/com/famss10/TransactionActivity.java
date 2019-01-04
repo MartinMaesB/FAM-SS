@@ -310,16 +310,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 OK=false;
             }
             else{
-                display("ok","ok");
-                //String count=databaseAccess.getLastStringAttribut("NameCount","Count","NameCount",Compte);
-                String count="";
+                String count=databaseAccess.getCountNameEmail(Compte,User);
                 if(count.length()==0){
                     messages.add("Veuillez entrer un count existant.");
                     OK=false;
                 }
         }
-
-
         }
 
 
@@ -348,7 +344,14 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
             }
             else{
+                if(Type.equals("Type : Revenu")){
+                    //databaseAccess.getintAttributWhere()
 
+
+                }
+                else{
+
+                }
 
             }
 
