@@ -90,7 +90,7 @@ public class CountsActivity extends AppCompatActivity {
             String Currency = databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,j);
 
             pers_count.get(j).setText(nameCount+"\n"+String.valueOf(balance)+" "+Currency);
-            i = j+1;
+            int i = j+1;
             //display("j", String.valueOf(j));
         }
 
