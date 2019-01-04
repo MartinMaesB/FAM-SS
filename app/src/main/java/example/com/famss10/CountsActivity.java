@@ -1,17 +1,22 @@
 package example.com.famss10;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class CountsActivity extends AppCompatActivity {
 
-    private Button new_pers_count,deconnexion, Superviser, Suppression;
+    private Button new_pers_count, Superviser, Suppression,désuperviser;
+    private TextView Deconnexion;
 
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
@@ -34,11 +39,15 @@ public class CountsActivity extends AppCompatActivity {
 
         this.new_pers_count = findViewById(R.id.bt_new_pers_count);
         this.Superviser=findViewById(R.id.btnSuperviser);
+        this.désuperviser=findViewById(R.id.btnDesuperviser);
 
-        this.deconnexion=findViewById(R.id.btnDeco);
+        this.Deconnexion=findViewById(R.id.tvDeconnexion);
+
         this.Suppression=findViewById(R.id.buttonSup);
 
-        deconnexion.setOnClickListener(new View.OnClickListener() {
+
+
+        Deconnexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -50,18 +59,33 @@ public class CountsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent (CountsActivity.this, SuppressionCompte.class);
                 intent.putExtra("userEmail", userEmail);
+                intent.putExtra("Choix","SuppCompte");
                 //startActivity(intent);
                startActivityForResult(intent,3);
             }
         });
 
+        désuperviser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (CountsActivity.this, SuppressionCompte.class);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("Choix","SuppSupervision");
+                //startActivity(intent);
+                startActivityForResult(intent,3);
+            }
+        });
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
 
         ////////////////////////////MES  COMPTES////////////////////////////////////
         for (int j = 0; j < databaseAccess.getcounter("NameCount","Count","Email",userEmail); j++){
 
-            pers_count.add(new Button(CountsActivity.this));
+            Button Btn= new Button(CountsActivity.this);
+
+            //ViewGroup.LayoutParams params = new ActionBar.LayoutParams();
+            Btn.setAllCaps(false); //Pour pas mettre l'écriture en majuscule
+            pers_count.add(Btn);
             pers_count_layout.addView(pers_count.get(j));
             pers_count.get(j).setId(j);
 
@@ -88,7 +112,7 @@ public class CountsActivity extends AppCompatActivity {
                         Intent intent = new Intent(CountsActivity.this, CountActivity.class);
                         intent.putExtra("index", position);
                         intent.putExtra("userEmail", userEmail);
-                        startActivity(intent);
+                        startActivityForResult(intent,4);
                         //finish();
                     }
                 });
@@ -121,7 +145,11 @@ public class CountsActivity extends AppCompatActivity {
 
                 indexBtnChild=indexBtnChild+j;
                 //display(String.valueOf(indexBtnChild),"");
-                child_count.add(new Button(CountsActivity.this));
+
+                Button Btn= new Button(CountsActivity.this);
+                Btn.setAllCaps(false);
+
+                child_count.add(Btn);
                 ComptesEnfants.addView(child_count.get(indexBtnChild-1));
                 child_count.get(indexBtnChild-1).setId(indexBtnChild-1);
 
@@ -145,7 +173,7 @@ public class CountsActivity extends AppCompatActivity {
                             Intent intent = new Intent(CountsActivity.this, CountActivity.class);
                             intent.putExtra("index", position);
                             intent.putExtra("userEmail", EmailEnfant);
-                            startActivity(intent);
+                            startActivityForResult(intent,4);
                             //finish();
                         }
                     });
@@ -170,12 +198,15 @@ public class CountsActivity extends AppCompatActivity {
         }
 
 
-     //Lorsque l'activité NewCountActivity se ferme  (Mais je ne sais pas à quoi ca sert Intent data)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
             if (resultCode==0) {
+
+                /////////////////Méthode1 qui rajoute directement les nouvelles données à l'activity sans la fermer et la réouvrir
 /*
-                pers_count.add(new Button(CountsActivity.this));
+                Button Btn= new Button(CountsActivity.this);
+                Btn.setAllCaps(false);
+                pers_count.add(Btn);
                 pers_count_layout.addView(pers_count.get(i));
                 pers_count.get(i).setId(i);
 
@@ -204,7 +235,10 @@ public class CountsActivity extends AppCompatActivity {
                         //finish();
                     }
                 });
-                databaseAccess.close();*/
+                databaseAccess.close();
+*/
+
+                //Méthode2 où il suffit de fermer l'activité et la réouvrir
                 Intent intent = getIntent();
                     finish();
                     startActivity(intent);
@@ -214,8 +248,8 @@ public class CountsActivity extends AppCompatActivity {
 
         if (requestCode==1){
             if (resultCode==1){
-
 /*
+
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
@@ -230,7 +264,10 @@ public class CountsActivity extends AppCompatActivity {
                 for (int k = 0; k < databaseAccess.getcounter("NameCount","Count","Email",EmailEnfant); k++){
 
                     indexBtnChild=indexBtnChild+k;
-                    child_count.add(new Button(CountsActivity.this));
+
+                    Button Btn= new Button(CountsActivity.this);
+                    Btn.setAllCaps(false);
+                    child_count.add(Btn);
                     ComptesEnfants.addView(child_count.get(indexBtnChild));
                     child_count.get(indexBtnChild).setId(indexBtnChild);
 
@@ -260,6 +297,7 @@ public class CountsActivity extends AppCompatActivity {
                         });
                     }
                 }*/
+
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
@@ -273,12 +311,14 @@ public class CountsActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
-
-
-
             }
         }
 
+        if (requestCode==4){
+            if (resultCode==4){
+                finish();
+            }
+        }
     }
 
 

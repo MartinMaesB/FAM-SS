@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class CountActivity extends AppCompatActivity {
-    private TextView CountName,Balance,Currency;
+    private TextView CountName,Balance,Currency, Deconnexion2, Supervisé,Owner;
     private Button Revenu, Depense, Transfert, Resume, Transaction;
 
     @Override
@@ -24,6 +24,18 @@ public class CountActivity extends AppCompatActivity {
         this.Transfert=findViewById(R.id.btnTransfert);
         this.Transaction=findViewById(R.id.btnTransaction);
         this.Resume=findViewById(R.id.btnResume);
+        this.Deconnexion2=findViewById(R.id.tvDéconnexion);
+        this.Supervisé=findViewById(R.id.tvPartage);
+        this.Owner=findViewById(R.id.tvOwner);
+
+        Deconnexion2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(4);
+                finish();
+
+            }
+        });
 
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
         final int position= intent.getIntExtra("index",0); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
@@ -32,9 +44,19 @@ public class CountActivity extends AppCompatActivity {
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
 
+
+        Owner.setText(databaseAccess.getStringAttributWhere("Name","User","Email",userEmail));
         CountName.setText(databaseAccess.getStringAttribut("NameCount","Count", "Email",userEmail,position));
         Balance.setText(databaseAccess.getStringAttribut("Balance","Count", "Email",userEmail,position) +"\t"+ databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,position));
        // Currency.setText(databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,position));
+
+        for (int i=0; i< databaseAccess.getcounter("EmailSupervisor","Control","EmailUser",userEmail);i++) {
+            String EmailSupervisor = databaseAccess.getStringAttribut("EmailSupervisor", "Control", "EmailUser", userEmail, i);
+            String NameSupervisor = databaseAccess.getStringAttributWhere("Name", "User", "Email",EmailSupervisor);
+            String Relation = databaseAccess.getStringAttributWhere2("Relation","Control","EmailSupervisor",EmailSupervisor,"EmailUser",userEmail);
+            //display(EmailSupervisor,NameSupervisor);
+            Supervisé.setText( Relation+"\t"+NameSupervisor+"\n"+Supervisé.getText());
+        }
         databaseAccess.close();
 
         Transaction.setOnClickListener(new View.OnClickListener() {

@@ -13,7 +13,7 @@ import android.widget.Switch;
 
 public class SuppressionCompte extends AppCompatActivity {
 
-    private Button Valider;
+    private Button Valider, SupCompte, SupUser;
     private Switch AllComptes;
     private EditText NameUser, NameCount;
     private android.support.constraint.ConstraintLayout page;
@@ -30,9 +30,13 @@ public class SuppressionCompte extends AppCompatActivity {
                 this.NameUser=findViewById(R.id.etNameUser2);
                 this.NameCount=findViewById(R.id.etNamecount2);
                 this.page=findViewById(R.id.page);
+                this.SupCompte=findViewById(R.id.btnCompte);
+                this.SupUser=findViewById(R.id.btnSuperviser);
+
 
                 final Intent intent=getIntent();
                 final String EmailSupervisor = intent.getStringExtra("userEmail");
+                final String choix = intent.getStringExtra("Choix");
 
                 AllComptes.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -44,6 +48,9 @@ public class SuppressionCompte extends AppCompatActivity {
                     }
                 });
 
+
+                //METHODE 1
+                /*
                 page.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -88,6 +95,49 @@ public class SuppressionCompte extends AppCompatActivity {
                 return false;
             }
         });
+*/
+
+        // METHODE 2 Pour que ca soit plus compréhensible
+        SupUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AllComptes.setChecked(true);
+                AllComptes.setEnabled(false);
+                NameCount.setEnabled(false);
+                AllComptes.setAlpha(0.0f);
+                NameCount.setAlpha(0.0f);
+            }
+        });
+
+
+        SupCompte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AllComptes.setChecked(false);
+                AllComptes.setEnabled(true);
+                NameCount.setEnabled(true);
+                AllComptes.setAlpha(1.0f);
+                NameCount.setAlpha(1.0f);
+            }
+        });
+
+
+
+        if (choix.equals("SuppSupervision")){
+            AllComptes.setChecked(true);
+            AllComptes.setEnabled(false);
+            NameCount.setEnabled(false);
+            AllComptes.setAlpha(0.0f);
+            NameCount.setAlpha(0.0f);
+        }
+        if (choix.equals("SuppCompte")){
+            AllComptes.setChecked(false);
+            AllComptes.setEnabled(true);
+            NameCount.setEnabled(true);
+            AllComptes.setAlpha(1.0f);
+            NameCount.setAlpha(1.0f);
+        }
 
 
                 Valider.setOnClickListener(new View.OnClickListener() {

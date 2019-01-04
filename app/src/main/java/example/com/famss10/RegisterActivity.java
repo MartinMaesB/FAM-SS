@@ -56,6 +56,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             @Override
             public void onClick(View v) {
                 validate ();
+                //Intent registerIntent = new Intent(RegisterActivity.this, ConnexionActivity.class);
+                //RegisterActivity.this.startActivity(registerIntent);
             }
         });
 
@@ -123,57 +125,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         String Mail= etMail.getText().toString();
 
 
-        //vérificaton de l'existence des choses dans la bdd
+        //vérificaton de l'existence des éléments dans la bdd
         String name=databaseAccess.getStringAttributWhere("Name","User","Name",Name);
         String mail=databaseAccess.getStringAttributWhere("Email","User","Name",Name);
 
-
-
-        /*
-        if(name.length()!=0||mail.length()!=0){
-
-            if(name.length()!=0)
-                display("Ce nom d'utilisateur existe déjà : ", Name);
-            if(mail.length()!=0)
-                display("Cette adresse Mail existe déjà : ", Mail);
-        }
-        else{
-            if(Name.length()==0||Psw.length()==0||Mail.length()==0){
-                if(Name.length()==0)
-                    display("Veuillez entrer un nom d'utilisateur ", " ");
-                if(Psw.length()==0)
-                    display("Veuillez entrer un mot de passe ", " ");
-                if(Mail.length()==0)
-                    display("Veuillez entrer une adresse mail ", " ");
-            }
-            else{
-                if(!(CheckBox).isChecked())
-                    display("Veuillez cocher les condittions d'utilisation : ", " ");
-                else{
-                    if(Psw.equals(Psw2)){
-                    databaseAccess.addUser(Name,Psw,Gender,b,Mail);
-
-                    String person =Name;
-                    String name1= databaseAccess.getStringAttributWhere("Name","User","Name",person);
-                    String mdp= databaseAccess.getStringAttributWhere("Psw","User","Name",person);
-                    String gender= databaseAccess.getStringAttributWhere("Gender","User","Name",person);
-                    String birthday= databaseAccess.getStringAttributWhere("Birthday","User","Name",person);
-                    String mail1= databaseAccess.getStringAttributWhere("Email","User","Name",person);
-
-
-                    StringBuffer buffer=new StringBuffer();
-                    buffer.append("Name:" +name1+"\n");
-                    buffer.append("Password:" +mdp+"\n");
-                    buffer.append("Gender:" +gender+"\n");
-                    buffer.append("Birthday:"+birthday+"\n");
-                    buffer.append("Email:" +mail1);
-                    display("Affichage Encodage ", buffer.toString());}
-
-                    else
-                        display("Les mots de passe ne correspondent pas: ", " ");
-                }
-            }
-        }*/
 
 
             boolean OK = true;
@@ -210,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     String name1 = databaseAccess.getStringAttributWhere("Name", "User", "Name", person);
                     String mdp = databaseAccess.getStringAttributWhere("Psw", "User", "Name", person);
                     String gender = databaseAccess.getStringAttributWhere("Gender", "User", "Name", person);
-                    String birthday = databaseAccess.getStringAttributWhere("Birthday", "User", "Name", person);
+                    String birthday = String.format(databaseAccess.getStringAttributWhere("Birthday", "User", "Name", person));
                     String mail1 = databaseAccess.getStringAttributWhere("Email", "User", "Name", person);
 
 
@@ -227,17 +182,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
     //début de la partie dédiée au calendrier
     public void datePicker(View view){
 
@@ -247,16 +191,35 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     private void setDate(final Calendar calendar){
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
        ((TextView)findViewById(R.id.etBirthday)).setText(sdf.format(calendar.getTime()));
+
+
+
+       display("",sdf.format(calendar.getTime()));
+       String DATE = sdf.format(calendar.getTime()); // Récupère la date en STRING de la forme yyyy//MM/dd
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day){
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
+        display("0",String.valueOf(cal.get(0)));
+        display("1",String.valueOf(cal.get(1))); //DONNE L'année
+        display("2",String.valueOf(cal.get(2)));
+        display("3",String.valueOf(cal.get(3)));
         Date B= new Date(year, month,day);
-        b=B;
+        //b=B;
+
+        display("",String.valueOf(cal.getTime().getYear()));
+        display("",String.valueOf(cal.getTime().getMonth()));
+        display("",String.valueOf(cal.getTimeInMillis()));
+        display("", String.valueOf(new java.sql.Date(cal.getTimeInMillis())));//OKKKKK
+
+        b=new java.sql.Date(cal.getTimeInMillis()); //Récupère la date en DATE SQL !!!
+        display("Birtdhay",String.valueOf(b) );
+        String DaTe= String.valueOf(b);             //Récupère la date en STRING de la forme yyyy//MM/dd
+        display("",DaTe);
     }
 
 

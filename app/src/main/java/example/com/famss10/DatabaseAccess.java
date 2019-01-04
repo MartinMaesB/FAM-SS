@@ -132,6 +132,11 @@ public class DatabaseAccess {
 */
     /////////////////Select, delete, update //////////
 
+    public int getcounter (String select, String from, String where, String element){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        return c.getCount();
+    }
+
     public String getStringAttribut(String select, String from, String where,String element, int i ){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
@@ -163,10 +168,25 @@ public class DatabaseAccess {
     }
 
 
+
+
+
     ////////////////////COUNT////////////////////
     public void addCount (String namecount, String currency, String Email, int balance) {
         db.execSQL("insert into Count (NameCount, Currency, Email, Balance) VALUES ('"+namecount+"','"+currency+"','"+Email+"','"+balance+"')");
     }
+
+    public float getBalance(Integer idCount){
+        c=db.rawQuery("select Balance from Count where idCount= '"+idCount+"'", new String[]{});
+        return c.getFloat(0);
+    }
+
+    public String getCountName(String name){
+        c=db.rawQuery("select NameCount from Count where NameCount= '"+name+"'", new String[]{});
+        return c.toString();
+    }
+
+
 /*
     public String getStringAttribut(String select, String from, int i ){
         c=db.rawQuery("select "+select+" from "+from+"", new String[]{});
@@ -193,10 +213,6 @@ public class DatabaseAccess {
 
 
 
-    public int getcounter (String select, String from, String where, String element){
-        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
-        return c.getCount();
-    }
 
 
 
@@ -241,6 +257,12 @@ public class DatabaseAccess {
         db.execSQL("insert into Control (EmailUser, EmailSupervisor,Relation) VALUES ('"+Email+"','"+EmailSupervisor+"','"+relation+"')", new String[]{});
     }
 
+    public String UserControl (String where, String Element){
+        c= db.rawQuery("select User.Email, User.Name, User.psw, Control.EmailUser,Control.EmailSupervisor from User left join Control ON User.Email = Control.EmailUser where "+where+" = '"+Element+"'",new String []{});
+        return c.getString(0);
+    }
+
+
 
     /////////////////Creation//////////////////////
     public void addCreation (int Quantity, int idDiary, int idSummary){
@@ -259,12 +281,12 @@ public class DatabaseAccess {
 
 
     public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
-        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"',NbrRépétitons='"+nombre+"'", new String[]{});
+        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"'AND EndDate='"+enddate+"'AND NbrRépétitons='"+nombre+"'", new String[]{});
         return c.getInt(0);
     }
-    public Integer getFrequencyRepetitions(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
-        c=db.rawQuery("select NbrRépétitions from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"'", new String[]{});
-        return c.getCount();
+    public Integer getFrequencyRepetitions(Integer id){
+        c=db.rawQuery("select NbrRépétitions from Frequency where idFrequency='"+id+"'", new String[]{});
+        return c.getInt(0);
     }
 
 
@@ -300,8 +322,8 @@ public class DatabaseAccess {
     ///////////////TransactionActivity/////////////////////
 
 
-    public void addTransaction(){
-        //db.execSQL("insert into Supervisor (EmailSupervisor) VALUES ('"+EmailSupervisor+"')", new String[]{});
+    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,String idBeneficiaryCount,String idCount,Integer idDiary){
+        db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idBeneficiaryCount,idCount,idDiary) VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idBeneficiaryCount+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
 
 
@@ -345,6 +367,9 @@ public class DatabaseAccess {
 
 
     //////////////Type///////////////////////////
+    public void addType( String idOperation){
+        db.execSQL("insert into Type (idOperation) VALUES ('"+idOperation+"')", new String[]{});
+    }
 
 
 }
