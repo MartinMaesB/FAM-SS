@@ -442,7 +442,7 @@ public class DatabaseAccess {
     ///////////////Transaction/////////////////////
     ///////////////////////////////////////////////////////
 
-    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idCount,Integer idDiary){
+    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, int frequency,int idCount,int idDiary){
         db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idCount,idDiary) VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
 
