@@ -328,44 +328,39 @@ public class DatabaseAccess {
 
 
 
-    public void getTransactions(boolean type, Date start, Date end , String count){
-        if(type==false){
-
-            db.rawQuery("select Transactions.Mountant From " +
-
-                    "(select Transactions.Mountant , Transactions.Operation , Diary.Date from " +
-                    "(select * from Transactions where idCount = '"+count+"') Inner join " +
-                    "(select * from Diary where Diary.Date < '"+end+"') on " +
-                    "Transactions.idDiary = Diary.idDiary)" +
-
-                    "where Transactions.Operation = ", new String[]{});
-
-        }
-        else {
-
-            db.rawQuery("select Transactions.Mountant From " +
-
-                    "(select Transactions.Mountant , Transactions.Operation , Diary.Date from " +
-                    "(select * from Transactions where idCount = '"+count+"') Inner join " +
-                    "(select * from Diary where Diary.Date < '"+end+"') on " +
-                    "Transactions.idDiary = Diary.idDiary)" +
-
-                    "where Transactions.Operation = ", new String[]{});
-
-        }
-
-    }
-
-    public ArrayList<String> test ( Date end ) {
+    public ArrayList<String> getDepenses( String start, String end , int count){
 
         ArrayList<String> liste=new ArrayList<>();
 
-        Cursor c = db.rawQuery("select * from Diary where Diary.Date < '" + end + "'", new String[]{});
+            Cursor c = db.rawQuery("select Transactions.Mountant , Transactions.Operation , Diary.Date from " +
+                    "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
+                    "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'dep' or Transactions.Operation = 'tra'", new String[]{});
+
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
             String date= c.getString(0);
             buffer.append(""+date);
             liste.add(date);
+            System.out.println(liste);
+        }
+        return liste ;
+    }
+
+
+    public ArrayList<String> getRevenus( String start, String end , int count){
+
+        ArrayList<String> liste=new ArrayList<>();
+
+        Cursor c = db.rawQuery("select Transactions.Mountant , Transactions.Operation , Diary.Date from " +
+                "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
+                "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'dep' or Transactions.Operation = 'tra'", new String[]{});
+
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String date= c.getString(0);
+            buffer.append(""+date);
+            liste.add(date);
+            System.out.println(liste);
         }
         return liste ;
     }
