@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public Button bRegister;
     public CheckBox CheckBox;
     String [] choixSexe;
-    Date b=null;
+    Date b=null, c=null;
 
 
     @Override
@@ -169,6 +170,21 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     String mail1 = databaseAccess.getStringAttributWhere("Email", "User", "Name", person);
 
 
+                   try{
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+                        java.util.Date Anniversaire = format.parse(birthday);
+                        java.sql.Date data = new java.sql.Date(Anniversaire.getTime());
+                        String date2= "2019/01/12";
+                       java.util.Date Date2 = format.parse(date2);
+                       Date data2=new java.sql.Date(Date2.getTime());
+
+                            c=data2;
+                        display("","Hello");
+
+                    }catch (ParseException e){e.printStackTrace();}
+
+
+                    display("", String.valueOf(c));
                     StringBuffer buffer = new StringBuffer();
                     buffer.append("Name:" + name1 + "\n");
                     buffer.append("Password:" + mdp + "\n");
@@ -196,30 +212,30 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
 
 
-       display("",sdf.format(calendar.getTime()));
-       String DATE = sdf.format(calendar.getTime()); // Récupère la date en STRING de la forme yyyy//MM/dd
+       //display("",sdf.format(calendar.getTime()));
+       //String DATE = sdf.format(calendar.getTime()); // Récupère la date en STRING de la forme yyyy//MM/dd
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day){
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
-        display("0",String.valueOf(cal.get(0)));
-        display("1",String.valueOf(cal.get(1))); //DONNE L'année
-        display("2",String.valueOf(cal.get(2)));
-        display("3",String.valueOf(cal.get(3)));
-        Date B= new Date(year, month,day);
+       // display("0",String.valueOf(cal.get(0)));
+       // display("1",String.valueOf(cal.get(1))); //DONNE L'année
+        //display("2",String.valueOf(cal.get(2)));
+        //display("3",String.valueOf(cal.get(3)));
+        //Date B= new Date(year, month,day);
         //b=B;
 
-        display("",String.valueOf(cal.getTime().getYear()));
-        display("",String.valueOf(cal.getTime().getMonth()));
-        display("",String.valueOf(cal.getTimeInMillis()));
-        display("", String.valueOf(new java.sql.Date(cal.getTimeInMillis())));//OKKKKK
+        //display("",String.valueOf(cal.getTime().getYear()));
+        //display("",String.valueOf(cal.getTime().getMonth()));
+        //display("",String.valueOf(cal.getTimeInMillis()));
+        //display("", String.valueOf(new java.sql.Date(cal.getTimeInMillis())));//OKKKKK
 
         b=new java.sql.Date(cal.getTimeInMillis()); //Récupère la date en DATE SQL !!!
         display("Birtdhay",String.valueOf(b) );
-        String DaTe= String.valueOf(b);             //Récupère la date en STRING de la forme yyyy//MM/dd
-        display("",DaTe);
+        //String DaTe= String.valueOf(b);             //Récupère la date en STRING de la forme yyyy//MM/dd
+        //display("",DaTe);
     }
 
 
@@ -260,6 +276,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         builder.setMessage(m);
         builder.show();}
     }
+
+
+
 
 }
 
