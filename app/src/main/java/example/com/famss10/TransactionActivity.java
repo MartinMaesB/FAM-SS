@@ -363,6 +363,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 /*IL RESTE A :
 - ajouter la transaction
 - retirer ou ajouter la thune du compte
+- quand frequence ajouter ou supprimer de la thune aux intervalles donnés
 - ajouter le diary
  */
             //    databaseAccess.addTransaction();
