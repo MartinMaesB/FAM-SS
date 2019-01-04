@@ -7,36 +7,38 @@
     android:layout_height="match_parent"
     tools:context=".CountsActivity">
 
-    <LinearLayout
-        android:id="@+id/ll_ComtesEnfants"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="135dp"
-        android:layout_height="wrap_content"
-
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="40dp"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_marginTop="184dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.854"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/btnSuperviser"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+        <LinearLayout
+            android:id="@+id/ll_ComtesEnfants"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="8dp"
-            android:text="Superviser"
-            android:textSize="15dp"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.295"
-            app:layout_constraintStart_toEndOf="@+id/tv_pers_count"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/tv_pers_count"
@@ -50,6 +52,36 @@
 
         android:textSize="20dp"
 
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bt_new_pers_count"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="8dp"
+        android:text="Ajouter"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonSup"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="8dp"
+        android:text="Supprimer"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,65 +103,72 @@
         app:layout_constraintStart_toEndOf="@+id/tv_pers_count"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/ll_pers_count"
+    <Button
+        android:id="@+id/btnSuperviser"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="135dp"
         android:layout_height="wrap_content"
-
         android:layout_marginStart="8dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="208dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.939"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/bt_new_pers_count"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="8dp"
-            android:text="+"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.295"
-            app:layout_constraintStart_toEndOf="@+id/tv_pers_count"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonSup"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="Supprimer"
-        android:textAllCaps="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Superviser"
+        android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.862"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnDesuperviser"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="130dp"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="132dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
         android:text="Désuperviser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.862"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="135dp"
+        android:layout_height="318dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="178dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.894"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:id="@+id/ll_pers_count"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.939"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
 
     <TextView
         android:id="@+id/tvDeconnexion"
