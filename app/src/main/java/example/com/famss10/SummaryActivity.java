@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.sql.Date;
@@ -30,8 +31,8 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
     float x1,x2; //position d'appuie et de relasce pour faire le swipe entre activitées
     boolean a; //pour separer les dates de debut et fin
-    Button start,end,ok;
-    TextView balance;
+    Button start,end,ok,test1;
+    TextView balance,test2;
     Date b; //pour setter les dates de debut et de fin
 
     ColumnChartData data; //données du graphique
@@ -40,7 +41,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
     List<Column> columns = new ArrayList<>(); //chaque colonne est composé de 1 list de souscolonnes (dans ce cas 1colonne = 1 souscolonne)
     List<SubcolumnValue> rev = new ArrayList<>(); //list qui contient 1 seul element (car 1 seul souscolonne par colonne) mais on est obligés de faire une List
     List<SubcolumnValue> dep = new ArrayList<>(); // idem
-
+    int j=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +53,8 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         ok=findViewById(R.id.bok);
         chart = findViewById(R.id.chart);
         balance=findViewById(R.id.tvBalance);
+        test1=findViewById(R.id.button);
+        test2=findViewById(R.id.textView2);
 
      //settage des dates de debut et fin
         start.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +118,40 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                     balance.setTextColor(Color.RED);
                 }
 
+                String a = "01/10/2019";
+                String b = "03/10/2019";
+
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+                final ArrayList<String> r = databaseAccess.getDepenses(a,b,1);
+                //final ArrayList<String> r = databaseAccess.test2(1,a,b);
+                databaseAccess.close();
 
 
+                test1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        test2.setText(r.get(j));
+                        j++;
+                    }
+                });
+
+
+                /*String a = ((EditText)findViewById(R.id.etend)).getText().toString();
+                String b="12/02/2014";
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                Date d= null;
+                try {
+                    d=(Date) sdf1.parse(b);
+
+                } catch (java.text.ParseException e){
+                    e.printStackTrace();
+                }
+
+
+                ((TextView)findViewById(R.id.textView2)).setText(a);
+                */
 
             }
         });
