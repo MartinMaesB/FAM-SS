@@ -194,11 +194,17 @@ public class DatabaseAccess {
                 "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
         return c.toString();
     }
-    public String getBalanceCountNameEmail(String name,String email){
-        Cursor c = db.rawQuery("select Count.NameCount,User.Email,Count. from " +
+    public int getBalanceCountNameEmail(String name,String email){
+        c = db.rawQuery("select Count.Balance from " +
                 "User Inner join Count on (User.Email = Count.Email) where " +
                 "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
-        return c.toString();
+
+        return c.getInt(0);
+    }
+
+    public void setBalanceCountNameEmail(String name,String email,Float montant){
+        db.execSQL("Update Count set Balance=montant where Email='"+email+"' and NameCount='"+name+"'");
+        //return c.getFloat(0);
     }
 
 /*
@@ -283,17 +289,40 @@ public class DatabaseAccess {
         db.execSQL("insert into Control (Quantity, idDiary, idSummary) VALUES ('"+Quantity+"','"+idDiary+"','"+idSummary+"')", new String[]{});
     }
 
-    ////////////////Diary/////////////////////////////:
+
+
+    //////////////////////////////////////////////////
+    ////////////////Diary/////////////////////////////
+    //////////////////////////////////////////////////
     public void addDiary (java.sql.Date date){
         db.execSQL("insert into Diary (Date) VALUES ('"+date+"')", new String[]{});
     }
 
     public String diaryExist(java.sql.Date date){
         c=db.rawQuery("select Date from Diary where Date= '"+date+"'", new String[]{});
-        return c.toString();
+        return"ok";
     }
 
+    public String getStringDate(String select, String from, String where, java.sql.Date element){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+" = '"+element+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String nom = c.getString(0);
+            buffer.append(""+nom);
+
+        }
+        return buffer.toString();
+    }
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////
     ///////////////Frequency////////////////////////////
+    ///////////////////////////////////////////////////
     public void addFrequency (Integer nombre, java.sql.Date startdate, java.sql.Date enddate){
         db.execSQL("insert into Frequency (StartDate, EndDate, NbrRépétitions) VALUES ('"+startdate+"','"+enddate+"','"+nombre+"')", new String[]{});
     }
@@ -329,21 +358,30 @@ public class DatabaseAccess {
 
 
 
-
+    //////////////////////////////////////////////////
     ///////////////Summary////////////////////////////
+    //////////////////////////////////////////////////
     public void addSummary (Blob graphic, java.sql.Date startdate, Date enddate){
         db.execSQL("insert into Summary (Graphic, StartDate, EndDate) VALUES ('"+graphic+"','"+startdate+"','"+enddate+"')", new String[]{});
     }
 
 
+
+
+    ////////////////////////////////////////////////
     /////////////Supervisor/////////////////////////
+    ///////////////////////////////////////////////
+
     public void addSupervisor( String EmailSupervisor){
         db.execSQL("insert into Supervisor (EmailSupervisor) VALUES ('"+EmailSupervisor+"')", new String[]{});
     }
 
 
-    ///////////////TransactionActivity/////////////////////
 
+
+    ///////////////////////////////////////////////////////
+    ///////////////TransactionActivity/////////////////////
+    ///////////////////////////////////////////////////////
 
     public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,String idBeneficiaryCount,String idCount,Integer idDiary){
         db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idBeneficiaryCount,idCount,idDiary) VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idBeneficiaryCount+"','"+idCount+"','"+idDiary+"')", new String[]{});
