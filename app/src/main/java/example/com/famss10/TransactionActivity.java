@@ -403,14 +403,14 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
             }
 
-            int Diaryid=databaseAccess.getDiaryid(b);
-            display("ok ",String.valueOf(Diaryid));
+            //int Diaryid=databaseAccess.getDiaryid(b);
+            //display("ok ",String.valueOf(Diaryid));
             //int Frequencyid=databaseAccess.getFrequencyID(répétition,b,c);
             //display("okk ",String.valueOf(Frequencyid));
 
             //addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
             //databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));
-            //databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,Frequencyid,1,idCount,Diaryid);
+            databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idCount,1);
             databaseAccess.close();
         }
         else displayAttention("Attention",messages);
