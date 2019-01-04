@@ -352,10 +352,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
        if(databaseAccess.getFrequencyID(répétition,b,c)!=null)
             databaseAccess.addFrequency(répétition,b,c);
-       else{
-           messages.add("Cette fréquence existe déjà");
-           OK=false;
-       }
+
 
 
 
@@ -363,7 +360,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
         if (OK) {
-
+/*IL RESTE A :
+- ajouter la transaction
+- retirer ou ajouter la thune du compte
+- ajouter le diary
+ */
             //    databaseAccess.addTransaction();
             if(Type.equals("Type : Transfert")){
 
