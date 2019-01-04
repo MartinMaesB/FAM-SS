@@ -125,57 +125,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         String Mail= etMail.getText().toString();
 
 
-        //vérificaton de l'existence des choses dans la bdd
+        //vérificaton de l'existence des éléments dans la bdd
         String name=databaseAccess.getStringAttributWhere("Name","User","Name",Name);
         String mail=databaseAccess.getStringAttributWhere("Email","User","Name",Name);
 
-
-
-        /*
-        if(name.length()!=0||mail.length()!=0){
-
-            if(name.length()!=0)
-                display("Ce nom d'utilisateur existe déjà : ", Name);
-            if(mail.length()!=0)
-                display("Cette adresse Mail existe déjà : ", Mail);
-        }
-        else{
-            if(Name.length()==0||Psw.length()==0||Mail.length()==0){
-                if(Name.length()==0)
-                    display("Veuillez entrer un nom d'utilisateur ", " ");
-                if(Psw.length()==0)
-                    display("Veuillez entrer un mot de passe ", " ");
-                if(Mail.length()==0)
-                    display("Veuillez entrer une adresse mail ", " ");
-            }
-            else{
-                if(!(CheckBox).isChecked())
-                    display("Veuillez cocher les condittions d'utilisation : ", " ");
-                else{
-                    if(Psw.equals(Psw2)){
-                    databaseAccess.addUser(Name,Psw,Gender,b,Mail);
-
-                    String person =Name;
-                    String name1= databaseAccess.getStringAttributWhere("Name","User","Name",person);
-                    String mdp= databaseAccess.getStringAttributWhere("Psw","User","Name",person);
-                    String gender= databaseAccess.getStringAttributWhere("Gender","User","Name",person);
-                    String birthday= databaseAccess.getStringAttributWhere("Birthday","User","Name",person);
-                    String mail1= databaseAccess.getStringAttributWhere("Email","User","Name",person);
-
-
-                    StringBuffer buffer=new StringBuffer();
-                    buffer.append("Name:" +name1+"\n");
-                    buffer.append("Password:" +mdp+"\n");
-                    buffer.append("Gender:" +gender+"\n");
-                    buffer.append("Birthday:"+birthday+"\n");
-                    buffer.append("Email:" +mail1);
-                    display("Affichage Encodage ", buffer.toString());}
-
-                    else
-                        display("Les mots de passe ne correspondent pas: ", " ");
-                }
-            }
-        }*/
 
 
             boolean OK = true;
@@ -206,7 +159,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
                 if (OK) {
 
-                    databaseAccess.addUser(Name, Psw, Gender, B, Mail);
+                    databaseAccess.addUser(Name, Psw, Gender, b, Mail);
 
                     String person = Name;
                     String name1 = databaseAccess.getStringAttributWhere("Name", "User", "Name", person);
@@ -228,17 +181,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 else displayAttention("Attention",messages);
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
     //début de la partie dédiée au calendrier
     public void datePicker(View view){
