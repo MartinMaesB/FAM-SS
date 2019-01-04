@@ -230,6 +230,14 @@ public class DatabaseAccess {
         return c.toString();
     }
 
+    public int getCountIDNameEmail(String name,String email){
+
+        Cursor c = db.rawQuery("select User.idUser from " +
+                "User Inner join Count on (User.Email = Count.Email) where " +
+                "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
+        return c.getInt(0);
+    }
+
     public int getBalanceCountNameEmail(String name,String email){
         c = db.rawQuery("select Count.Balance from " +
                 "User Inner join Count on (User.Email = Count.Email) where " +
@@ -360,6 +368,11 @@ public class DatabaseAccess {
         return buffer.toString();
     }
 
+    public int getDiaryid(java.sql.Date date){
+        c=db.rawQuery("select idDiary from Diary where Date= '"+date+"'", new String[]{});
+        return c.getInt(0);
+    }
+
 
 
 
@@ -429,7 +442,7 @@ public class DatabaseAccess {
     ///////////////Transaction/////////////////////
     ///////////////////////////////////////////////////////
 
-    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,String idBeneficiaryCount,String idCount,Integer idDiary){
+    public void addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary){
         db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idBeneficiaryCount,idCount,idDiary) VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idBeneficiaryCount+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
 
@@ -439,7 +452,7 @@ public class DatabaseAccess {
 
             Cursor c = db.rawQuery("select Transactions.Mountant from " +
                     "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
-                    "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'dep' or Transactions.Operation = 'tra'", new String[]{});
+                    "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'Type : Dépense' or Transactions.Operation = 'Type : Transfert'", new String[]{});
 
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
@@ -458,7 +471,7 @@ public class DatabaseAccess {
 
         Cursor c = db.rawQuery("select Transactions.Mountant from " +
                 "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
-                "Transactions.idCount = '"+count+"' and (Date between '"+start+"' and '"+end+"') and Transactions.Operation = 'rev' ", new String[]{});
+                "Transactions.idCount = '"+count+"' and (Date between '"+start+"' and '"+end+"') and Transactions.Operation = 'Type : Revenu' ", new String[]{});
 
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
@@ -484,8 +497,14 @@ public class DatabaseAccess {
         return liste ;
     }
 
-//or Transactions.idBeneficiaryCount = '"+count+"')
-    //or Transactions.Operation = 'tra')
+    public Cursor getTransactions(int count){
+        Cursor c = db.rawQuery("SELECT Transactions.Name , Transactions.Notes , Transactions.Mountant , Transactions.Operation , Transactions.idCategory , Diary.Date FROM " +
+                "Transactions INNER JOIN Diary ON (Transactions.idDiary = Diary.idDiary) WHERE " +
+                "Transactions.idCount = '"+count+"'" +
+                "ORDER BY Diary.Date",null);
+        return c;
+    }
+
 
 
 
