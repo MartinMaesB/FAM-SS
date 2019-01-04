@@ -385,7 +385,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 - quand frequence ajouter ou supprimer de la thune aux intervalles donnés
 //- ajouter le diary*/
 
-            //    databaseAccess.addTransaction();
+
             if(Type.equals("Type : Transfert")){
 
             }
@@ -418,7 +418,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-
+            //databaseAccess.addTransaction(NameTransaction,Description,a,Type,Catégorie,répétition,Compte,,);
             databaseAccess.close();
         }
         else displayAttention("Attention",messages);
