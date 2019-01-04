@@ -81,6 +81,18 @@ public class DatabaseAccess {
         }
         return buffer.toString();
     }
+
+    public String getStringAttributWhereInt(String select, String from,String where, int element){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+" = '"+element+"'", new String[]{});
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            String nom = c.getString(0);
+            buffer.append(""+nom);
+
+        }
+        return buffer.toString();
+    }
+
     public String getStringAttributWhere2 (String select, String from, String where, String element, String where2, String element2){
         c=db.rawQuery("select "+select+" from "+from+" where "+where+" = '"+element+"' and "+where2+" = '"+element2+"'", new String[]{});
         StringBuffer buffer= new StringBuffer();
@@ -167,12 +179,22 @@ public class DatabaseAccess {
         db.execSQL("delete from "+from+" where "+where+" = '"+Element+"' and "+where2+" = '"+Element2+"'",new String []{});
     }
 
+    public void updateStringById (String upDate, String set, String element, String where, int element2){
+        db.execSQL("update "+upDate+" set "+set+" = '"+element+"' where "+where+" = '"+element2+"' ",new  String []{});
+
+    }
+
+    public void updateFloatById (String upDate, String set, float element, String where, int element2){
+        db.execSQL("update "+upDate+" set "+set+" = '"+element+"' where "+where+" = '"+element2+"' ",new  String []{});
+
+    }
+
 
 
 
 
     ////////////////////COUNT////////////////////
-    public void addCount (String namecount, String currency, String Email, int balance) {
+    public void addCount (String namecount, String currency, String Email, float balance) {
         db.execSQL("insert into Count (NameCount, Currency, Email, Balance) VALUES ('"+namecount+"','"+currency+"','"+Email+"','"+balance+"')");
     }
 
