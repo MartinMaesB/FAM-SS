@@ -116,7 +116,6 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
-                choixCatégorie=databaseAccess.getToutFrequency();
                 frequenceok=true;
                 String titre= new String ("Choissez une un nombre de répétitions :");
                 String ajout= new String("Ajouter un nombre de répétitions");
@@ -238,10 +237,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         Date B= new Date(year, month,day);
         if(b!=null){
             c=new java.sql.Date(cal.getTimeInMillis());
-            String DaTTe= String.valueOf(c);}
+            //String DaTTe= String.valueOf(c);
+            }
             else{
             b=new java.sql.Date(cal.getTimeInMillis());
-            String DaTe= String.valueOf(b);}
+            //String DaTe= String.valueOf(b);
+        }
     }
 
     public static class DatePickerFragment extends DialogFragment {
@@ -341,10 +342,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 */
 
-       //if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
-
-
-            databaseAccess.addFrequencynbr(répétition);
+       if(databaseAccess.getFrequencyID(répétition,b,c)!=null)
+            databaseAccess.addFrequency(répétition,b,c);
+       else{
+           messages.add("Cette fréquence existe déjà");
+           OK=false;
+       }
 
 
 
