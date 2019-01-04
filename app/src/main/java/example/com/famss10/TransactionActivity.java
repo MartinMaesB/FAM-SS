@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.app.DatePickerDialog;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     public TextView input;
     public ArrayList<String> choixCatégorie;
     Boolean cal=false;
+    Boolean frequenceok=false;
     Date b=null;
     Date c=null;
     public String transfert = "Type : Transfert",autre = "Autres";
@@ -48,8 +50,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         final TextView tvDateFin=findViewById(R.id.tvDateFin);
         etUser.setEnabled(false);
         etCompte.setEnabled(false);
+        etCompte.setAlpha(0.1f);
+        etUser.setAlpha(0.1f);
         tvFréquence.setEnabled(false);
         tvDateFin.setEnabled(false);
+        tvFréquence.setAlpha(0.1f);
+        tvDateFin.setAlpha(0.1f);
         tvDate.setHint("Date de la transaction");
         cbFréquence.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,11 +64,15 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                   tvFréquence.setEnabled(false);
                   tvDateFin.setEnabled(false);
                   tvDate.setHint("Date de la transaction");
+                    tvFréquence.setAlpha(0.1f);
+                    tvDateFin.setAlpha(0.1f);
 
                 }
                 else {tvFréquence.setEnabled(true);
                 tvDateFin.setEnabled(true);
                     tvDate.setHint("Date de la première répétition");
+                    tvFréquence.setAlpha(1.0f);
+                    tvDateFin.setAlpha(1.0f);
 
                 }
             }
@@ -80,10 +90,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 choixCatégorie.add("Type : Dépense");
                 choixCatégorie.add("Type : Revenu");
                 choixCatégorie.add("Type : Transfert");
+                frequenceok=false;
                 String titre= new String ("Choissez un Type de transaction :");
                 String ajout=new String("");
                 Boolean ajouter = false;
-                menuPopUp (tvType,choixCatégorie, titre,ajouter, ajout,tvType,etCompte,etUser);
+                menuPopUp (tvType,choixCatégorie, titre,ajouter, ajout,tvType,etCompte,etUser,frequenceok);
             }
         });
 
@@ -96,10 +107,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
                 choixCatégorie=databaseAccess.getToutNomCategory();
+                frequenceok=false;
                 String titre= new String ("Choissez une catégorie:");
                 String ajout= new String("Ajouter une Catégorie");
                 Boolean ajouter = true;
-                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout,tvType,etCompte,etUser);
+                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout,tvType,etCompte,etUser,frequenceok);
                 databaseAccess.close();
             }
         });
@@ -112,11 +124,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
                 choixCatégorie=new ArrayList<String>();
-                choixCatégorie=databaseAccess.getToutFrequency();
+                frequenceok=true;
                 String titre= new String ("Choissez une un nombre de répétitions :");
                 String ajout= new String("Ajouter un nombre de répétitions");
                 Boolean ajouter = true;
-                menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout,tvType,etCompte,etUser);
+                menuPopUp (tvFréquence,choixCatégorie, titre,ajouter, ajout,tvType,etCompte,etUser,frequenceok);
                 databaseAccess.close();
             }
         });
@@ -151,13 +163,17 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     }
 
 
-    void menuPopUp(final TextView T, ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout, final TextView tvType, final EditText etCompte,final EditText etUser){
+    void menuPopUp(final TextView T, ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout, final TextView tvType, final EditText etCompte,final EditText etUser,Boolean frequenceok){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(TransactionActivity.this);
         mBuilder.setTitle(titre);
         mBuilder.setIcon(R.drawable.icon);
 
         if(ajouter){
             input=new EditText(this);
+
+            if(frequenceok)
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
             input.setHint(ajout);
             //mBuilder.setView(input,15,0,0,0);
             mBuilder.setView(input);
@@ -214,10 +230,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     private void setDate(final Calendar calendar){
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        if (!cal)
+        if (!cal){
         ((TextView)findViewById(R.id.tvDate)).setText(sdf.format(calendar.getTime()));
-        else
+        String DATTE = sdf.format(calendar.getTime());}
+        else{
         ((TextView)findViewById(R.id.tvDateFin)).setText(sdf.format(calendar.getTime()));
+        String DATE = sdf.format(calendar.getTime());}
     }
 
     @Override
@@ -225,10 +243,14 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         Calendar cal = new GregorianCalendar(year,month,day);
         setDate(cal);
         Date B= new Date(year, month,day);
-        if(b!=null)
-            c=B;
-            else
-        b=B;
+        if(b!=null){
+            c=new java.sql.Date(cal.getTimeInMillis());
+            //String DaTTe= String.valueOf(c);
+            }
+            else{
+            b=new java.sql.Date(cal.getTimeInMillis());
+            //String DaTe= String.valueOf(b);
+        }
     }
 
     public static class DatePickerFragment extends DialogFragment {
@@ -267,12 +289,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         String mail=databaseAccess.getStringAttributWhere("Email","User","Email",User);
 
 
-
-
-
         boolean OK = true;
         ArrayList <String> messages=new ArrayList<>();
-
+/*
         if(NameTransaction.length()==0){
             messages.add("Vous n'avez nommé votre transaction!");
             OK=false;}
@@ -282,6 +301,13 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         if(Catégorie.length()==0){
             messages.add("Vous n'avez pas donné de Catégorie à cette transaction");
             OK=false;}
+            else  {
+            if(databaseAccess.getCategory(Catégorie).length()==0)
+                databaseAccess.addCategoryByName(Catégorie);
+        }
+
+
+
         if(tvDate.getText().length()==0){
             messages.add("Veuillez entrer la date de cette transaction");
             OK=false;}
@@ -292,19 +318,19 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
             if(User.length()==0) {
                 messages.add("Veuillez entrer un user receveur. S'il n'y en a pas, veuillez écrire :'Aucun' ");
-                OK=false;}
-        }
-
-        if(mail.length()==0){
-            messages.add("Veuillez entrer un email existant. S'il n'y en a pas, veuillez écrire :'Aucun' ");
-            OK=false;
-        }
-        else{
-            String count=databaseAccess.getCountName(Compte);
-            if(count.length()==0){
-                messages.add("Veuillez entrer un count existant. S'il n'y en a pas, veuillez écrire :'Aucun' ");
                 OK=false;
             }
+            if(mail.length()==0){
+                messages.add("Veuillez entrer un email existant.");
+                OK=false;
+            }
+            else{
+                String count=databaseAccess.getCountNameEmail(Compte,User);
+                if(count.length()==0){
+                    messages.add("Veuillez entrer un count existant.");
+                    OK=false;
+                }
+        }
         }
 
 
@@ -321,20 +347,38 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 OK=false;}
             }
 //vérification des conditions d'existence
-        if(databaseAccess.getCategory(Catégorie).length()==0)
-            databaseAccess.addCategoryByName(Catégorie);
-        if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
-            databaseAccess.addFrequency(répétition,DateDébut,DateFin);
+
+*/
+
+       if(databaseAccess.getFrequencyID(répétition,b,c)!=null)
+            databaseAccess.addFrequency(répétition,b,c);
+       else{
+           messages.add("Cette fréquence existe déjà");
+           OK=false;
+       }
+
+
+
+
+
+
         if (OK) {
 
-        //    databaseAccess.addTransaction();
-        if(Type.equals("Type : Transfert")){
+            //    databaseAccess.addTransaction();
+            if(Type.equals("Type : Transfert")){
 
-        }
-        else{
+            }
+            else{
+                if(Type.equals("Type : Revenu")){
+                    //databaseAccess.getintAttributWhere()
 
 
-        }
+                }
+                else{
+
+                }
+
+            }
 
 
 

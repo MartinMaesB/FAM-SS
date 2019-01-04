@@ -181,11 +181,19 @@ public class DatabaseAccess {
         return c.getFloat(0);
     }
 
-    public String getCountName(String name){
+    public String getCountName(String name,String email){
         c=db.rawQuery("select NameCount from Count where NameCount= '"+name+"'", new String[]{});
-        return c.toString();
+        c.moveToLast();
+        return c.getString(0);
     }
 
+    public String getCountNameEmail(String name,String email){
+
+        Cursor c = db.rawQuery("select Count.NameCount,User.Email from " +
+                "User Inner join Count on (User.Email = Count.Email) where " +
+                "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
+        return c.toString();
+    }
 
 /*
     public String getStringAttribut(String select, String from, int i ){
@@ -279,6 +287,10 @@ public class DatabaseAccess {
         db.execSQL("insert into Frequency (StartDate, EndDate, NbrRépétitions) VALUES ('"+startdate+"','"+enddate+"','"+nombre+"')", new String[]{});
     }
 
+    public void addFrequencynbr (Integer nombre){
+        db.execSQL("insert into Frequency (NbrRépétitions) VALUES ('"+nombre+"')", new String[]{});
+    }
+
 
     public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
         c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"'AND EndDate='"+enddate+"'AND NbrRépétitons='"+nombre+"'", new String[]{});
@@ -292,7 +304,7 @@ public class DatabaseAccess {
 
     public ArrayList<String> getToutFrequency(){
         ArrayList<String> liste=new ArrayList<>();
-        c=db.rawQuery("select idFrequency from Frequency", new String[]{});
+        c=db.rawQuery("select NbrRépétitions from Frequency", new String[]{});
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
             String sexe= c.getString(0);
