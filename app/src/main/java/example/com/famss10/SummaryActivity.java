@@ -83,9 +83,40 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
             @Override
             public void onClick(View v) {
 
+
+                String a = "2019/01/10";
+                String b = "2019/03/10";
+
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+                final ArrayList<Float> dep1 = databaseAccess.getDepenses(a,b,1);
+                final ArrayList<Float> rev1 = databaseAccess.getRevenus(a,b,2);
+                databaseAccess.close();
+
+                float totdep=0, totrev = 0;
+
+                for(Float f : dep1){
+                    totdep = totdep + f.floatValue();
+                }
+                //System.out.println(totdep);
+
+                for(Float f1 : rev1){
+                    totrev = totrev + f1.floatValue();
+                }
+                //System.out.println(totdep);
+
+                /*test1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        test2.setText(rev1.get(j));
+                        j++;
+                    }
+                });*/
+
          //1ere colonne (Revenus)
-                float revenus=20;
-                rev.add(new SubcolumnValue(revenus,Color.GREEN).setLabel("Revenus : "+revenus)); //on cré une souscolonne et on la met dans la liste des souscolonne
+                //float revenus=20;
+                rev.add(new SubcolumnValue(totrev,Color.GREEN).setLabel("Revenus : "+totrev)); //on cré une souscolonne et on la met dans la liste des souscolonne
                 Column temp = new Column(rev); //creation d'une colonne -> faut passer une list de souscolonnes comme argument
                 temp.setHasLabels(true); //pour mettre un texte dans la colonne
                 columns.add(temp); // on met la colonne crée dans la liste des colonnes (pas les données du graph)
@@ -93,8 +124,8 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
          //2eme colonne(Depenses)
                 //voir commentaires au dessus
-                float depenses=30;
-                dep.add(new SubcolumnValue(depenses,Color.RED).setLabel("Depenses : "+depenses));
+                //float depenses=30;
+                dep.add(new SubcolumnValue(totdep,Color.RED).setLabel("Depenses : "+totdep));
                 Column temp1 = new Column(dep);
                 temp1.setHasLabels(true);
                 columns.add(temp1);
@@ -110,7 +141,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 chart.setColumnChartData(data);
 
          //pour affichier le solde de la periode
-                float bal=revenus-depenses;
+                float bal=totrev-totdep;
                 balance.setText("Balance : "+Float.toString(bal));
                 if(bal>0){
                     balance.setTextColor(Color.GREEN);
@@ -118,24 +149,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                     balance.setTextColor(Color.RED);
                 }
 
-                String a = "01/10/2019";
-                String b = "03/10/2019";
 
-                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                databaseAccess.open();
-                final ArrayList<String> r = databaseAccess.getDepenses(a,b,1);
-                //final ArrayList<String> r = databaseAccess.test2(1,a,b);
-                databaseAccess.close();
-
-
-                test1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        test2.setText(r.get(j));
-                        j++;
-                    }
-                });
 
 
                 /*String a = ((EditText)findViewById(R.id.etend)).getText().toString();
