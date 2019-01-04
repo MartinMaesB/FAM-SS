@@ -335,7 +335,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-       // if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
+       //if(databaseAccess.getFrequencyID(répétition,DateDébut,DateFin)!=null)
             //databaseAccess.addFrequency(répétition,DateDébut,DateFin);
         if (OK) {
 
