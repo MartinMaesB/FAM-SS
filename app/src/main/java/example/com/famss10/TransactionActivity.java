@@ -3,6 +3,7 @@ package example.com.famss10;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -286,7 +287,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         String Montant=etMontant.getText().toString();
         if(Montant.length()==0)
             Montant="0";
-        Integer a =Integer.parseInt(Montant);
+        Integer MontantTransaction =Integer.parseInt(Montant);
         String NameTransaction=etNameTransaction.getText().toString();
         String Catégorie=tvCatégorie.getText().toString();
         String Fréquence=tvFréquence.getText().toString();
@@ -302,6 +303,16 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         databaseAccess.open();
 
         String mail=databaseAccess.getStringAttributWhere("Email","User","Email",User);
+
+
+        final Intent intent=getIntent();
+        final int idCount = intent.getIntExtra("idCount",0);
+        int balance= databaseAccess.getIntAttributWhereInt("Balance","Count","idCount",idCount);
+        databaseAccess.updateIntById("Count","Balance",balance+MontantTransaction,"idCount",idCount);
+
+
+
+
 
 
         boolean OK = true;
@@ -441,4 +452,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             builder.setMessage(m);
             builder.show();}
     }
+
+
+
 }

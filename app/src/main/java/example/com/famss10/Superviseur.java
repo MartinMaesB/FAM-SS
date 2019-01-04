@@ -51,6 +51,8 @@ public class Superviseur extends AppCompatActivity {
                 databaseAccess.open();
 
                 boolean OK = true;
+                StringBuffer bufferErreur = new StringBuffer();
+
 
                 String nameuser=NameUser.getText().toString();
                 String namecount = NameCount.getText().toString();
@@ -81,22 +83,26 @@ public class Superviseur extends AppCompatActivity {
               //  display(EmailEnfant,EmailEnfant);
 
                 if (EmailEnfant.length()==0){
-                    display("Erreur", "Ce nom d'utilisateur n'existe pas");
+                    bufferErreur.append("Ce nom d'utilisateur n'existe pas\n");
+                    //display("Erreur", "Ce nom d'utilisateur n'existe pas");
                     OK=false;
                 }
 
                 if (EmailEnfant.equals(EmailSupervisor)){
-                    display("Erreur","Vous ne pouvez pas vous superviser vous-même");
+                    bufferErreur.append("Vous ne pouvez pas vous superviser vous-même\n");
+                    //display("Erreur","Vous ne pouvez pas vous superviser vous-même");
                     OK=false;
                 }
 
                 if (!emailenfantTest.isEmpty()){
-                    display("Erreur", "Vous supervisez déjà cet utilisateur");
+                   // display("Erreur", "Vous supervisez déjà cet utilisateur");
+                    bufferErreur.append("Vous supervisez déjà cet utilisateur\n");
                     OK=false;
                 }
 
                 if(nameuser.length()==0){
-                    display("Veuillez entrer un nom d'utilisateur"," ");
+                    bufferErreur.append("Veuillez entrer un nom d'utilisateur\n");
+                   // display("Veuillez entrer un nom d'utilisateur"," ");
                     OK=false;}
 
 
@@ -105,14 +111,16 @@ public class Superviseur extends AppCompatActivity {
                     OK=false;}*/
 
                 if(relation.length()==0){
-                    display("Veuillez entrer le lien de parenté"," ");
+                    //display("Veuillez entrer le lien de parenté"," ");
+                    bufferErreur.append("Veuillez entrer le lien de parenté\n");
                     OK=false;}
 
                 String mdpUser=databaseAccess.getStringAttributWhere("Psw","User","Email",EmailEnfant);
 
                 if (!mdp.equals(mdpUser)){
 
-                    display("Erreur", "Le mot de passe de l'utilisateur à superviser est incorrect");
+                    bufferErreur.append("Le mot de passe de l'utilisateur à superviser est incorrect\n");
+                    //display("Erreur", "Le mot de passe de l'utilisateur à superviser est incorrect");
                     OK=false;
                 }
 
@@ -128,6 +136,8 @@ public class Superviseur extends AppCompatActivity {
                     //if (AllComptes.isChecked()) setResult(1);
                     //else setResult(2);
                     finish();}
+
+                    else {display("Erreur",bufferErreur.toString());}
             }
         });
 

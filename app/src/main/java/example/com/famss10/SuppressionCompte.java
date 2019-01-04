@@ -107,6 +107,9 @@ public class SuppressionCompte extends AppCompatActivity {
                 NameCount.setEnabled(false);
                 AllComptes.setAlpha(0.0f);
                 NameCount.setAlpha(0.0f);
+                NameUser.setText("");
+                NameUser.setHint("Nom de l'utilisateur");
+                NameUser.setEnabled(true);
             }
         });
 
@@ -119,6 +122,11 @@ public class SuppressionCompte extends AppCompatActivity {
                 NameCount.setEnabled(true);
                 AllComptes.setAlpha(1.0f);
                 NameCount.setAlpha(1.0f);
+                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.open();
+                NameUser.setText(databaseAccess.getStringAttributWhere("Name","User","Email",EmailSupervisor));
+                databaseAccess.close();
+                NameUser.setEnabled(false);
             }
         });
 
@@ -137,6 +145,11 @@ public class SuppressionCompte extends AppCompatActivity {
             NameCount.setEnabled(true);
             AllComptes.setAlpha(1.0f);
             NameCount.setAlpha(1.0f);
+            DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+            databaseAccess.open();
+            NameUser.setText(databaseAccess.getStringAttributWhere("Name","User","Email",EmailSupervisor));
+            databaseAccess.close();
+            NameUser.setEnabled(false);
         }
 
 
@@ -148,6 +161,7 @@ public class SuppressionCompte extends AppCompatActivity {
                         databaseAccess.open();
 
                         boolean OK= true;
+                        StringBuffer bufferErreur = new StringBuffer();
 
 
 
@@ -158,21 +172,24 @@ public class SuppressionCompte extends AppCompatActivity {
                         String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
 
                         if(nameuser.length()==0){
-                            display("Veuillez entrer un nom d'utilisateur"," ");
+                            bufferErreur.append("Veuillez entrer un nom d'utilisateur\n");
+                            //display("Veuillez entrer un nom d'utilisateur"," ");
                             OK=false;}
 
 
                         if(namecount.length()==0 && !AllComptes.isChecked()){
-                            display("Veuillez entrer un nom de compte"," ");
+                           bufferErreur.append("Veuillez entrer un nom de compte\n");
+                            // display("Veuillez entrer un nom de compte"," ");
                             OK=false;}
 
                             if (OK==true) {
                                 if (!EmailEnfant.equals( EmailSupervisor)) {
-                                    display(EmailEnfant,EmailSupervisor);
+                                   // display(EmailEnfant,EmailSupervisor);
                                     String emailenfant = databaseAccess.getStringAttributWhere2("EmailUser", "Control", "EmailSupervisor", EmailSupervisor, "EmailUser", EmailEnfant);
-                                    display(emailenfant,EmailEnfant);
+                                   // display(emailenfant,EmailEnfant);
                                     if (emailenfant.isEmpty())
-                                        display("Erreur", "Le nom d'utilisateur est incorrect");
+                                        bufferErreur.append("Le nom d'utilisateur est incorrect\n");
+                                        //display("Erreur", "Le nom d'utilisateur est incorrect");
                                    else {
                                         databaseAccess.delete2("Control", "EmailUser", emailenfant, "EmailSupervisor", EmailSupervisor);
                                         setResult(3);
@@ -182,7 +199,10 @@ public class SuppressionCompte extends AppCompatActivity {
 
                                 } else {
 
-                                    databaseAccess.delete2("Count", "Email", EmailSupervisor, "NameCount", namecount);
+                                    if(AllComptes.isChecked()){databaseAccess.delete1("Count","Email",EmailSupervisor);}
+                                    else {
+                                        databaseAccess.delete2("Count", "Email", EmailSupervisor, "NameCount", namecount);
+                                    }
                                     setResult(3);
                                     finish();
 
@@ -191,7 +211,7 @@ public class SuppressionCompte extends AppCompatActivity {
 
                                 databaseAccess.close();
 
-                            }
+                            }else {display("Erreur",bufferErreur.toString());}
                     }
                 });
 
