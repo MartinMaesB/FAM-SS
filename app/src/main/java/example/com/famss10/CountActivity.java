@@ -47,6 +47,8 @@ public class CountActivity extends AppCompatActivity {
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
 
+        final int id = databaseAccess.getintAttribut("idCount","Count","Email",userEmail,position);
+
 
         Owner.setText(databaseAccess.getStringAttributWhere("Name","User","Email",userEmail));
         CountName.setText(databaseAccess.getStringAttribut("NameCount","Count", "Email",userEmail,position));
@@ -90,6 +92,7 @@ public class CountActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent1 = new Intent(CountActivity.this, SummaryActivity.class);
+                intent1.putExtra("idcount",id);
                 startActivity(intent1);
 
             }
