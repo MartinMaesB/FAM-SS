@@ -96,9 +96,8 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
 
                 String a = datestart.getText().toString();
-                System.out.println(a);
                 String b = dateend.getText().toString();
-                System.out.println(b);
+
 
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
