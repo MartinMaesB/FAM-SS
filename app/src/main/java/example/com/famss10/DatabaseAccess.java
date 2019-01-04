@@ -340,44 +340,60 @@ public class DatabaseAccess {
 
 
 
-    public ArrayList<String> getDepenses( String start, String end , int count){
+    public ArrayList<Float> getDepenses( String start, String end , int count){
 
-        ArrayList<String> liste=new ArrayList<>();
+        ArrayList<Float> liste=new ArrayList<>();
 
-            Cursor c = db.rawQuery("select Transactions.Mountant , Transactions.Operation , Diary.Date from " +
+            Cursor c = db.rawQuery("select Transactions.Mountant from " +
                     "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
                     "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'dep' or Transactions.Operation = 'tra'", new String[]{});
 
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
-            String date= c.getString(0);
-            buffer.append(""+date);
-            liste.add(date);
-            System.out.println(liste);
+            Float mountant= c.getFloat(0);
+            buffer.append(""+mountant);
+            liste.add(mountant);
+            //System.out.println(liste);
         }
         return liste ;
     }
 
 
-    public ArrayList<String> getRevenus( String start, String end , int count){
+    public ArrayList<Float> getRevenus( String start, String end , int count){
 
-        ArrayList<String> liste=new ArrayList<>();
+        ArrayList<Float> liste=new ArrayList<>();
+        Float mountant;
 
-        Cursor c = db.rawQuery("select Transactions.Mountant , Transactions.Operation , Diary.Date from " +
+        Cursor c = db.rawQuery("select Transactions.Mountant from " +
                 "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
-                "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'dep' or Transactions.Operation = 'tra'", new String[]{});
+                "Transactions.idCount = '"+count+"' and (Date between '"+start+"' and '"+end+"') and Transactions.Operation = 'rev' ", new String[]{});
 
         StringBuffer buffer= new StringBuffer();
         while(c.moveToNext()){
-            String date= c.getString(0);
-            buffer.append(""+date);
-            liste.add(date);
-            System.out.println(liste);
+
+            mountant= c.getFloat(0);
+            buffer.append(""+mountant);
+            liste.add(mountant);
+
         }
+        Cursor c1 = db.rawQuery("select Transactions.Mountant from " +
+                "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
+                "Transactions.idBeneficiaryCount = '"+count+"' and (Date between '"+start+"' and '"+end+"')", new String[]{});
+
+
+        while(c1.moveToNext()) {
+
+            mountant = c1.getFloat(0);
+            buffer.append("" + mountant);
+            liste.add(mountant);
+            //System.out.println(liste);
+        }
+
         return liste ;
     }
 
-
+//or Transactions.idBeneficiaryCount = '"+count+"')
+    //or Transactions.Operation = 'tra')
     //////////////Type///////////////////////////
     public void addType( String idOperation){
         db.execSQL("insert into Type (idOperation) VALUES ('"+idOperation+"')", new String[]{});
