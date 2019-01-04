@@ -259,12 +259,12 @@ public class DatabaseAccess {
 
 
     public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
-        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"',NbrRépétitons='"+nombre+"'", new String[]{});
+        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"'AND EndDate='"+enddate+"'AND NbrRépétitons='"+nombre+"'", new String[]{});
         return c.getInt(0);
     }
-    public Integer getFrequencyRepetitions(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
-        c=db.rawQuery("select NbrRépétitions from Frequency where StartDate= '"+startdate+"', EndDate='"+enddate+"'", new String[]{});
-        return c.getCount();
+    public Integer getFrequencyRepetitions(Integer id){
+        c=db.rawQuery("select NbrRépétitions from Frequency where idFrequency='"+id+"'", new String[]{});
+        return c.getInt(0);
     }
 
 
