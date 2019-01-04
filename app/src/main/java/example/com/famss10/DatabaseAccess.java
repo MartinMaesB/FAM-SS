@@ -175,6 +175,18 @@ public class DatabaseAccess {
     public void addCount (String namecount, String currency, String Email, int balance) {
         db.execSQL("insert into Count (NameCount, Currency, Email, Balance) VALUES ('"+namecount+"','"+currency+"','"+Email+"','"+balance+"')");
     }
+
+    public float getBalance(Integer idCount){
+        c=db.rawQuery("select Balance from Count where idCount= '"+idCount+"'", new String[]{});
+        return c.getFloat(0);
+    }
+
+    public String getCountName(String name){
+        c=db.rawQuery("select NameCount from Count where NameCount= '"+name+"'", new String[]{});
+        return c.toString();
+    }
+
+
 /*
     public String getStringAttribut(String select, String from, int i ){
         c=db.rawQuery("select "+select+" from "+from+"", new String[]{});
