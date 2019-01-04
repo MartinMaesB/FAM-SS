@@ -92,46 +92,55 @@ public class ModifyCount extends AppCompatActivity {
                 String Name=tvName.getText().toString();
                 String Monnaie=tvMonnaie.getText().toString();
                 String Montant=tvMontant.getText().toString();
-                float balance = Float.parseFloat(Montant);
 
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
                 //String NameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, indexCompte);
                 String NameCount=databaseAccess.getStringAttributWhereInt("NameCount","Count","idCount",idCount);
-
+                //String NameCount="OK";
 
                 boolean OK = true;
                 StringBuffer bufferErreur = new StringBuffer();
-                if(Name.length()==0 &&cbName.isChecked()){
-                    bufferErreur.append("Veuillez rentrer un nom de compte +\n+");
+
+                if(Name.isEmpty() && cbName.isChecked()){
+                    bufferErreur.append("Veuillez rentrer un nom de compte \n");
                     OK= false;
                 }
                 if(Name.equals(NameCount)&&cbName.isChecked()){
-                    bufferErreur.append("Vous avez déjà utilisé ce nom de compte +\n");
+                    bufferErreur.append("Vous avez déjà utilisé ce nom de compte \n");
                     OK=false;
                 }
                 if(Monnaie.isEmpty() && cbMonnaie.isChecked()){
-                    bufferErreur.append("Veuillez rentrer un type de Monnaie +\n+");
+                    bufferErreur.append("Veuillez rentrer un type de Monnaie \n");
                     OK=false;
                 }
-                if(Montant.length()==0 &&cbMontant.isChecked()){
-                    bufferErreur.append("Veuillez rentrer un montant +\n+");
+                if(Montant.length()==0 && cbMontant.isChecked()){
+                    bufferErreur.append("Veuillez rentrer un montant \n");
                     OK=false;
                 }
 
                 if (OK==true){
-                    if (cbName.isChecked())
-                        databaseAccess.updateStringById("Count","NameCount",Name,"idCount",idCount);
-                    if(cbMontant.isChecked())
+                    if (cbName.isChecked()) {
+                         databaseAccess.updateStringById("Count","NameCount",Name,"idCount",idCount);
+                    }
+                    if(cbMontant.isChecked()) {
+                        float balance = Float.parseFloat(Montant);
                         databaseAccess.updateFloatById("Count","Balance",balance,"idCount",idCount);
-                    if(cbMonnaie.isChecked())
+                    }
+                    if(cbMonnaie.isChecked()) {
                         databaseAccess.updateStringById("Count","Currency",Monnaie,"idCount",idCount);
+                    }
+                    finish();
                 }
                 else{display("Erreurs",bufferErreur.toString());}
 
+
                 databaseAccess.close();
+
+                if (!cbName.isChecked()&&!cbMontant.isChecked()&&!cbMontant.isChecked()){finish();}
             }
+
         });
 
 
