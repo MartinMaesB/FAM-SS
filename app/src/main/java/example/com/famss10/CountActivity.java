@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class CountActivity extends AppCompatActivity {
-    private TextView CountName,Balance,Currency, Deconnexion2, Supervisé,Owner;
+    private TextView CountName,Balance,Currency, Deconnexion2, Supervisé,Owner,Modifier;
     private Button Revenu, Depense, Transfert, Resume, Transaction;
 
     @Override
@@ -27,6 +27,7 @@ public class CountActivity extends AppCompatActivity {
         this.Deconnexion2=findViewById(R.id.tvDéconnexion);
         this.Supervisé=findViewById(R.id.tvPartage);
         this.Owner=findViewById(R.id.tvOwner);
+        this.Modifier=findViewById(R.id.tvModifier);
 
         Deconnexion2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,14 +38,14 @@ public class CountActivity extends AppCompatActivity {
             }
         });
 
-        final Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
+
+
+        Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
         final int position= intent.getIntExtra("index",0); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
         final String userEmail=intent.getStringExtra("userEmail");
        // display("Position",String.valueOf(position));
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
-
-        final int id = databaseAccess.getintAttribut("idCount","Count","Email",userEmail,position);
 
 
         Owner.setText(databaseAccess.getStringAttributWhere("Name","User","Email",userEmail));
@@ -61,6 +62,19 @@ public class CountActivity extends AppCompatActivity {
         }
         databaseAccess.close();
 
+        Modifier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent (CountActivity.this, ModifyCount.class);
+                intent.putExtra("userEmail", userEmail);
+
+                startActivityForResult(intent,0);
+
+            }
+        });
+
+
         Transaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,10 +89,7 @@ public class CountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
                 Intent intent1 = new Intent(CountActivity.this, SummaryActivity.class);
-                intent1.putExtra("idcount",id);
                 startActivity(intent1);
 
             }

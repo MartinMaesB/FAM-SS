@@ -90,8 +90,16 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:ems="10"
-                android:hint="Email Utilisateur receveur (si type transfert)"
+                android:hint="Email Utilisateur receveur"
                 android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:text="\t Pour les transferts d'argent"
+                android:textSize="10dp"
+                android:textStyle="italic" />
 
             <EditText
                 android:id="@+id/etCompte"
@@ -103,8 +111,16 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:ems="10"
-                android:hint="Compte receveur (si type transfert)"
+                android:hint="Compte receveur"
                 android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:text="\t Pour les transferts d'argent"
+                android:textSize="10dp"
+                android:textStyle="italic" />
 
             <EditText
                 android:id="@+id/etMontant"
@@ -154,8 +170,8 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:textSize="18dp"
-                android:text="Répeter la transaction" />
+                android:text="Répéter la transaction"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/tvFréquence"
@@ -168,7 +184,7 @@
                 android:layout_marginRight="8dp"
                 android:textSize="18dp"
                 android:ems="10"
-                android:hint="Nombre de répétitions : (si la transaction est répétée)"
+                android:hint="Nombre de répétitions"
                 android:inputType="number" />
 
             <TextView

@@ -33,7 +33,8 @@
         <activity android:name=".Superviseur" />
         <activity android:name=".SuppressionCompte" />
         <activity android:name=".SupprimerCompte" />
-        <activity android:name=".PAge"></activity>
+        <activity android:name=".PAge" />
+        <activity android:name=".ModifyCount"></activity>
     </application>
 
 </manifest>

@@ -27,8 +27,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     public ArrayList<String> choixCatégorie;
     Boolean cal=false;
     Boolean frequenceok=false;
-    Date b=null;
-    Date c=null;
+    Date B=null,b=null;
+    Date C=null,c=null;
     public String transfert = "Type : Transfert",autre = "Autres";
 
     @Override
@@ -139,6 +139,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             public void onClick(View v) {
                 cal=false;
                 datePicker(tvDate);
+                B=b;
+
 
             }
         });
@@ -147,6 +149,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             public void onClick(View v) {
                 cal=true;
                 datePicker(tvDateFin);
+                C=c;
 
             }
         });
@@ -196,9 +199,15 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 T.setText(s[which]);
                 if (transfert.equals(tvType.getText().toString()))
                 {etCompte.setEnabled(true);
-                etUser.setEnabled(true);}
+                etUser.setEnabled(true);
+                etCompte.setAlpha(1.0f);
+                etUser.setAlpha(1.0f);
+                }
+
                 else{ etCompte.setEnabled(false);
                     etUser.setEnabled(false);
+                    etCompte.setAlpha(0.1f);
+                    etUser.setAlpha(0.1f);
                 }
 
 
@@ -237,7 +246,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         ((TextView)findViewById(R.id.tvDateFin)).setText(sdf.format(calendar.getTime()));
         String DATE = sdf.format(calendar.getTime());}
     }
-
+//a changer
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day){
         Calendar cal = new GregorianCalendar(year,month,day);
@@ -291,7 +300,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         boolean OK = true;
         ArrayList <String> messages=new ArrayList<>();
-/*
+
         if(NameTransaction.length()==0){
             messages.add("Vous n'avez nommé votre transaction!");
             OK=false;}
@@ -348,14 +357,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
 //vérification des conditions d'existence
 
-*/
 
-       if(databaseAccess.getFrequencyID(répétition,b,c)!=null)
-            databaseAccess.addFrequency(répétition,b,c);
-       else{
-           messages.add("Cette fréquence existe déjà");
-           OK=false;
-       }
+
+       //if(databaseAccess.getFrequencyID(répétition,B,C)!=null)
+           // databaseAccess.addFrequency(répétition,B,C);
+
 
 
 
@@ -364,14 +370,30 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
         if (OK) {
 
+/*IL RESTE A :
+- ajouter la transaction
+- retirer ou ajouter la thune du compte
+- quand frequence ajouter ou supprimer de la thune aux intervalles donnés
+//- ajouter le diary
+ */
             //    databaseAccess.addTransaction();
             if(Type.equals("Type : Transfert")){
 
             }
+
+
             else{
                 if(Type.equals("Type : Revenu")){
-                    //databaseAccess.getintAttributWhere()
+                    //if(databaseAccess.diaryExist(B).length()==0)
+                      //databaseAccess.addDiary(C);
+                    //else{
 
+
+
+
+
+
+                   // }
 
                 }
                 else{
