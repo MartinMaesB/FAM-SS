@@ -69,7 +69,7 @@ public class NewCountActivity extends AppCompatActivity {
 
                 String countname=CountName.getText().toString();
                 String currency = Currency.getText().toString();
-                int balance = Integer.parseInt(Balance.getText().toString());
+                float balance = Float.parseFloat(Balance.getText().toString());
                 boolean OK = true;
                 ArrayList<String> messages=new ArrayList<>();
 

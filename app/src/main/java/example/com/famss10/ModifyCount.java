@@ -85,43 +85,48 @@ public class ModifyCount extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent intent=getIntent();
-                final String userEmail = intent.getStringExtra("userEmail");
-                final int indexCompte = intent.getIntExtra("indexCompte",0);
+               // final String userEmail = intent.getStringExtra("userEmail");
+               // final int indexCompte = intent.getIntExtra("indexCompte",0);
+                final int idCount = intent.getIntExtra("idCount",0);
 
                 String Name=tvName.getText().toString();
                 String Monnaie=tvMonnaie.getText().toString();
                 String Montant=tvMontant.getText().toString();
+                float balance = Float.parseFloat(Montant);
 
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                String NameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, indexCompte);
-
+                //String NameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, indexCompte);
+                String NameCount=databaseAccess.getStringAttributWhereInt("NameCount","Count","idCount",idCount);
 
 
                 boolean OK = true;
                 StringBuffer bufferErreur = new StringBuffer();
-                if(Name.length()==0){
+                if(Name.length()==0 &&cbName.isChecked()){
                     bufferErreur.append("Veuillez rentrer un nom de compte +\n+");
                     OK= false;
                 }
-                if(Name.equals(NameCount)){
+                if(Name.equals(NameCount)&&cbName.isChecked()){
                     bufferErreur.append("Vous avez déjà utilisé ce nom de compte +\n");
                     OK=false;
                 }
-                if(Monnaie.isEmpty()){
+                if(Monnaie.isEmpty() && cbMonnaie.isChecked()){
                     bufferErreur.append("Veuillez rentrer un type de Monnaie +\n+");
                     OK=false;
                 }
-                if(Montant.length()==0){
+                if(Montant.length()==0 &&cbMontant.isChecked()){
                     bufferErreur.append("Veuillez rentrer un montant +\n+");
                     OK=false;
                 }
 
                 if (OK==true){
-
-
-
+                    if (cbName.isChecked())
+                        databaseAccess.updateStringById("Count","NameCount",Name,"idCount",idCount);
+                    if(cbMontant.isChecked())
+                        databaseAccess.updateFloatById("Count","Balance",balance,"idCount",idCount);
+                    if(cbMonnaie.isChecked())
+                        databaseAccess.updateStringById("Count","Currency",Monnaie,"idCount",idCount);
                 }
                 else{display("Erreurs",bufferErreur.toString());}
 

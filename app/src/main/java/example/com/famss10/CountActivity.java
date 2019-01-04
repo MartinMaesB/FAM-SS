@@ -69,8 +69,9 @@ public class CountActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent (CountActivity.this, ModifyCount.class);
-                intent.putExtra("userEmail", userEmail);
-                intent.putExtra("indexCompte", position);
+                //intent.putExtra("userEmail", userEmail)
+                // intent.putExtra("indexCompte", position);
+                intent.putExtra("idCount",id);
                 startActivityForResult(intent,0);
 
             }
