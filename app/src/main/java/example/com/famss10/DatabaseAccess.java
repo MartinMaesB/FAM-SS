@@ -194,6 +194,12 @@ public class DatabaseAccess {
                 "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
         return c.toString();
     }
+    public String getBalanceCountNameEmail(String name,String email){
+        Cursor c = db.rawQuery("select Count.NameCount,User.Email,Count. from " +
+                "User Inner join Count on (User.Email = Count.Email) where " +
+                "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
+        return c.toString();
+    }
 
 /*
     public String getStringAttribut(String select, String from, int i ){
@@ -278,8 +284,13 @@ public class DatabaseAccess {
     }
 
     ////////////////Diary/////////////////////////////:
-    public void addDiary (java.sql.Date date, Time time){
-        db.execSQL("insert into Diary (Date, Time) VALUES ('"+date+"','"+time+"')", new String[]{});
+    public void addDiary (java.sql.Date date){
+        db.execSQL("insert into Diary (Date) VALUES ('"+date+"')", new String[]{});
+    }
+
+    public String diaryExist(java.sql.Date date){
+        c=db.rawQuery("select Date from Diary where Date= '"+date+"'", new String[]{});
+        return c.toString();
     }
 
     ///////////////Frequency////////////////////////////
