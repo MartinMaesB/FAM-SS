@@ -12,7 +12,6 @@
         <activity android:name=".ConnexionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -22,18 +21,12 @@
         <activity android:name=".CountActivity" />
         <activity android:name=".NewCountActivity" />
         <activity android:name=".TransactionActivity" />
-        <activity
-            android:name=".menu"
-            android:label="@string/title_activity_menu"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SummaryActivity" />
         <activity android:name=".SummarySwipeLeftActivity" />
         <activity android:name=".SummaryCategoryTransactionActivity" />
         <activity android:name=".SummaryPieChartActivity" />
         <activity android:name=".Superviseur" />
         <activity android:name=".SuppressionCompte" />
-        <activity android:name=".SupprimerCompte" />
-        <activity android:name=".PAge" />
         <activity android:name=".ModifyCount"></activity>
     </application>
 
