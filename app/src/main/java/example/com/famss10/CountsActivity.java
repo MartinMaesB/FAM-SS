@@ -22,7 +22,8 @@ public class CountsActivity extends AppCompatActivity {
 
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
-    private int indexPersCount=0, indexBtnChild=0;
+    private int indexPersCount=0, indexBtnChild=0, i=0, id;
+    String idcount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,37 +96,42 @@ public class CountsActivity extends AppCompatActivity {
         //Liste des comptes
         final Cursor c = databaseAccess.getCount(userEmail);
 
-        while(c.moveToNext()){
-            Button Btn= new Button(CountsActivity.this);
+        while(c.moveToNext()) {
+            Button Btn = new Button(CountsActivity.this);
             //ViewGroup.LayoutParams params = new ActionBar.LayoutParams();
             Btn.setAllCaps(false); //Pour pas mettre l'écriture en majuscule
 
-            String infos = c.getString(1) + "\n" + c.getString(2) + "\n" + c.getString(3);
+            idcount= c.getString(0);
+
+            String infos = c.getString(0) + c.getString(1) + "\n" + c.getString(2) + "\n" + c.getString(3);
             Btn.setText(infos);
             Btn.setId(indexPersCount);
 
             pers_count.add(Btn);
             pers_count_layout.addView(Btn);
             indexPersCount++;
+
+
+
+
+            //Pour pouvoir cliquer sur le bouton
+            //for (int i = 0; i < pers_count.size(); i++) {
+            final int position = i;
+            Btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CountsActivity.this, CountActivity.class);
+                    intent.putExtra("index", position);
+                    intent.putExtra("id",idcount);
+                    intent.putExtra("userEmail", userEmail);
+                    startActivityForResult(intent, 4);
+                }
+            });
+            //}
+            i++;
         }
 
-        //Pour pouvoir cliquer sur le bouton
-        if (databaseAccess.getcounter("idCount", "Count","Email",userEmail) != 0)
-        {
-            for (int i=0; i<pers_count.size();i++){
-                final int position=i;
-                pers_count.get(i).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(CountsActivity.this, CountActivity.class);
-                        intent.putExtra("index", position);
-                        intent.putExtra("userEmail", userEmail);
-                        intent.putExtra("idCount",c.getInt(0));
-                        startActivityForResult(intent,4);
-                    }
-                });
-            }
-        }
+
 
 
         ///////////////COMPTES ENFANTS///////////////////////////////////////////////
@@ -143,7 +149,7 @@ public class CountsActivity extends AppCompatActivity {
 
 
         //Liste des comptes
-        final Cursor c2 = databaseAccess.getCountEnfant(userEmail);
+        /*final Cursor c2 = databaseAccess.getCountEnfant(userEmail);
 
         while(c2.moveToNext()){
             Button Btn= new Button(CountsActivity.this);
@@ -158,10 +164,10 @@ public class CountsActivity extends AppCompatActivity {
             child_count.add(Btn);
             ComptesEnfants.addView(Btn);
             indexBtnChild++;
-        }
+        }*/
 
         //Pour pouvoir cliquer sur le bouton
-        if(indexBtnChild > 0)
+       /* if(indexBtnChild > 0)
         {
             for (int i=0; i<child_count.size();i++){
                 final int position=i;
@@ -176,11 +182,10 @@ public class CountsActivity extends AppCompatActivity {
                     }
                 });
             }
-        }
+        }*/
 
         databaseAccess.close();
-
-        }
+    }
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
