@@ -404,8 +404,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
 
             int Diaryid=databaseAccess.getIntAttributWhereDate("idDiary","Diary","Date",b);
-            int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF",répétition,b,c);
-            display("okk ",String.valueOf(Frequencyid));
+           // int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF",répétition,b,c);
+            //display("okk ",String.valueOf(Frequencyid));
 
             //addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
             //databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));

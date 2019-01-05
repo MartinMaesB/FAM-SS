@@ -32,25 +32,14 @@ public class CountActivity extends AppCompatActivity {
         this.Modifier=findViewById(R.id.tvModifier);
         this.calendarView=findViewById(R.id.Calendrier);
 
-        Deconnexion2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(4);
-                finish();
-
-
-            }
-        });
-
-
-
-
-        display(String.valueOf(calendarView.getDate()),String.valueOf(calendarView.getContext()));
+       // display(String.valueOf(calendarView.getDate()),String.valueOf(calendarView.getContext()));
 
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
-        final int position= intent.getIntExtra("index",0); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
+        final int position= intent.getIntExtra("index",1); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
         final String userEmail=intent.getStringExtra("userEmail");
        // display("Position",String.valueOf(position));
+
+
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
 
@@ -69,7 +58,18 @@ public class CountActivity extends AppCompatActivity {
             //display(EmailSupervisor,NameSupervisor);
             Supervisé.setText( Relation+"\t"+NameSupervisor+"\n"+Supervisé.getText());
         }
+
         databaseAccess.close();
+
+
+
+        Deconnexion2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(4);
+                finish();
+            }
+        });
 
         Modifier.setOnClickListener(new View.OnClickListener() {
             @Override

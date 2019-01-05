@@ -23,7 +23,7 @@ public class CountsActivity extends AppCompatActivity {
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
     private int indexPersCount=0, indexBtnChild=0, i=0, id;
-    String idcount;
+    String idcount, idCountEnfant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class CountsActivity extends AppCompatActivity {
         final String userEmail = intent.getStringExtra("userEmail"); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
 
         pers_count=new ArrayList<>();
-        this.pers_count_layout = (LinearLayout) findViewById(R.id.ll_pers_count);
+        this.pers_count_layout = (LinearLayout) findViewById(R.id.ll_perscount);
         this.new_pers_count = findViewById(R.id.bt_new_pers_count);
         this.Suppression=findViewById(R.id.buttonSup);
 
@@ -96,6 +96,7 @@ public class CountsActivity extends AppCompatActivity {
         //Liste des comptes
         final Cursor c = databaseAccess.getCount(userEmail);
 
+
         while(c.moveToNext()) {
             Button Btn = new Button(CountsActivity.this);
             //ViewGroup.LayoutParams params = new ActionBar.LayoutParams();
@@ -103,16 +104,14 @@ public class CountsActivity extends AppCompatActivity {
 
             idcount= c.getString(0);
 
-            String infos = c.getString(0) + c.getString(1) + "\n" + c.getString(2) + "\n" + c.getString(3);
+            String infos = c.getString(1) + "\n" + c.getString(3) + "\n" + c.getString(2);
             Btn.setText(infos);
             Btn.setId(indexPersCount);
 
-            pers_count.add(Btn);
+        //  pers_count.add(Btn);
+
             pers_count_layout.addView(Btn);
             indexPersCount++;
-
-
-
 
             //Pour pouvoir cliquer sur le bouton
             //for (int i = 0; i < pers_count.size(); i++) {
@@ -149,22 +148,44 @@ public class CountsActivity extends AppCompatActivity {
 
 
         //Liste des comptes
-        /*final Cursor c2 = databaseAccess.getCountEnfant(userEmail);
+        final Cursor c2 = databaseAccess.getCountEnfant(userEmail);
 
         while(c2.moveToNext()){
-            Button Btn= new Button(CountsActivity.this);
+
+            final String EmailEnfant =c2.getString(0);
+
+
+            Button Btn2= new Button(CountsActivity.this);
             //ViewGroup.LayoutParams params = new ActionBar.LayoutParams();
-            Btn.setAllCaps(false); //Pour pas mettre l'écriture en majuscule
+            Btn2.setAllCaps(false); //Pour pas mettre l'écriture en majuscule
 
-            String NameCount = databaseAccess.getStringAttributWhere("Name","User","Email",c2.getString(2));
-            String infos = c2.getString(1) + " " + NameCount + "\n" + c2.getString(3) + "\n" + c2.getString(4) + "\n" + c2.getString(5);
-            Btn.setText(infos);
-            Btn.setId(indexBtnChild);
 
-            child_count.add(Btn);
-            ComptesEnfants.addView(Btn);
+            String Relation=c2.getString(1);
+            idCountEnfant=c2.getString(2);
+            String NameCount = databaseAccess.getStringAttributWhere("Name","User","Email",EmailEnfant);
+            String infos = Relation+ " " + NameCount + "\n" + c2.getString(3) + "\n" + c2.getString(4) + "\n" + c2.getString(5);
+
+            //String infos = c2.getString(3) + "\n" + c2.getString(4) + "\n" + c2.getString(5);
+            Btn2.setText(infos);
+            Btn2.setId(indexBtnChild+i);
+
+            final int position=indexBtnChild;
+            Btn2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(CountsActivity.this, CountActivity.class);
+                    intent.putExtra("index", position);
+                    intent.putExtra("id",idCountEnfant);
+                    intent.putExtra("userEmail", EmailEnfant);
+                    startActivityForResult(intent, 4);
+                }
+            });
+
+           // child_count.add(Btn);
+            ComptesEnfants.addView(Btn2);
             indexBtnChild++;
-        }*/
+        }
 
         //Pour pouvoir cliquer sur le bouton
        /* if(indexBtnChild > 0)

@@ -272,7 +272,7 @@ public class DatabaseAccess {
     }
 
     public Cursor getCountEnfant(String EmailSupervisor){
-        Cursor c = db.rawQuery(" select Control.EmailEnfant, Control.Relation, Count.idCount, Count.NameCount, Count.Currency,Count.Balance  from Control inner join Count on (Control.EmailUser = Count.Email) where  Control.EmailSupervisor = '"+EmailSupervisor+"' ",null);
+        Cursor c = db.rawQuery(" select Control.EmailUser, Control.Relation, Count.idCount, Count.NameCount, Count.Currency,Count.Balance  from Control inner join Count on (Control.EmailUser = Count.Email) where  Control.EmailSupervisor = '"+EmailSupervisor+"' ",null);
         return c;
     }
 
