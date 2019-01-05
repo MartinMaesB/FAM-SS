@@ -20,7 +20,7 @@ public class CountsActivity extends AppCompatActivity {
 
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
-    private int i=0, indexBtnChild=0;
+    private int indexPersCount=0, indexBtnChild=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
