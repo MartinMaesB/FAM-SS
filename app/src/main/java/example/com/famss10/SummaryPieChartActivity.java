@@ -1,6 +1,7 @@
 package example.com.famss10;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,11 +17,17 @@ import lecho.lib.hellocharts.view.PieChartView;
 
 public class SummaryPieChartActivity extends AppCompatActivity {
 
-    float x1, x2;
+
+    int count;
+    String start, end;
+
+
     PieChartData pieChartData = new PieChartData();
+    List<SliceValue> pieData = new ArrayList<>();
+    PieChartView pieChartView;
+
     List<String> categories = new ArrayList<>();
 
-    List<SliceValue> pieData = new ArrayList<>();
 
 
     @Override
@@ -28,10 +35,23 @@ public class SummaryPieChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary_piechart);
 
-        final PieChartView pieChartView = findViewById(R.id.chart);
 
 
-        //a mettre en commentaire
+
+        Intent intent = getIntent();
+
+
+        start = intent.getStringExtra("startdate");
+        end = intent.getStringExtra("enddate");
+        count = intent.getIntExtra("idcount",0);
+
+
+        pieChartView = findViewById(R.id.chart);
+
+
+         /*a mettre en commentaire
+
+
         pieChartData.setHasLabels(true);
         categories.add("Student");
         categories.add("Q1");
@@ -45,51 +65,36 @@ public class SummaryPieChartActivity extends AppCompatActivity {
 
         pieChartView.setPieChartData(pieChartData);
         pieChartView.setChartRotationEnabled(true);
-        //jusque la
+         jusque la*/
 
-
-       /* DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
-        databaseAccess.open();
-
-
-                       1) prendre tout les diary compris entre les dates
-                       2) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
-                        3) mettre les val des types dans la list categories
-                            4) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
-                            5) compter combien de resultat
-                            6) pieData.add(new SliceValue(nombre compté , couleur du type)
-
-
-                            SliceValue sliceValue = new SliceValue(44, Color.RED);
-                            sliceValue.setLabel(("Students " + (int)sliceValue.getValue() + "%" ).toCharArray());
-
-
-
-        databaseAccess.close();
-
-        pieChartData.setValues(pieData);
-        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true);
 
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
 
+         Cursor c = databaseAccess.getDepenseByCategory(start,end,count);
 
-                        1) prendre tout les diary compris entre les dates
-                        1) compter combien de type de transaction differents dans ces diary transactions qui sont depenses et pour le compte ouvert
-                        2) pour chaque type recuperer toutes les transaction WHERE: dep, du type analysé, compte ouvert
-                            3) compter combien de resultat
-                            4) pieData.add(new SliceValue(nombre compté , couleur du type)
+         databaseAccess.close();
+
+         while(c.moveToNext()){
+
+             pieData.add(new SliceValue(c.getFloat(1),Color.RED).setLabel(c.getString(0)));
+
+         }
 
 
-                            SliceValue sliceValue = new SliceValue(44, Color.RED);
-                            sliceValue.setLabel(("Students " + (int)sliceValue.getValue() + "%" ).toCharArray());
 
-        databaseAccess.close();
+
 
         pieChartData.setValues(pieData);
-        PieChartData pieChartData = new PieChartData(pieData);*/
+        pieChartView.setPieChartData(pieChartData);
+        pieChartView.setChartRotationEnabled(true);
 
+
+
+
+       //pour changer d'activity quand on click sur une categorie
 
         pieChartView.setOnValueTouchListener(new ValueTouchListener() {
             @Override
@@ -102,31 +107,6 @@ public class SummaryPieChartActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public boolean onTouchEvent(MotionEvent touchevent) { //evenement qui se lance quand on click
-        switch (touchevent.getAction()) {
-
-            case MotionEvent.ACTION_DOWN: //quand on appuye sur l'ecran
-                x1 = touchevent.getX(); //endroit où on a appuyé
-                break;
-
-            case MotionEvent.ACTION_UP: //quand on lasce l'ecran
-                x2 = touchevent.getX(); //endroit où on relasce
-                if (x1 < x2) { //si on a été à droite
-                    Intent intent = new Intent(SummaryPieChartActivity.this, SummarySwipeLeftActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
-                }
-                if (x2 < x1) { //si on a été à gauche
-                    Intent intent = new Intent(SummaryPieChartActivity.this, SummaryCategoryTransactionActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
-                }
-                break;
-
-        }
-        return false;
     }
 
 

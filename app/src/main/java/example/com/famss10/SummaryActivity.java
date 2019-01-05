@@ -35,6 +35,8 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
     TextView balance;
     EditText datestart,dateend;
     Date b; //pour setter les dates de debut et de fin
+    String startDate, endDate;
+    //Bundle extras = new Bundle();
 
     ColumnChartData data; //données du graphique
     ColumnChartView chart; //element dans le xml, pour lui donner des valeurs faut lui passer un "ColumnChartData"
@@ -44,6 +46,8 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
     List<SubcolumnValue> dep = new ArrayList<>(); // idem
     int j=0;
     int idcount;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,15 +99,17 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 dep.clear();
 
 
-                String a = datestart.getText().toString();
-                String b = dateend.getText().toString();
+                startDate = datestart.getText().toString();
+                endDate = dateend.getText().toString();
 
 
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
-                final ArrayList<Float> dep1 = databaseAccess.getDepenses(a,b,idcount);
-                final ArrayList<Float> rev1 = databaseAccess.getRevenus(a,b,idcount);
+                final ArrayList<Float> dep1 = databaseAccess.getDepenses(startDate,endDate,idcount);
+                final ArrayList<Float> rev1 = databaseAccess.getRevenus(startDate,endDate,idcount);
                 databaseAccess.close();
+
+                System.out.println(dep1.size());
 
                 float totdep=0, totrev = 0;
 
@@ -190,6 +196,8 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 super.onValueSelected(columnIndex, subcolumnIndex, value);
                 Intent intent = new Intent(SummaryActivity.this,SummaryPieChartActivity.class);
                 intent.putExtra("idcount",idcount);
+                intent.putExtra("startdate",startDate);
+                intent.putExtra("enddate",endDate);
                 startActivity(intent);
             }
         });
@@ -260,7 +268,10 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 x2=touchevent.getX(); //endroit où on relasce
                 if(x1<x2){ //si on a été à droite
                     Intent intent = new Intent(SummaryActivity.this,SummarySwipeLeftActivity.class);
+
+
                     intent.putExtra("idcount",idcount);
+
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
                 }

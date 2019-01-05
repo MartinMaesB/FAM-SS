@@ -493,7 +493,7 @@ public class DatabaseAccess {
             mountant= c.getFloat(1);
             buffer.append(""+mountant);
             liste.add(mountant);
-            System.out.println("rev" +c.getInt(0));
+            //System.out.println("rev" +c.getInt(0));
 
         }
         Cursor c1 = db.rawQuery("select Transactions.idTransaction , Transactions.Mountant from " +
@@ -506,7 +506,7 @@ public class DatabaseAccess {
             mountant = c1.getFloat(1);
             buffer.append("" + mountant);
             liste.add(mountant);
-            System.out.println("rev trans" +c1.getInt(0));
+            //System.out.println("rev trans" +c1.getInt(0));
         }
 
         return liste ;
@@ -516,15 +516,17 @@ public class DatabaseAccess {
         Cursor c = db.rawQuery("SELECT Transactions.Name , Transactions.Notes , Transactions.Mountant , Transactions.Operation , Transactions.idCategory , Diary.Date FROM " +
                 "Transactions INNER JOIN Diary ON (Transactions.idDiary = Diary.idDiary) WHERE " +
                 "Transactions.idCount = '"+count+"'" +
-                "ORDER BY Diary.Date",null);
+                "ORDER BY Diary.Date DESC",null);
         return c;
     }
 
     public Cursor getDepenseByCategory(String start, String end , int count){
 
-        Cursor c = db.rawQuery("select  Transactions.Mountant , Transactions. from " +
+        Cursor c = db.rawQuery("select Transactions.idCategory, SUM(Transactions.Mountant) from " +
                 "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
-                "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation != 'Type : Revenu'",null);
+                "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation != 'Type : Revenu'" +
+                "GROUP BY Transactions.idCategory", new String[]{});
+
 
         return c;
     }
