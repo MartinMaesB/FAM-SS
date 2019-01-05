@@ -520,6 +520,14 @@ public class DatabaseAccess {
         return c;
     }
 
+    public Cursor getDepenseByCategory(String start, String end , int count){
+
+        Cursor c = db.rawQuery("select  Transactions.Mountant , Transactions. from " +
+                "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
+                "Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation != 'Type : Revenu'",null);
+
+        return c;
+    }
 
 
 
