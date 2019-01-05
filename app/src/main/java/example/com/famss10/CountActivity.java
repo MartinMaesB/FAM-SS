@@ -37,19 +37,20 @@ public class CountActivity extends AppCompatActivity {
         Intent intent = getIntent(); //il recupere l'intent qui a fait ouvrir l'activité (ici celui du bouton validate de l'activité connexion)
         final int position= intent.getIntExtra("index",1); //il recupere les extras de l'intent, cad l'email de l'user avec le quel on a fait le login
         final String userEmail=intent.getStringExtra("userEmail");
-       // display("Position",String.valueOf(position));
+        final int id = Integer.parseInt(intent.getStringExtra("id"));
+        // display("Position",String.valueOf(position));
 
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
 
-        final int id = databaseAccess.getintAttribut("idCount","Count","Email",userEmail,position);
+        // final int id = databaseAccess.getintAttribut("idCount","Count","Email",userEmail,position);
 
 
         Owner.setText(databaseAccess.getStringAttributWhere("Name","User","Email",userEmail));
-        CountName.setText(databaseAccess.getStringAttribut("NameCount","Count", "Email",userEmail,position));
-        Balance.setText(databaseAccess.getStringAttribut("Balance","Count", "Email",userEmail,position) +"\t"+ databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,position));
-       // Currency.setText(databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,position));
+        CountName.setText(databaseAccess.getStringAttributWhereInt("NameCount","Count", "idCount",id));
+        Balance.setText(databaseAccess.getStringAttributWhereInt("Balance","Count", "idCount",id) +"\t"+ databaseAccess.getStringAttributWhereInt("Currency","Count", "idCount",id));
+        // Currency.setText(databaseAccess.getStringAttribut("Currency","Count", "Email",userEmail,position));
 
         for (int i=0; i< databaseAccess.getcounter("EmailSupervisor","Control","EmailUser",userEmail);i++) {
             String EmailSupervisor = databaseAccess.getStringAttribut("EmailSupervisor", "Control", "EmailUser", userEmail, i);

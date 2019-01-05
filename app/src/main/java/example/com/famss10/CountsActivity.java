@@ -23,7 +23,7 @@ public class CountsActivity extends AppCompatActivity {
     private ArrayList<Button>pers_count, child_count;
     private LinearLayout pers_count_layout, ComptesEnfants;
     private int indexPersCount=0, indexBtnChild=0, i=0, id;
-    String idcount, idCountEnfant;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class CountsActivity extends AppCompatActivity {
             //ViewGroup.LayoutParams params = new ActionBar.LayoutParams();
             Btn.setAllCaps(false); //Pour pas mettre l'écriture en majuscule
 
-            idcount= c.getString(0);
+            final String idcount= c.getString(0);
 
             String infos = c.getString(1) + "\n" + c.getString(3) + "\n" + c.getString(2);
             Btn.setText(infos);
@@ -161,7 +161,7 @@ public class CountsActivity extends AppCompatActivity {
 
 
             String Relation=c2.getString(1);
-            idCountEnfant=c2.getString(2);
+            final String idCountEnfant=c2.getString(2);
             String NameCount = databaseAccess.getStringAttributWhere("Name","User","Email",EmailEnfant);
             String infos = Relation+ " " + NameCount + "\n" + c2.getString(3) + "\n" + c2.getString(4) + "\n" + c2.getString(5);
 
