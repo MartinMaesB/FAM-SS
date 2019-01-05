@@ -111,6 +111,20 @@ public class DatabaseAccess {
         return entier;
     }
 
+    public int getIntAttributWhereDate(String select, String from, String where, java.sql.Date element ){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+element+"'", new String[]{});
+        c.moveToFirst();
+        int entier = c.getInt(0);
+        return entier;
+    }
+
+    public int getIntAttributWhereDate2(String select, String from, String where, int répétition, java.sql.Date datedebut, java.sql.Date datefin){
+        c=db.rawQuery("select "+select+" from "+from+" where "+where+"= '"+répétition+"' and StartDate='"+datedebut+"' and EndDate='"+datefin+"'", new String[]{});
+        c.moveToFirst();
+        int entier = c.getInt(0);
+        return entier;
+    }
+
 /**
     public String getGender(int id){
         c=db.rawQuery("select Gender from User where idUser = '"+id+"'", new String[]{});
