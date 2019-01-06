@@ -372,7 +372,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
              else{
-                //if(databaseAccess.getFrequencyID(répétition,b,c)==null)
+                if(databaseAccess.getFrequencyID(répétition,b,c)==false)
                     databaseAccess.addFrequency(répétition,b,c);
                 //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
                 //display("okk ",String.valueOf(Frequencyid));
