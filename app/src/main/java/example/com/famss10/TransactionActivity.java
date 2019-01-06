@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -174,6 +175,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             @Override
             public void onClick(View v) {
                 validate(etCompte,etDescription,etMontant,etNameTransaction,tvCatégorie,tvFréquence,tvType,tvDate,tvDateFin,cbFréquence,bConfirmer,etUser);
+                //Intent registerIntent = new Intent(TransactionActivity.this, CountActivity.class); //pour retourner à la page de login une fois le compte crée
+                //TransactionActivity.this.startActivity(registerIntent);
             }
         });
 
@@ -372,7 +375,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
              else{
-                //if(databaseAccess.getFrequencyID(répétition,b,c)==null)
+                if(databaseAccess.getFrequencyID(répétition,b,c)==null)
                     databaseAccess.addFrequency(répétition,b,c);
                 //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
                 //display("okk ",String.valueOf(Frequencyid));
@@ -420,7 +423,7 @@ for(int i = 0 ; i<répétition;i++){
 //addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
     //databaseAccess.addTransactionTransfert(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));
     databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idCount,Diaryid);
-
+    b.setDate(b.getDate()+(int)(nombreDeJoursEntreRépétitions));
 }
 
             databaseAccess.close();
