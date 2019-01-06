@@ -365,10 +365,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             if(Fréquence.equals("0")){
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
-                else{
-                if(databaseAccess.getFrequencyID(répétition,b,c)!=null)
-                    databaseAccess.addFrequency(répétition,b,c);
-                }
+                //else{
+                //if(databaseAccess.getFrequencyID(répétition,b,c)!=null);
+                    //databaseAccess.addFrequency(répétition,b,c);
+                //}
             }
 
 
@@ -398,8 +398,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
 
             int Diaryid=databaseAccess.getIntAttributWhereDate("idDiary","Diary","Date",b);
-           int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
-            display("okk ",String.valueOf(Frequencyid));
+           //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
+            //display("okk ",String.valueOf(Frequencyid));
 
             //addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
             //databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));
