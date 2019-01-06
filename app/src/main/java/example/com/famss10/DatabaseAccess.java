@@ -130,8 +130,24 @@ public class DatabaseAccess {
 
     public int getIntAttributWhereDate2(String select, String from, String where, String where2, String where3 , int répétition,java.sql.Date element, java.sql.Date element2){
 
+        boolean a=false;
+        System.out.println(select);
+        System.out.println(from);
+        System.out.println(where);
+        System.out.println(where2);
+        System.out.println(where3);
+        System.out.println(element);
+        System.out.println(element2);
+        System.out.println(répétition);
+
         c=db.rawQuery("select '"+select+"' from '"+from+"' where '"+where+"' = '"+répétition+"' and '"+where2+"' = '"+element+"' and  '"+where3+"' = '"+element2+"'",null);
-        return c.getInt(0);
+
+        if(c.moveToNext()){
+            a=true;
+        }
+        System.out.println(a);
+
+        return 1;//c.getInt(0);
     }
 
 
