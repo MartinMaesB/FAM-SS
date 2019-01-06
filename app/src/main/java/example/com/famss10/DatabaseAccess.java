@@ -333,10 +333,14 @@ public class DatabaseAccess {
     }
 
 
-    public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
+    public boolean getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
+        boolean a=false;
+        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"' AND EndDate='"+enddate+"' AND DescriptionF='"+nombre+"'", new String[]{});
 
-        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"' /*AND EndDate='"+enddate+"' AND DescriptionF='"+nombre+"'*/", new String[]{});
-        return c.getInt(0);
+        if(c.moveToNext()){
+            a=true;
+        }
+        return a;
     }
 
 
