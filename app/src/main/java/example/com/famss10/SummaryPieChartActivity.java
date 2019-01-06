@@ -73,7 +73,7 @@ public class SummaryPieChartActivity extends AppCompatActivity {
 
         for(Float f : val){
             int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-            pieData.add(new SliceValue(f.floatValue(),color).setLabel(categories.get(val.indexOf(f)) + " : " + f.floatValue() + " €"));
+            pieData.add(new SliceValue(f.floatValue(),color).setLabel(categories.get(val.indexOf(f)) + " : " + f.floatValue()));
         }
 
         pieChartData.setValues(pieData);
