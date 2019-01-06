@@ -365,10 +365,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             if(Fréquence.equals("0")){
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
-                //else{
+                else{
                 //if(databaseAccess.getFrequencyID(répétition,b,c)!=null);
                     //databaseAccess.addFrequency(répétition,b,c);
-                //}
+                }
             }
 
 
