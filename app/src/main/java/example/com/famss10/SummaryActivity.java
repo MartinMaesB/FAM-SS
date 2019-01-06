@@ -88,7 +88,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-        display("INFO","Glisser à gauche pour le résumé des transactions");
+        display("INFO","- Glisser à gauche pour le résumé des transactions \n\n- Cliquez sur la colonne des revenus ou des dépenses pour avoir le detail par catégorie" );
 
 
         //graphique qui se génére à l'appuye du bouton ok
@@ -101,8 +101,11 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 rev.clear();
                 dep.clear();
 
-                startDate = datestart.getText().toString();
-                endDate = dateend.getText().toString();
+                //startDate = datestart.getText().toString();
+                //endDate = dateend.getText().toString();
+
+                startDate="2019/01/01";
+                endDate="2019/01/20";
 
                 //ouverture de la bdd
 
@@ -171,6 +174,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 intent.putExtra("idcount", idcount);
                 intent.putExtra("startdate", startDate);
                 intent.putExtra("enddate", endDate);
+                intent.putExtra("type",columnIndex); //pour savoir si on click sur quel colonne (0 = revenus et 1= dépenses)
                 startActivity(intent);
             }
         });
@@ -244,6 +248,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
     private class ValueTouchListener implements ColumnChartOnValueSelectListener {
         @Override
         public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+
 
         }
 
