@@ -324,7 +324,6 @@ public class DatabaseAccess {
 
 
 
-
     //------------------------------------------------FREQUENCY--------------------------------------------------------
 
     public void addFrequency (Integer nombre, java.sql.Date startdate, java.sql.Date enddate){
@@ -368,6 +367,13 @@ public class DatabaseAccess {
         db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idCount,idDiary) " +
                 "VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
+
+    public void addTransactionTransfert(String name,String notes,Integer mountant, String operation, String idCategory, int frequency,String beneficiarycount,int idCount,int idDiary){
+
+        db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idCount,idDiary,idBeneficiaryCount) " +
+                "VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idCount+"','"+idDiary+"','"+beneficiarycount+"')", new String[]{});
+    }
+
 
 
     public Cursor getTransactions(int count){

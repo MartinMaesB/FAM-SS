@@ -368,16 +368,22 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             if(tvDateFin.getText().length()==0){
                 messages.add("Veuillez entrer une date de fin de répétition pour cette transaction");
                 OK=false;}
-            if(Fréquence.equals("0")){
+            if(Fréquence.equals("0")||répétition<0){
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
              else{
                 //if(databaseAccess.getFrequencyID(répétition,b,c)==null)
                     databaseAccess.addFrequency(répétition,b,c);
-                int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
+                //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
                 //display("okk ",String.valueOf(Frequencyid));
+
                 }
             }
+
+        float nombreDeJoursEntreRépétitions=((c.getTime()-b.getTime())/86400000)/répétition;
+
+
+
 
 
         if (OK) {
@@ -386,6 +392,11 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 - ajouter la transaction
 - quand frequence ajouter ou supprimer de la thune aux intervalles donnés
 //- ajouter le diary*/
+
+for(int i = 0 ; i<répétition;i++){
+
+
+
 
             if(Type.equals("Type : Transfert")){
 
@@ -406,12 +417,12 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
 
             int Diaryid=databaseAccess.getIntAttributWhereDate("idDiary","Diary","Date",b);
+//addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
+    //databaseAccess.addTransactionTransfert(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));
+    databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idCount,Diaryid);
 
+}
 
-
-            //addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
-            //databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));
-            databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idCount,Diaryid);
             databaseAccess.close();
         }
         else displayAttention("Attention",messages);
