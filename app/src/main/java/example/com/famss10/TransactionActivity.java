@@ -329,7 +329,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         final int idCount = intent.getIntExtra("idCount",0);
         int idBeneficiaryCount=0;
         int Frequency=1;
-
+        float nombreDeJoursEntreRépétitions=0;
 
         boolean OK = true;
         ArrayList <String> messages=new ArrayList<>();
@@ -360,7 +360,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 }
                 else idBeneficiaryCount = databaseAccess.getCountIDNameEmail(Compte,User);
         }
-        }
+        }else répétition=1;
 
 
 
@@ -371,22 +371,23 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             if(tvDateFin.getText().length()==0){
                 messages.add("Veuillez entrer une date de fin de répétition pour cette transaction");
                 OK=false;}
+                else nombreDeJoursEntreRépétitions=((c.getTime()-b.getTime())/86400000)/répétition;
             if(Fréquence.equals("0")||répétition<0){
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
              else{
-                if(databaseAccess.getFrequencyID(répétition,b,c)==false)
+                if(!databaseAccess.getFrequencyID(répétition,b,c))
                     databaseAccess.addFrequency(répétition,b,c);
                 }
             }
 
             else{
-            if(databaseAccess.getFrequencyID(1,b,b)==false)
+            if(!databaseAccess.getFrequencyID(1,b,b))
                 databaseAccess.addFrequency(1,b,b);
         }
 
-        int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
-        float nombreDeJoursEntreRépétitions=((c.getTime()-b.getTime())/86400000)/répétition;
+        //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
+
 
 
 
