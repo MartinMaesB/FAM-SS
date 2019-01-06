@@ -375,9 +375,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
              else{
-                if(databaseAccess.getFrequencyID(répétition,b,c)==false) databaseAccess.addFrequency(répétition,b,c);
-                int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
-                display("okk ",String.valueOf(Frequencyid));
+                if(databaseAccess.getFrequencyID(répétition,b,c)==false)
+                    databaseAccess.addFrequency(répétition,b,c);
+                //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
+
 
                 }
             }
@@ -396,32 +397,36 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 //- ajouter le diary*/
 
 for(int i = 0 ; i<répétition;i++){
-
+    String dateExist = String.format(databaseAccess.getStringDate("Date", "Diary", "Date", b));
+    if(dateExist.length()==0)
+    databaseAccess.addDiary(b);
+    int Diaryid=databaseAccess.getIntAttributWhereDate("idDiary","Diary","Date",b);
 
 
 
             if(Type.equals("Type : Transfert")){
-
+                int balance= databaseAccess.getIntAttributWhereInt("Balance","Count","idCount",idCount);
+                databaseAccess.updateIntById("Count","Balance",balance-MontantTransaction,"idCount",idCount);
+                databaseAccess.updateIntById("Count","Balance",balance+MontantTransaction,"idCount",idBeneficiaryCount);
+                databaseAccess.addTransactionTransfert(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idBeneficiaryCount,idCount,Diaryid);
             }
             else{
-                String dateExist = String.format(databaseAccess.getStringDate("Date", "Diary", "Date", b));
-                if(dateExist.length()==0)
-                    databaseAccess.addDiary(b);
                 if(Type.equals("Type : Revenu")){
                     int balance= databaseAccess.getIntAttributWhereInt("Balance","Count","idCount",idCount);
                     databaseAccess.updateIntById("Count","Balance",balance+MontantTransaction,"idCount",idCount);
+                    databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idCount,Diaryid);
                 }
                 else{
                     int balance= databaseAccess.getIntAttributWhereInt("Balance","Count","idCount",idCount);
                     databaseAccess.updateIntById("Count","Balance",balance-MontantTransaction,"idCount",idCount);
+                    databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idCount,Diaryid);
                 }
 
             }
 
-            int Diaryid=databaseAccess.getIntAttributWhereDate("idDiary","Diary","Date",b);
-//addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
-    //databaseAccess.addTransactionTransfert(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));
-    databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idCount,Diaryid);
+
+
+
     b.setDate(b.getDate()+(int)(nombreDeJoursEntreRépétitions));
 }
 

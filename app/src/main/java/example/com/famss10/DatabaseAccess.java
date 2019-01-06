@@ -388,7 +388,7 @@ public class DatabaseAccess {
                 "VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idCount+"','"+idDiary+"')", new String[]{});
     }
 
-    public void addTransactionTransfert(String name,String notes,Integer mountant, String operation, String idCategory, int frequency,String beneficiarycount,int idCount,int idDiary){
+    public void addTransactionTransfert(String name,String notes,Integer mountant, String operation, String idCategory, int frequency,int beneficiarycount,int idCount,int idDiary){
 
         db.execSQL("insert into Transactions (Name,Notes,Mountant,Operation,idCategory,Frequency,idCount,idDiary,idBeneficiaryCount) " +
                 "VALUES ('"+name+"','"+notes+"','"+mountant+"','"+operation+"','"+idCategory+"','"+frequency+"','"+idCount+"','"+idDiary+"','"+beneficiarycount+"')", new String[]{});
