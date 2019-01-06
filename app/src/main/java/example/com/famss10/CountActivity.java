@@ -94,7 +94,7 @@ public class CountActivity extends AppCompatActivity {
         });
 
 
-     //quand on click sur "Modifier Compte" (modifier le nom, le montant ou le type de monnaie)
+     //quand on click sur "Transaction" on ouvre la transaction activity
 
         Transaction.setOnClickListener(new View.OnClickListener() {
             @Override
