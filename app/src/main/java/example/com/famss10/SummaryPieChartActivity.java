@@ -77,11 +77,13 @@ public class SummaryPieChartActivity extends AppCompatActivity {
 
          databaseAccess.close();
 
-         while(c.moveToNext()){
+       // System.out.println(c.getFloat(1));
 
-             pieData.add(new SliceValue(c.getFloat(1),Color.RED).setLabel(c.getString(0)));
+         //while(c.moveToNext()){
 
-         }
+           //  pieData.add(new SliceValue(c.getFloat(1),Color.RED).setLabel(c.getString(0)));
+
+         //}
 
 
 
