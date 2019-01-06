@@ -375,10 +375,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
              else{
-                if(databaseAccess.getFrequencyID(répétition,b,c)==null)
+                if(databaseAccess.getFrequencyID(répétition,b,c)==false)
                     databaseAccess.addFrequency(répétition,b,c);
                 //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
-                
+
 
                 }
             }
@@ -408,7 +408,7 @@ for(int i = 0 ; i<répétition;i++){
                 int balance= databaseAccess.getIntAttributWhereInt("Balance","Count","idCount",idCount);
                 databaseAccess.updateIntById("Count","Balance",balance-MontantTransaction,"idCount",idCount);
                 databaseAccess.updateIntById("Count","Balance",balance+MontantTransaction,"idCount",idBeneficiaryCount);
-                databaseAccess.addTransactionTransfert(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,Diaryid);
+                databaseAccess.addTransactionTransfert(NameTransaction,Description,MontantTransaction,Type,Catégorie,1,idBeneficiaryCount,idCount,Diaryid);
             }
             else{
                 if(Type.equals("Type : Revenu")){
