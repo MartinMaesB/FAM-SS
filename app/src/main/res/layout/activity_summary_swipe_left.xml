@@ -24,19 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="\t \t Nom \t|\t Notes \t|\t Montant \t|\t Categorie \t|\t Date"
-                android:textSize="15dp"
-
-                app:layout_constraintEnd_toEndOf="@+id/scrollView3"
-                app:layout_constraintStart_toStartOf="@+id/scrollView3"
-                app:layout_constraintTop_toTopOf="@+id/scrollView3" />
-
-
 
 
         </LinearLayout>

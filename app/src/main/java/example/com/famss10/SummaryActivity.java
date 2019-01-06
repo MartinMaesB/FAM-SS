@@ -27,16 +27,16 @@ import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.view.ColumnChartView;
 
-public class SummaryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class SummaryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
 //déclaration des variables
 
-    float x1,x2; //position d'appuie et de relasce pour faire le swipe entre activitées
+    float x1, x2; //position d'appuie et de relasce pour faire le swipe entre activitées
     boolean a; //pour separer les dates de debut et fin
     int idcount;
-    Button start,end,ok;
+    Button start, end, ok;
     TextView balance;
-    EditText datestart,dateend;
+    EditText datestart, dateend;
     Date b;
     String startDate, endDate;
 
@@ -54,28 +54,28 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
-    //récupération des infos de l'activity précédente
+        //récupération des infos de l'activity précédente
 
         Intent intent = getIntent();
-        idcount = intent.getIntExtra("idcount",1);
+        idcount = intent.getIntExtra("idcount", 1);
 
 
-    //instanciation des elements dans le xml
+        //instanciation des elements dans le xml
 
-        start=findViewById(R.id.bstartdate);
-        end=findViewById(R.id.benddate);
-        ok=findViewById(R.id.bok);
+        start = findViewById(R.id.bstartdate);
+        end = findViewById(R.id.benddate);
+        ok = findViewById(R.id.bok);
         chart = findViewById(R.id.chart);
-        balance=findViewById(R.id.tvBalance);
-        datestart=findViewById(R.id.etstart);
-        dateend=findViewById(R.id.etend);
+        balance = findViewById(R.id.tvBalance);
+        datestart = findViewById(R.id.etstart);
+        dateend = findViewById(R.id.etend);
 
 
-    //settage des dates de debut et fin
+        //settage des dates de debut et fin
 
         start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                a=true;
+                a = true;
                 datePicker(start);
             }
         });
@@ -83,14 +83,15 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                a=false;
+                a = false;
                 datePicker(end);
             }
         });
 
+        display("INFO","Glisser à gauche pour le résumé des transactions");
 
 
-    //graphique qui se génére à l'appuye du bouton ok
+        //graphique qui se génére à l'appuye du bouton ok
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,30 +104,30 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
                 startDate = datestart.getText().toString();
                 endDate = dateend.getText().toString();
 
-        //ouverture de la bdd
+                //ouverture de la bdd
 
-                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-        //construction du graphique
+                //construction du graphique
 
-                final ArrayList<Float> dep1 = databaseAccess.getDepenses(startDate,endDate,idcount); //requête pour prendre toutes les dépenses comprises entre les 2 dates et appartenantes au compte
-                final ArrayList<Float> rev1 = databaseAccess.getRevenus(startDate,endDate,idcount); //requête pour prendre touts les revenu compris entre les 2 dates et appartenantes au compte
+                final ArrayList<Float> dep1 = databaseAccess.getDepenses(startDate, endDate, idcount); //requête pour prendre toutes les dépenses comprises entre les 2 dates et appartenantes au compte
+                final ArrayList<Float> rev1 = databaseAccess.getRevenus(startDate, endDate, idcount); //requête pour prendre touts les revenu compris entre les 2 dates et appartenantes au compte
 
                 databaseAccess.close();
 
-                float totdep=0, totrev = 0;
+                float totdep = 0, totrev = 0;
 
-                for(Float f : dep1){
+                for (Float f : dep1) {
                     totdep = totdep + f.floatValue();
                 }
-                for(Float f1 : rev1){
+                for (Float f1 : rev1) {
                     totrev = totrev + f1.floatValue();
                 }
 
                 //1ere colonne (Revenus)
 
-                rev.add(new SubcolumnValue(totrev,Color.GREEN).setLabel("Revenus : "+totrev)); //on cré une souscolonne et on la met dans la liste des souscolonne
+                rev.add(new SubcolumnValue(totrev, Color.GREEN).setLabel("Revenus : " + totrev)); //on cré une souscolonne et on la met dans la liste des souscolonne
                 Column temp = new Column(rev); //creation d'une colonne -> faut passer une list de souscolonnes comme argument
                 temp.setHasLabels(true); //pour mettre un texte dans la colonne
                 columns.add(temp); // on met la colonne crée dans la liste des colonnes (pas les données du graph)
@@ -134,24 +135,25 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
                 //2eme colonne(Depenses)
 
-                dep.add(new SubcolumnValue(totdep,Color.RED).setLabel("Depenses : "+totdep));
+                dep.add(new SubcolumnValue(totdep, Color.RED).setLabel("Depenses : " + totdep));
                 Column temp1 = new Column(dep);
                 temp1.setHasLabels(true);
                 columns.add(temp1);
 
 
-                data=new ColumnChartData(columns);
+                data = new ColumnChartData(columns);
                 data.setAxisXBottom(null);
                 data.setAxisYLeft(null);
                 chart.setColumnChartData(data);
 
-        //pour affichier le solde de la periode
+                //pour affichier le solde de la periode
 
-                float bal=totrev-totdep;
-                balance.setText("Balance : "+Float.toString(bal));
-                if(bal>0){
+                float bal = totrev - totdep;
+                balance.setText("Balance : " + Float.toString(bal));
+                if (bal > 0) {
                     balance.setTextColor(Color.GREEN);
-                } if(bal<0){
+                }
+                if (bal < 0) {
                     balance.setTextColor(Color.RED);
                 }
 
@@ -159,16 +161,16 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         });
 
 
-    //quand on click sur une des 2 colonnes passer au résumé des dépenses/revenus par catégorie
+        //quand on click sur une des 2 colonnes passer au résumé des dépenses/revenus par catégorie
 
-        chart.setOnValueTouchListener(new ValueTouchListener(){ //ValueTouchListener classe definie ici plus bas, elle contient 2 methodes: quan on selectionne et quand on deselectionne (la 2eme nous interesse pas)
+        chart.setOnValueTouchListener(new ValueTouchListener() { //ValueTouchListener classe definie ici plus bas, elle contient 2 methodes: quan on selectionne et quand on deselectionne (la 2eme nous interesse pas)
             @Override
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
                 super.onValueSelected(columnIndex, subcolumnIndex, value);
-                Intent intent = new Intent(SummaryActivity.this,SummaryPieChartActivity.class); //on passe à l'activity SummaryPieChartActivity
-                intent.putExtra("idcount",idcount);
-                intent.putExtra("startdate",startDate);
-                intent.putExtra("enddate",endDate);
+                Intent intent = new Intent(SummaryActivity.this, SummaryPieChartActivity.class); //on passe à l'activity SummaryPieChartActivity
+                intent.putExtra("idcount", idcount);
+                intent.putExtra("startdate", startDate);
+                intent.putExtra("enddate", endDate);
                 startActivity(intent);
             }
         });
@@ -176,65 +178,58 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
     }
 
 
-
-
-
-
-
 //fonctions pour le choix des 2 date avec le calendrier
 
-    public void datePicker(View view){
+    public void datePicker(View view) {
         DatePickerFragment fragment = new DatePickerFragment();
-        fragment.show(getSupportFragmentManager(),"date");
+        fragment.show(getSupportFragmentManager(), "date");
     }
 
-    private void setDate(final Calendar calendar){
+    private void setDate(final Calendar calendar) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         //pour dire dans quel textView il doit mettre la date
-        if(a==true){ ((TextView)findViewById(R.id.etstart)).setText(sdf.format(calendar.getTime())); }
-        else{ ((TextView)findViewById(R.id.etend)).setText(sdf.format(calendar.getTime())); }
+        if (a == true) {
+            ((TextView) findViewById(R.id.etstart)).setText(sdf.format(calendar.getTime()));
+        } else {
+            ((TextView) findViewById(R.id.etend)).setText(sdf.format(calendar.getTime()));
+        }
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int day){
-        Calendar cal = new GregorianCalendar(year,month,day);
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        Calendar cal = new GregorianCalendar(year, month, day);
         setDate(cal);
-        Date B= new Date(year, month,day);
-        b=B;
+        Date B = new Date(year, month, day);
+        b = B;
     }
 
     public static class DatePickerFragment extends DialogFragment {
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState){
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-            return new DatePickerDialog(getActivity(),(DatePickerDialog.OnDateSetListener)getActivity(),year,month,day);
+            return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
         }
     }
 
 
-
-
-
-
-
 //pour accéder au résumé des transactions en swipant vers la gauche
 
-    public boolean onTouchEvent(MotionEvent touchevent){ //evenement qui se lance quand on click
-        switch (touchevent.getAction()){
+    public boolean onTouchEvent(MotionEvent touchevent) { //evenement qui se lance quand on click
+        switch (touchevent.getAction()) {
 
             case MotionEvent.ACTION_DOWN: //quand on appuye sur l'ecran
-                x1= touchevent.getX(); //endroit où on a appuyé
+                x1 = touchevent.getX(); //endroit où on a appuyé
                 break;
 
             case MotionEvent.ACTION_UP: //quand on lasce l'ecran
-                x2=touchevent.getX(); //endroit où on relasce
+                x2 = touchevent.getX(); //endroit où on relasce
 
-                if(x1<x2){ //si on a été à droite
-                    Intent intent = new Intent(SummaryActivity.this,SummarySwipeLeftActivity.class); //on passe à l'activity SummarySwipeLeftActivity
-                    intent.putExtra("idcount",idcount);
+                if (x1 < x2) { //si on a été à droite
+                    Intent intent = new Intent(SummaryActivity.this, SummarySwipeLeftActivity.class); //on passe à l'activity SummarySwipeLeftActivity
+                    intent.putExtra("idcount", idcount);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right); //change l'animation de translation entre activities (argument 1 = d'où viens la nouvelle activity, argument 2= où elle va la courante)
                 }
@@ -242,13 +237,6 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
         }
         return false;
     }
-
-
-
-
-
-
-
 
 
 //classe pour permettre le passage de Activity en cliccant sur les colonnes du graphique
@@ -264,7 +252,15 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
 
         }
     }
-}
-// ------------------FIN------------------
 
+
+    public void display(String title, String content) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.show();
+
+    }
+}
 
