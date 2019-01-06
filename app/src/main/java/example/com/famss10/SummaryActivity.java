@@ -88,7 +88,7 @@ public class SummaryActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-        display("INFO","- Glisser à gauche pour le résumé des transactions \n\n- Cliquez sur la colonne des revenus ou des dépenses pour avoir le detail par catégorie" );
+        display("INFO","- Choisissez la période à analyser pour voir le graphique des dépenses et revenus \n\n- Glissez à gauche pour le résumé de toutes les transactions \n\n- Cliquez sur la colonne des revenus ou des dépenses sur le graphique pour avoir les transactions de la période par catégorie" );
 
 
         //graphique qui se génére à l'appuye du bouton ok
