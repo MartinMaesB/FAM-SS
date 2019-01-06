@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 public class SummarySwipeLeftActivity extends AppCompatActivity {
 
+//déclaration des variables
+
     float x1,x2;
     LinearLayout transactions;
     int i=0;
@@ -20,21 +22,27 @@ public class SummarySwipeLeftActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary_swipe_left);
 
+    //récupération des infos de l'activity précédente
+
         Intent intent = getIntent();
         int countid = intent.getIntExtra("idcount",0);
 
+    //initialisation des variables élément du xml
+
         transactions=findViewById(R.id.lltransactions);
 
+    //ouverture de la bdd
 
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
-        Cursor c = databaseAccess.getTransactions(countid);
 
+    //récupérer toutes les transactions du compte et les afficher
+
+        Cursor c = databaseAccess.getTransactions(countid); //requête pour récupérer toutes les transaction du compte
 
         while(c.moveToNext()){
             TextView textView = new TextView(SummarySwipeLeftActivity.this);
             String r = "o\t" + c.getString(0) + "\t|\t" + c.getString(1) + "\t|\t" + c.getString(2) + "\t|\t" + c.getString(4) + "\t|\t" + c.getString(5);
-            //System.out.println(r);
             textView.setText(r);
             textView.setTextSize(15);
 
@@ -47,12 +55,10 @@ public class SummarySwipeLeftActivity extends AppCompatActivity {
             transactions.addView(textView);
             textView.setId(i);
             i++;
-
         }
         databaseAccess.close();
+
     }
-
-
 
 
 
@@ -80,6 +86,11 @@ public class SummarySwipeLeftActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
+
+
+
 
 
     //pour faire slider meme quand on clic sur la petite fleche "arriere"

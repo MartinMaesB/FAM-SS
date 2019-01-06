@@ -24,6 +24,8 @@ import java.util.GregorianCalendar;
 
 public class TransactionActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
+//déclaration des variables
+
     public TextView input;
     public ArrayList<String> choixCatégorie;
     Boolean cal=false;
@@ -37,6 +39,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
 
+    //initialisation des variables élément du xml
+
         final EditText etCompte=findViewById(R.id.etCompte);
         final EditText etUser=findViewById(R.id.etUser);
         final EditText etDescription=findViewById(R.id.etDescription);
@@ -49,6 +53,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         final TextView tvType=findViewById(R.id.tvType);
         final Button bConfirmer=findViewById(R.id.bConfirmer);
         final TextView tvDateFin=findViewById(R.id.tvDateFin);
+
+    //settage de l'interface
+
         etUser.setEnabled(false);
         etCompte.setEnabled(false);
         etCompte.setAlpha(0.1f);
@@ -58,6 +65,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         tvFréquence.setAlpha(0.1f);
         tvDateFin.setAlpha(0.1f);
         tvDate.setHint("Date de la transaction");
+
+    //changer le layout si on choisi de mettre une frequence ou de l'elever
+
         cbFréquence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,9 +89,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
         });
 
-
-
-
+    //pour afficher la liste des types disponibles quand on click sur type (Dépense, revenu ou transfert)
 
         tvType.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,25 +107,25 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
         });
 
-
+    //pour afficher la liste des catégories disponibles lorsque on click sur catégorie
 
         tvCatégorie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
-                choixCatégorie=new ArrayList<String>();
+                choixCatégorie=new ArrayList<>();
                 choixCatégorie=databaseAccess.getToutNomCategory();
                 frequenceok=false;
                 String titre= new String ("Choissez une catégorie:");
                 String ajout= new String("Ajouter une Catégorie");
                 Boolean ajouter = true;
-                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout,tvType,etCompte,etUser,frequenceok);
+                menuPopUp (tvCatégorie,choixCatégorie, titre,ajouter,ajout,tvType,etCompte,etUser,frequenceok); //si on veut ajouter une nouvelle catégorie
                 databaseAccess.close();
             }
         });
 
-
+    //afficher un popup pour choisir le nombre de répétition lorsque on click sur nombre de répétitions
 
         tvFréquence.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +142,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
         });
 
-
+    //changer l'affichage lorsque on choisi de mettre une frequence
 
         tvDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -146,6 +154,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
             }
         });
+
+    //changer l'affichage lorsque on choisi de mettre une frequence
 
         tvDateFin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -257,12 +267,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         Date B= new Date(year, month,day);
         if(b!=null){
             c=new java.sql.Date(cal.getTimeInMillis());
-            //String DaTTe= String.valueOf(c);
             }
             else{
             b=new java.sql.Date(cal.getTimeInMillis());
 
-            //String DaTe= String.valueOf(b);
         }
     }
 
@@ -317,20 +325,6 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         boolean OK = true;
         ArrayList <String> messages=new ArrayList<>();
 
-        /*if(NameTransaction.length()==0){
-            messages.add("Vous n'avez nommé votre transaction!");
-            OK=false;}
-        if(Montant.length()==0){
-            messages.add("Vous n'avez donné de montant à votre transaction!");
-            OK=false;}
-        if(Catégorie.length()==0){
-            messages.add("Vous n'avez pas donné de Catégorie à cette transaction");
-            OK=false;}
-            else  {
-            if(databaseAccess.getCategory(Catégorie).length()==0)
-                databaseAccess.addCategoryByName(Catégorie);
-        }
-*/
 
 
         if(tvDate.getText().length()==0){

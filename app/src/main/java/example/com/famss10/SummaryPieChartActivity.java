@@ -36,14 +36,12 @@ public class SummaryPieChartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_summary_piechart);
 
 
-
-
         Intent intent = getIntent();
 
 
         start = intent.getStringExtra("startdate");
         end = intent.getStringExtra("enddate");
-        count = intent.getIntExtra("idcount",0);
+        count = intent.getIntExtra("idcount", 0);
 
 
         pieChartView = findViewById(R.id.chart);
@@ -73,20 +71,17 @@ public class SummaryPieChartActivity extends AppCompatActivity {
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
 
-         Cursor c = databaseAccess.getDepenseByCategory(start,end,count);
+        Cursor c = databaseAccess.getDepenseByCategory(start, end, count);
 
-         databaseAccess.close();
+        databaseAccess.close();
 
         System.out.println(c.getFloat(1));
 
-         //while(c.moveToNext()){
+        //while(c.moveToNext()){
 
-           //  pieData.add(new SliceValue(c.getFloat(1),Color.RED).setLabel(c.getString(0)));
+        //  pieData.add(new SliceValue(c.getFloat(1),Color.RED).setLabel(c.getString(0)));
 
-         //}
-
-
-
+        //}
 
 
         pieChartData.setValues(pieData);
@@ -94,36 +89,8 @@ public class SummaryPieChartActivity extends AppCompatActivity {
         pieChartView.setChartRotationEnabled(true);
 
 
-
-
-       //pour changer d'activity quand on click sur une categorie
-
-        /*pieChartView.setOnValueTouchListener(new ValueTouchListener() {
-            @Override
-            public void onValueSelected(int arcIndex, SliceValue value) {
-                super.onValueSelected(arcIndex, value);
-                int i = pieData.indexOf(value);
-                Intent intent = new Intent(SummaryPieChartActivity.this, SummaryCategoryTransactionActivity.class);
-                intent.putExtra("category", categories.get(i));
-                startActivity(intent);
-            }
-        });*/
-
     }
 
-
-    //pour le touchlistener sur le graphique
-    /*private class ValueTouchListener implements PieChartOnValueSelectListener {
-        @Override
-        public void onValueSelected(int arcIndex, SliceValue value) {
-
-        }
-
-        @Override
-        public void onValueDeselected() {
-
-        }
-    }*/
 }
 
 
@@ -138,34 +105,5 @@ public class SummaryPieChartActivity extends AppCompatActivity {
 
 
 
-    /*
-    float x1,x2;
-    //pour retourner en slidant vers la gauche
-    public boolean onTouchEvent(MotionEvent touchevent){
-        switch (touchevent.getAction()){
 
-            case MotionEvent.ACTION_DOWN:
-                x1= touchevent.getX();
-                break;
-
-            case MotionEvent.ACTION_UP:
-                x2=touchevent.getX();
-                if(x1<x2){
-                    Intent intent = new Intent(SummaryPieChartActivity.this,SummaryActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }
-                break;
-
-        }
-        return false;
-    }
-
-
-    //pour faire slider meme quand on clic sur la petite fleche "arriere"
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-    }*/
 

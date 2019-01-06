@@ -13,6 +13,8 @@ import android.widget.Switch;
 
 public class SuppressionCompte extends AppCompatActivity {
 
+//déclaration des variables
+
     private Button Valider, SupCompte, SupUser;
     private Switch AllComptes;
     private EditText NameUser, NameCount;
@@ -24,84 +26,41 @@ public class SuppressionCompte extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suppression_compte);
 
+    //récupération des infos de l'activity précédente
 
-                this.Valider=findViewById(R.id.btnValider2);
-                this.AllComptes=findViewById(R.id.switch2);
-                this.NameUser=findViewById(R.id.etNameUser2);
-                this.NameCount=findViewById(R.id.etNamecount2);
-                this.page=findViewById(R.id.page);
-                this.SupCompte=findViewById(R.id.btnCompte);
-                this.SupUser=findViewById(R.id.btnSuperviser);
+        final Intent intent=getIntent();
+        final String EmailSupervisor = intent.getStringExtra("userEmail");
+        final String choix = intent.getStringExtra("Choix");
 
+    //initialisation des variables élément du xml
 
-                final Intent intent=getIntent();
-                final String EmailSupervisor = intent.getStringExtra("userEmail");
-                final String choix = intent.getStringExtra("Choix");
-
-                AllComptes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(AllComptes.isChecked()){
-                            NameCount.setEnabled(false);
-                        }
-                        else NameCount.setEnabled(true);
-                    }
-                });
+        this.Valider=findViewById(R.id.btnValider2);
+        this.AllComptes=findViewById(R.id.switch2);
+        this.NameUser=findViewById(R.id.etNameUser2);
+        this.NameCount=findViewById(R.id.etNamecount2);
+        this.page=findViewById(R.id.page);
+        this.SupCompte=findViewById(R.id.btnCompte);
+        this.SupUser=findViewById(R.id.btnSuperviser);
 
 
-                //METHODE 1
-                /*
-                page.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                        databaseAccess.open();
+    //pour activer et désactiver l'editText pour inserer un nom de compte (dans le cas où on veut pas superviser tous les comptes)
 
-                        String nameuser=NameUser.getText().toString();
-                        String Email=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
-
-                        if (!Email.equals(EmailSupervisor)){
-                            AllComptes.setChecked(true);
-                            NameCount.setEnabled(false);
-                        }
-                        else{
-                            AllComptes.setChecked(false);
-                            NameCount.setEnabled(true);
-                        }
-
-                        databaseAccess.close();
-                        return false;
-                    }
-                });
-        NameCount.setOnTouchListener(new View.OnTouchListener() {
+        AllComptes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                databaseAccess.open();
-
-                String nameuser=NameUser.getText().toString();
-                String Email=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
-
-                if (!Email.equals(EmailSupervisor)){
-                    AllComptes.setChecked(true);
+            public void onClick(View v) {
+                if(AllComptes.isChecked()){
                     NameCount.setEnabled(false);
+                    }
+                    else NameCount.setEnabled(true);
                 }
-                else{
-                    AllComptes.setChecked(false);
-                    NameCount.setEnabled(true);
-                }
-
-                databaseAccess.close();
-                return false;
-            }
         });
-*/
 
-        // METHODE 2 Pour que ca soit plus compréhensible
+
+    //changement de l'interface si on clique le bouton pour arreter de superviser
+
         SupUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AllComptes.setChecked(true);
                 AllComptes.setEnabled(false);
                 NameCount.setEnabled(false);
@@ -113,6 +72,7 @@ public class SuppressionCompte extends AppCompatActivity {
             }
         });
 
+    //changement de l'interface si on clique le bouton pour supprimer un compte
 
         SupCompte.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +90,7 @@ public class SuppressionCompte extends AppCompatActivity {
             }
         });
 
-
+    //pour l'interface initiale en fonction du choix fait à l'activity précédente
 
         if (choix.equals("SuppSupervision")){
             AllComptes.setChecked(true);
@@ -152,70 +112,62 @@ public class SuppressionCompte extends AppCompatActivity {
             NameUser.setEnabled(false);
         }
 
+    //pour supprimer le compte quand on clique sur Valider
 
-                Valider.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        Valider.setOnClickListener(new View.OnClickListener() {
 
-                        DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
-                        databaseAccess.open();
+            @Override
+            public void onClick(View v) {
+                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
+                 databaseAccess.open();
 
-                        boolean OK= true;
-                        StringBuffer bufferErreur = new StringBuffer();
+                 boolean OK= true;
+                 StringBuffer bufferErreur = new StringBuffer();
 
+                 String nameuser=NameUser.getText().toString();
+                 String namecount = NameCount.getText().toString();
 
+                 String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
 
-                        String nameuser=NameUser.getText().toString();
-                        String namecount = NameCount.getText().toString();
+            //conditions pour la sécurité
 
+                 if(nameuser.length()==0){
+                     bufferErreur.append("Veuillez entrer un nom d'utilisateur\n");
+                     OK=false;}
 
-                        String EmailEnfant=databaseAccess.getStringAttributWhere("Email","User", "Name",nameuser);
-
-                        if(nameuser.length()==0){
-                            bufferErreur.append("Veuillez entrer un nom d'utilisateur\n");
-                            //display("Veuillez entrer un nom d'utilisateur"," ");
-                            OK=false;}
-
-
-                        if(namecount.length()==0 && !AllComptes.isChecked()){
-                           bufferErreur.append("Veuillez entrer un nom de compte\n");
-                            // display("Veuillez entrer un nom de compte"," ");
-                            OK=false;}
-
-                            if (OK==true) {
-                                if (!EmailEnfant.equals( EmailSupervisor)) {
-                                   // display(EmailEnfant,EmailSupervisor);
-                                    String emailenfant = databaseAccess.getStringAttributWhere2("EmailUser", "Control", "EmailSupervisor", EmailSupervisor, "EmailUser", EmailEnfant);
-                                   // display(emailenfant,EmailEnfant);
-                                    if (emailenfant.isEmpty())
-                                        bufferErreur.append("Le nom d'utilisateur est incorrect\n");
-                                        //display("Erreur", "Le nom d'utilisateur est incorrect");
-                                   else {
-                                        databaseAccess.delete2("Control", "EmailUser", emailenfant, "EmailSupervisor", EmailSupervisor);
-                                        setResult(3);
-                                        finish();
-
-                                    }
-
-                                } else {
-
-                                    if(AllComptes.isChecked()){databaseAccess.delete1("Count","Email",EmailSupervisor);}
-                                    else {
-                                        databaseAccess.delete2("Count", "Email", EmailSupervisor, "NameCount", namecount);
-                                    }
-                                    setResult(3);
-                                    finish();
-
-                                }
+                 if(namecount.length()==0 && !AllComptes.isChecked()) {
+                     bufferErreur.append("Veuillez entrer un nom de compte\n");
+                     OK=false;}
 
 
-                                databaseAccess.close();
+                 if (OK==true) {
+                     if (!EmailEnfant.equals( EmailSupervisor)) {
 
-                            }else {display("Erreur",bufferErreur.toString());}
-                    }
-                });
+                         String emailenfant = databaseAccess.getStringAttributWhere2("EmailUser", "Control", "EmailSupervisor", EmailSupervisor, "EmailUser", EmailEnfant);
 
+                         if (emailenfant.isEmpty()) { bufferErreur.append("Le nom d'utilisateur est incorrect\n"); }
+                         else {
+                             databaseAccess.delete2("Control", "EmailUser", emailenfant, "EmailSupervisor", EmailSupervisor);
+                             setResult(3);
+                             finish();
+                             }
+                     }
+                     else {
+                         if(AllComptes.isChecked()){databaseAccess.delete1("Count","Email",EmailSupervisor);}
+                         else { databaseAccess.delete2("Count", "Email", EmailSupervisor, "NameCount", namecount); }
+                         setResult(3);
+                         finish();
+                         }
+                     databaseAccess.close();
+
+                 }else {display("Erreur",bufferErreur.toString());}
+            }
+        });
     }
+
+
+
+
 
     public void display(String title, String content){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);

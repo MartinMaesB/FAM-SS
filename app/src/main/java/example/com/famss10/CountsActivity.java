@@ -204,38 +204,32 @@ public class CountsActivity extends AppCompatActivity {
             if (resultCode==0) {
                     Intent intent = getIntent();
                     finish();
-                    startActivity(intent);
-
-            }
+                    startActivity(intent);}
         }
-
         if (requestCode==1){
             if (resultCode==1){
-
                 Intent intent = getIntent();
                 finish();
-                startActivity(intent);
-
-            }
+                startActivity(intent); }
         }
-
         if (requestCode==3){
             if (resultCode==3){
-
                     Intent intent = getIntent();
                     finish();
-                    startActivity(intent);
-            }
+                    startActivity(intent); }
         }
-
         if (requestCode==4){
             if (resultCode==4){
-                finish();
-            }
+                finish(); }
         }
     }
 
-  //Si on a besoin d'affichier des infos
+
+
+
+
+//pour afficher un popup
+
     /*public void display(String title, String content){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setCancelable(true);
