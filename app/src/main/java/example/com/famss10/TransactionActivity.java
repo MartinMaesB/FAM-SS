@@ -175,8 +175,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             @Override
             public void onClick(View v) {
                 validate(etCompte,etDescription,etMontant,etNameTransaction,tvCatégorie,tvFréquence,tvType,tvDate,tvDateFin,cbFréquence,bConfirmer,etUser);
-                //Intent registerIntent = new Intent(TransactionActivity.this, CountActivity.class); //pour retourner à la page de login une fois le compte crée
-                //TransactionActivity.this.startActivity(registerIntent);
+                finish();
             }
         });
 
