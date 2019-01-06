@@ -42,7 +42,7 @@ public class SummarySwipeLeftActivity extends AppCompatActivity {
 
         while(c.moveToNext()){
             TextView textView = new TextView(SummarySwipeLeftActivity.this);
-            String r = "o\t" + c.getString(0) + "\t|\t" + c.getString(1) + "\t|\t" + c.getString(2) + "\t|\t" + c.getString(4) + "\t|\t" + c.getString(5);
+            String r = "Nom : " + c.getString(0) + "\nNotes : " + c.getString(1) + "\nMoutant : " + c.getString(2) + "\nCatégorie : " + c.getString(4) + "\nDate : " + c.getString(5) + "\n\n";
             textView.setText(r);
             textView.setTextSize(15);
 
