@@ -329,15 +329,14 @@ public class DatabaseAccess {
 
     public void addFrequency (Integer nombre, java.sql.Date startdate, java.sql.Date enddate){
 
-        db.execSQL("insert into Frequency (StartDate, EndDate, NbrRépétitions) " +
+        db.execSQL("insert into Frequency (StartDate, EndDate, DescriptionF) " +
                 "VALUES ('"+startdate+"','"+enddate+"','"+nombre+"')", new String[]{});
     }
 
 
     public Integer getFrequencyID(Integer nombre,java.sql.Date startdate, java.sql.Date enddate){
 
-        c=db.rawQuery("select idFrequency from Frequency " +
-                "where StartDate= '"+startdate+"'AND EndDate='"+enddate+"'AND NbrRépétitons='"+nombre+"'", new String[]{});
+        c=db.rawQuery("select idFrequency from Frequency where StartDate= '"+startdate+"' AND EndDate='"+enddate+"' AND DescriptionF='"+nombre+"'", new String[]{});
         return c.getInt(0);
     }
 

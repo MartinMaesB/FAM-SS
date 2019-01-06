@@ -54,7 +54,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         final Button bConfirmer=findViewById(R.id.bConfirmer);
         final TextView tvDateFin=findViewById(R.id.tvDateFin);
 
-    //settage de l'interface
+    //set de l'interface
 
         etUser.setEnabled(false);
         etCompte.setEnabled(false);
@@ -66,7 +66,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         tvDateFin.setAlpha(0.1f);
         tvDate.setHint("Date de la transaction");
 
-    //changer le layout si on choisi de mettre une frequence ou de l'elever
+    //changer le layout si on choisit de mettre une fréquence ou de l'elever
 
         cbFréquence.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +167,9 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
         });
 
+
+        //pour confirmer la transaction
+
         bConfirmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,6 +181,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
     }
 
+//menu pop up pour afficher un choix multiple a l'utilisateur
 
     void menuPopUp(final TextView T, ArrayList<String> choixCatégorie, String titre,Boolean ajouter, String ajout, final TextView tvType, final EditText etCompte,final EditText etUser,Boolean frequenceok){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(TransactionActivity.this);
@@ -243,12 +247,14 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
     }
 
 
+    //pour le calendrier
     public void datePicker(View view){
 
         TransactionActivity.DatePickerFragment fragment = new TransactionActivity.DatePickerFragment();
         fragment.show(getSupportFragmentManager(),"date");
     }
 
+    //pour le calendrier
     private void setDate(final Calendar calendar){
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -260,6 +266,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         String DATE = sdf.format(calendar.getTime());}
     }
 
+    //pour le calendrier
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day){
         Calendar cal = new GregorianCalendar(year,month,day);
@@ -274,6 +281,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         }
     }
 
+    //pour le calendrier
     public static class DatePickerFragment extends DialogFragment {
 
         @Override
@@ -287,6 +295,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
         }
     }
 
+    //pour valider quand on appuie sur le boutton
     void validate(EditText etCompte,EditText etDescription,EditText etMontant,EditText etNameTransaction,TextView tvCatégorie,TextView tvFréquence, TextView tvType, TextView tvDate,TextView tvDateFin,CheckBox cb,Button bt,EditText etUser){
 
         String Compte=etCompte.getText().toString();
@@ -319,13 +328,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
 
 
 
-
-
-
         boolean OK = true;
         ArrayList <String> messages=new ArrayList<>();
 
-
+        //conditions
 
         if(tvDate.getText().length()==0){
             messages.add("Veuillez entrer la date de cette transaction");
@@ -366,8 +372,10 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
                 else{
-                //if(databaseAccess.getFrequencyID(répétition,b,c)!=null);
-                    //databaseAccess.addFrequency(répétition,b,c);
+                if(databaseAccess.getFrequencyID(répétition,b,c)==null)
+                    databaseAccess.addFrequency(répétition,b,c);
+                //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
+                //display("okk ",String.valueOf(Frequencyid));
                 }
             }
 
@@ -398,8 +406,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
 
             int Diaryid=databaseAccess.getIntAttributWhereDate("idDiary","Diary","Date",b);
-           //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
-            //display("okk ",String.valueOf(Frequencyid));
+
+
 
             //addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
             //databaseAccess.addTransaction(NameTransaction,Description,MontantTransaction,Type,Catégorie,databaseAccess.getFrequencyID(répétition,b,c),idBeneficiaryCount,idCount,databaseAccess.getDiaryid(b));
