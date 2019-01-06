@@ -13,6 +13,6 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
 
     public DatabaseOpenHelper(Context context){
         super(context, DATABASE_NAME, null,DATABASE_VERSION);
-        setForcedUpgrade();
+        setForcedUpgrade(); //pour mettre à jour la bdd dans l'emulateur quand on change la version du database
     }
 }

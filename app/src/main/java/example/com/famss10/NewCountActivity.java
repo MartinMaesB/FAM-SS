@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class NewCountActivity extends AppCompatActivity {
 
+//déclaration des variables
+
     private String [] currencyChoices;
     private Button confirm;
     private EditText CountName,Balance;
@@ -24,20 +26,25 @@ public class NewCountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_count);
 
+    //récupération des infos de l'activity précédente
+
         final Intent intent=getIntent();
         final String email = intent.getStringExtra("userEmail");
+
+    //initialisation des variables élément du xml
 
         this.confirm=findViewById(R.id.bConfirm);
         this.CountName=findViewById(R.id.etCountName);
         this.Currency=findViewById(R.id.tvCurrency);
         this.Balance=findViewById(R.id.etInitialValue);
+        final TextView tvCurrency = findViewById(R.id.tvCurrency);
 
+    // pour affichier les choix possibles pour la monnaie du compte lorsque on click sur Monnaie
 
-        final TextView tvCurrency = (TextView) findViewById(R.id.tvCurrency);
         tvCurrency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currencyChoices = new String[]{"Euro (€)","Dollar ($)","Yen (¥)" };
+                currencyChoices = new String[]{"Euro (€)","Dollar ($)","Yen (¥)" }; //les choix possibles
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(NewCountActivity.this);
                 mBuilder.setTitle("Choose a currency :");
                 mBuilder.setIcon(R.drawable.icon);
@@ -59,10 +66,13 @@ public class NewCountActivity extends AppCompatActivity {
             }
         });
 
+    // lorsque on click sur Valider
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+        //ouvrir la bdd
 
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
@@ -71,9 +81,8 @@ public class NewCountActivity extends AppCompatActivity {
                 String currency = Currency.getText().toString();
                 float balance = Float.parseFloat(Balance.getText().toString());
                 boolean OK = true;
-                ArrayList<String> messages=new ArrayList<>();
 
-
+        //conditions pour la sécurité
 
                 if(countname.length()==0){
                     display("Veuillez entrer un nom de compte "," ");
@@ -87,32 +96,32 @@ public class NewCountActivity extends AppCompatActivity {
                 if(currency.length()==0){
                     display("Veuillez choisir la monnaie"," ");
                     OK=false;}
+
                 if(Balance.getText().toString().length()==0){
                     display("Veuillez entrer un mot de passe","");
                     OK=false;}
 
+        //si tout est OK rajouter le compte dans la bdd
 
-                    if (OK==true){
+                if (OK==true){
                 databaseAccess.addCount(countname,currency,email,balance);
-
-                //Intent intent = new Intent(getApplicationContext(), CountsActivity.class);
-                //startActivity(intent);
-                //intent.putExtra("CountName",countName);
-
-                //setResult(0,intent);
                 setResult(0);
                 finish();}
-            }
-        });
 
+            databaseAccess.close();
+            }
+
+        });
     }
+
+//pour afficher un popup
+
     public void display(String title, String content){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(content);
         builder.show();
-
     }
 
 }

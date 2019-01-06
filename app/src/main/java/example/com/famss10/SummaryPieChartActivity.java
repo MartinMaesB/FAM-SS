@@ -77,7 +77,7 @@ public class SummaryPieChartActivity extends AppCompatActivity {
 
          databaseAccess.close();
 
-       // System.out.println(c.getFloat(1));
+        System.out.println(c.getFloat(1));
 
          //while(c.moveToNext()){
 
@@ -98,7 +98,7 @@ public class SummaryPieChartActivity extends AppCompatActivity {
 
        //pour changer d'activity quand on click sur une categorie
 
-        pieChartView.setOnValueTouchListener(new ValueTouchListener() {
+        /*pieChartView.setOnValueTouchListener(new ValueTouchListener() {
             @Override
             public void onValueSelected(int arcIndex, SliceValue value) {
                 super.onValueSelected(arcIndex, value);
@@ -107,13 +107,13 @@ public class SummaryPieChartActivity extends AppCompatActivity {
                 intent.putExtra("category", categories.get(i));
                 startActivity(intent);
             }
-        });
+        });*/
 
     }
 
 
     //pour le touchlistener sur le graphique
-    private class ValueTouchListener implements PieChartOnValueSelectListener {
+    /*private class ValueTouchListener implements PieChartOnValueSelectListener {
         @Override
         public void onValueSelected(int arcIndex, SliceValue value) {
 
@@ -123,7 +123,7 @@ public class SummaryPieChartActivity extends AppCompatActivity {
         public void onValueDeselected() {
 
         }
-    }
+    }*/
 }
 
 

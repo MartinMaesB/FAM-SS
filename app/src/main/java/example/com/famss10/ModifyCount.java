@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 public class ModifyCount extends AppCompatActivity {
 
+//déclaration des variables
+
     private Button Valider;
     private EditText tvName, tvMontant, tvMonnaie;
     private CheckBox cbName, cbMontant, cbMonnaie;
@@ -21,6 +23,8 @@ public class ModifyCount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_count);
 
+     //initialisation des variables élément du xml
+
         this.Valider=findViewById(R.id.boutonValider);
         this.tvName=findViewById(R.id.textViewName);
         this.tvMontant=findViewById(R.id.textViewMontant);
@@ -29,12 +33,16 @@ public class ModifyCount extends AppCompatActivity {
         this.cbMontant=findViewById(R.id.checkBoxMontant);
         this.cbMonnaie=findViewById(R.id.checkBoxMonnaie);
 
+    //mettre les textView transparants et les desactiver
+
         tvName.setEnabled(false);
         tvName.setAlpha(0.0f);
         tvMontant.setEnabled(false);
         tvMontant.setAlpha(0.0f);
         tvMonnaie.setEnabled(false);
         tvMonnaie.setAlpha(0.0f);
+
+    //reactiver les textView lorsque on check les cases correspondantes ou les desactiver lorsque on les decheck
 
         cbName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,26 +87,28 @@ public class ModifyCount extends AppCompatActivity {
             }
         });
 
+    //quand on click sur Valider
 
         Valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 final Intent intent=getIntent();
-               // final String userEmail = intent.getStringExtra("userEmail");
-               // final int indexCompte = intent.getIntExtra("indexCompte",0);
                 final int idCount = intent.getIntExtra("idCount",0);
 
                 String Name=tvName.getText().toString();
                 String Monnaie=tvMonnaie.getText().toString();
                 String Montant=tvMontant.getText().toString();
 
+        //on ouvre la bdd
+
                 DatabaseAccess databaseAccess=DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.open();
 
-                //String NameCount = databaseAccess.getStringAttribut("NameCount","Count","Email",userEmail, indexCompte);
-                String NameCount=databaseAccess.getStringAttributWhereInt("NameCount","Count","idCount",idCount);
-                //String NameCount="OK";
+                String NameCount=databaseAccess.getStringAttributWhereInt("NameCount","Count","idCount",idCount); //requête pour récupérer le nom du compte à modifier
+
+
+        //conditions pour la sécurité
 
                 boolean OK = true;
                 StringBuffer bufferErreur = new StringBuffer();
@@ -119,6 +129,8 @@ public class ModifyCount extends AppCompatActivity {
                     bufferErreur.append("Veuillez rentrer un montant \n");
                     OK=false;
                 }
+
+         //si tout est OK faire les modifications dans la bdd
 
                 if (OK==true){
                     if (cbName.isChecked()) {
@@ -147,6 +159,10 @@ public class ModifyCount extends AppCompatActivity {
 
 
     }
+
+
+//affichier un popup
+
     public void display(String title, String content) {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setCancelable(true);
