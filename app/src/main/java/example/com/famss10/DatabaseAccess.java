@@ -13,7 +13,7 @@ public class DatabaseAccess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase db;
     private static  DatabaseAccess instance;
-    Cursor c = null;
+    Cursor c = null , c1 = null;
 
     //private contructor so that object creation from outside the class is avoided
     private DatabaseAccess(Context context){
@@ -186,7 +186,7 @@ public class DatabaseAccess {
 
     public Cursor getUser(){
 
-        Cursor c = db.rawQuery("select * from User", null);
+        c = db.rawQuery("select * from User", null);
         return c;
     }
 
@@ -219,7 +219,7 @@ public class DatabaseAccess {
 
     public Cursor getCount(String Email){
 
-        Cursor c = db.rawQuery(" select Count.idCount, Count.NameCount, Count.Currency, Count.Balance " +
+        c = db.rawQuery(" select Count.idCount, Count.NameCount, Count.Currency, Count.Balance " +
                 "from Count where Email = '"+Email+"' ",null);
         return c;
     }
@@ -227,7 +227,7 @@ public class DatabaseAccess {
 
     public Cursor getCountEnfant(String EmailSupervisor){
 
-        Cursor c = db.rawQuery(" select Control.EmailUser, Control.Relation, Count.idCount, Count.NameCount, Count.Currency,Count.Balance  " +
+        c = db.rawQuery(" select Control.EmailUser, Control.Relation, Count.idCount, Count.NameCount, Count.Currency,Count.Balance  " +
                 "from Control inner join Count on (Control.EmailUser = Count.Email) " +
                 "where  Control.EmailSupervisor = '"+EmailSupervisor+"' ",null);
         return c;
@@ -236,7 +236,7 @@ public class DatabaseAccess {
 
     public String getCountNameEmail(String name,String email){
 
-        Cursor c = db.rawQuery("select Count.NameCount,User.Email from " +
+        c = db.rawQuery("select Count.NameCount,User.Email from " +
                 "User Inner join Count on (User.Email = Count.Email) where " +
                 "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
         return c.toString();
@@ -245,7 +245,7 @@ public class DatabaseAccess {
 
     public int getCountIDNameEmail(String name,String email){
 
-        Cursor c = db.rawQuery("select User.idUser from " +
+        c = db.rawQuery("select User.idUser from " +
                 "User Inner join Count on (User.Email = Count.Email) where " +
                 "User.Email = '"+email+"'and Count.NameCount='"+name+"'", new String[]{});
         return c.getInt(0);
@@ -373,7 +373,7 @@ public class DatabaseAccess {
 
     public Cursor getTransactions(int count){
 
-        Cursor c = db.rawQuery("SELECT Transactions.Name , Transactions.Notes , Transactions.Mountant , Transactions.Operation , Transactions.idCategory , Diary.Date " +
+        c = db.rawQuery("SELECT Transactions.Name , Transactions.Notes , Transactions.Mountant , Transactions.Operation , Transactions.idCategory , Diary.Date " +
                 "FROM Transactions INNER JOIN Diary ON (Transactions.idDiary = Diary.idDiary) " +
                 "WHERE Transactions.idCount = '"+count+"'" +
                 "ORDER BY Diary.Date DESC",null);
@@ -386,7 +386,7 @@ public class DatabaseAccess {
 
         ArrayList<Float> liste=new ArrayList<>();
 
-            Cursor c = db.rawQuery("select Transactions.idTransaction , Transactions.Mountant " +
+            c = db.rawQuery("select Transactions.idTransaction , Transactions.Mountant " +
                     "from Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) " +
                     "where Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation != 'Type : Revenu'", new String[]{});
 
@@ -406,7 +406,7 @@ public class DatabaseAccess {
         ArrayList<Float> liste=new ArrayList<>();
         Float mountant;
 
-        Cursor c = db.rawQuery("select Transactions.idTransaction , Transactions.Mountant " +
+        c = db.rawQuery("select Transactions.idTransaction , Transactions.Mountant " +
                 "from Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) " +
                 "where Transactions.idCount = '"+count+"' and (Date between '"+start+"' and '"+end+"') and Transactions.Operation = 'Type : Revenu' ", new String[]{});
 
@@ -418,7 +418,7 @@ public class DatabaseAccess {
             //System.out.println("rev" +c.getInt(0));
         }
 
-        Cursor c1 = db.rawQuery("select Transactions.idTransaction , Transactions.Mountant from " +
+        c1 = db.rawQuery("select Transactions.idTransaction , Transactions.Mountant from " +
                 "Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) where " +
                 "Transactions.idBeneficiaryCount = '"+count+"' and (Date between '"+start+"' and '"+end+"') and Transactions.Operation = 'Type : Transfert'", new String[]{});
 
@@ -433,13 +433,78 @@ public class DatabaseAccess {
 
 
 
-    public Cursor getDepenseByCategory(String start, String end , int count){
+    public ArrayList<Float> getDepenseByCategoryFloat(String start, String end , int count){
+        ArrayList<Float> liste=new ArrayList<>();
+        Float mountant;
 
-        Cursor c = db.rawQuery("select Transactions.idCategory, SUM(Transactions.Mountant) " +
+        c = db.rawQuery("select Transactions.idCategory, SUM(Transactions.Mountant) " +
                 "from Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) " +
                 "where Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation != 'Type : Revenu'" +
                 "GROUP BY Transactions.idCategory", new String[]{});
-        return c;
+
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            mountant= c.getFloat(1);
+            buffer.append(""+mountant);
+            liste.add(mountant);
+        }
+        return liste;
+    }
+
+    public ArrayList<String> getDepenseByCategoryNames(String start, String end , int count){
+        ArrayList<String> liste=new ArrayList<>();
+        String name;
+
+        c = db.rawQuery("select Transactions.idCategory, SUM(Transactions.Mountant) " +
+                "from Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) " +
+                "where Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation != 'Type : Revenu'" +
+                "GROUP BY Transactions.idCategory", new String[]{});
+
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            name= c.getString(0);
+            buffer.append(""+name);
+            liste.add(name);
+        }
+        return liste;
+    }
+
+
+    public ArrayList<Float> getRevenusByCategiryFloat(String start, String end , int count){
+        ArrayList<Float> liste=new ArrayList<>();
+        Float mountant;
+
+        c = db.rawQuery("select Transactions.idCategory, SUM(Transactions.Mountant) " +
+                "from Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) " +
+                "where Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'Type : Revenu'" +
+                "GROUP BY Transactions.idCategory", new String[]{});
+
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            mountant= c.getFloat(1);
+            buffer.append(""+mountant);
+            liste.add(mountant);
+        }
+        return liste;
+    }
+
+
+    public ArrayList<String> getRevenusByCategiryNames(String start, String end , int count){
+        ArrayList<String> liste=new ArrayList<>();
+        String name;
+
+        c = db.rawQuery("select Transactions.idCategory, SUM(Transactions.Mountant) " +
+                "from Transactions Inner join Diary on (Transactions.idDiary = Diary.idDiary) " +
+                "where Transactions.idCount = '"+count+"' and Date between '"+start+"' and '"+end+"' and Transactions.Operation = 'Type : Revenu'" +
+                "GROUP BY Transactions.idCategory", new String[]{});
+
+        StringBuffer buffer= new StringBuffer();
+        while(c.moveToNext()){
+            name= c.getString(0);
+            buffer.append(""+name);
+            liste.add(name);
+        }
+        return liste;
     }
 
 }
