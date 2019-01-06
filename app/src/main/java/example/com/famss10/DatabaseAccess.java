@@ -128,6 +128,12 @@ public class DatabaseAccess {
         return entier;
     }
 
+    public int getIntAttributWhereDate2(String select, String from, String where, String where2, java.sql.Date element, java.sql.Date element2){
+
+        c=db.rawQuery("select '"+select+"' from '"+from+"' where '"+where+"' = '"+element+"' and '"+where2+"' = '"+element2+"'",null);
+        return c.getInt(0);
+    }
+
 
     public int getcounter (String select, String from, String where, String element){
 
