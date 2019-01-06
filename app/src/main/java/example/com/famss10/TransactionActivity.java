@@ -366,8 +366,8 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
                 messages.add("Veuillez entrer le nombre de répétitions de cette transaction");
                 OK=false;}
                 else{
-                if(databaseAccess.getFrequencyID(répétition,b,c)!=null)
-                    databaseAccess.addFrequency(répétition,b,c);
+                //if(databaseAccess.getFrequencyID(répétition,b,c)!=null);
+                    //databaseAccess.addFrequency(répétition,b,c);
                 }
             }
 
@@ -398,7 +398,7 @@ public class TransactionActivity extends AppCompatActivity implements DatePicker
             }
 
             int Diaryid=databaseAccess.getIntAttributWhereDate("idDiary","Diary","Date",b);
-           // int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF",répétition,b,c);
+           //int Frequencyid=databaseAccess.getIntAttributWhereDate2("idFrequency","Frequency","DescriptionF", "StartDate", "EndDate",répétition,b,c);
             //display("okk ",String.valueOf(Frequencyid));
 
             //addTransaction(String name,String notes,Integer mountant, String operation, String idCategory, Integer frequency,int idBeneficiaryCount,int idCount,Integer idDiary)
